@@ -1,5 +1,5 @@
 <!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <!DOCTYPE html>
 <html layout:decorate="~{layout}">
 
@@ -33,14 +33,11 @@
     </div>
 
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-      <li><a th:href="@{/home}" class="nav-link px-2 link-secondary">홈</a></li>
-      <li><a th:href="@{/mypage}" class="nav-link px-2 link-secondary">마이페이지</a></li>
-      <li><a th:href="@{/product/productselect}" class="nav-link px-2 link-secondary">상점</a></li>
-      <li><a th:href="@{/community/list}" class="nav-link px-2 link-secondary">커뮤니티</a></li>
-      <li><a th:href="@{/movie/reservationlist}" class="nav-link px-2">예매확인</a></li>
-      <li><a th:href="@{/movie/reservationSeat/moviepayment}" class="nav-link px-2">예매확인</a></li>
-
-
+      <li><a th:href="@{/home}" class="nav-link px-2 link-secondary">Home</a></li>
+      <li><a th:href="@{/reservation}" class="nav-link px-2">Reservation</a></li>
+      <li><a th:href="@{/board}" class="nav-link px-2">board</a></li>
+      <li><a th:href="@{/faq}" class="nav-link px-2">QnA</a></li>
+      <li><a th:href="@{/about}" class="nav-link px-2">About</a></li>
     </ul>
 
     <div class="col-md-3 text-end">
