@@ -1,6 +1,6 @@
-package com.multi.mini.board.service;
+package com.multi.mini.community.service;
 
-import com.multi.mini.board.model.dto.BoardDTO;
+import com.multi.mini.community.model.dto.BoardDTO;
 import com.multi.mini.common.model.dto.PageDTO;
 
 import java.util.List;

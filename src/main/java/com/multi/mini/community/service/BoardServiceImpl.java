@@ -1,7 +1,7 @@
-package com.multi.mini.board.service;
+package com.multi.mini.community.service;
 
-import com.multi.mini.board.model.dto.BoardDTO;
-import com.multi.mini.board.model.mapper.BoardMapper;
+import com.multi.mini.community.model.dto.BoardDTO;
+import com.multi.mini.community.model.mapper.BoardMapper;
 import com.multi.mini.common.model.dto.PageDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

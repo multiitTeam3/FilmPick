@@ -1,6 +1,6 @@
-package com.multi.mini.board.model.mapper;
+package com.multi.mini.community.model.mapper;
 
-import com.multi.mini.board.model.dto.BoardDTO;
+import com.multi.mini.community.model.dto.BoardDTO;
 import com.multi.mini.common.model.dto.PageDTO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;

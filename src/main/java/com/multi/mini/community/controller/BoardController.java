@@ -1,7 +1,7 @@
-package com.multi.mini.board.controller;
+package com.multi.mini.community.controller;
 
-import com.multi.mini.board.model.dto.BoardDTO;
-import com.multi.mini.board.service.BoardService;
+import com.multi.mini.community.model.dto.BoardDTO;
+import com.multi.mini.community.service.BoardService;
 import com.multi.mini.common.model.dto.PageDTO;
 import com.multi.mini.common.service.PageService;
 import com.multi.mini.member.model.dto.CustomUserDetails;

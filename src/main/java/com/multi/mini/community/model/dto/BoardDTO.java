@@ -1,4 +1,4 @@
-package com.multi.mini.board.model.dto;
+package com.multi.mini.community.model.dto;
 
 import com.multi.mini.member.model.dto.MemberDTO;
 import lombok.Data;
