@@ -1,0 +1,64 @@
+<!--<!DOCTYPE html>-->
+<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+
+<head th:fragment="movie-main-list-head">
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body th:fragment="movie-main-list-body">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+
+
+    $(document).ready(
+        function(){
+
+            function findImgList(){
+
+                $.ajax({
+
+                    url: 'movie/findMovieList',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    "success": function(list){
+                        console.log(list);
+
+                        $.each(list, function(index, movie){
+
+                            console.log(movie.posterPath)
+
+                            $("#posterImg").append(
+                                '<img src="' + movie.posterPath + '" alt="no img"><br><br>')
+
+                            $("#posterImg").append(
+                            '<button onclick="location.href=' + '"/movie/reservationTime"' + '">예매하기</button><br>')
+
+
+
+
+                        })
+                    }
+                })
+            }
+
+
+            findImgList()
+
+
+        })
+
+
+</script>
+
+
+<div>
+
+    <div id="posterImg"></div>
+
+
+</div>
+
+
+</body>
+</html>
