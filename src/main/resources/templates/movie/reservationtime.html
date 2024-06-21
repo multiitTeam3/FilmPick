@@ -7,8 +7,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
     <style>
@@ -69,6 +68,28 @@
 
         }
 
+        .day{
+            pointer-events: none;
+
+        }
+
+
+        .clickable{
+            pointer-events: auto;
+            background-color: gray !important;
+
+        }
+
+
+
+        .selected{
+             pointer-events: auto;
+             background-color: pink !important;
+             color : red;
+             font : bold;
+        }
+
+
         #month-year{
 
             display: flex;
@@ -126,11 +147,341 @@
         .days div:hover{
 
             background-color: #6482B9;
-
+            color: white;
         }
 
 
+        .region:hover, .cinema:hover, .movie:hover{
+
+            background-color: #6482B9;
+            color: white;
+
+        }
+
+        .gray{
+            background-color: gray;
+        }
+
+
+
     </style>
+
+    <script type="text/javascript">
+
+        $(document).ready(
+            function(){
+
+                var scheduleListForMovieSelect = [];
+                var scheduleForTimeSelect = [];
+
+
+                // 달력 만들기
+                function makeCalender(){
+
+                    let month = new Date().getMonth();
+                    let viewMonth = month +1;
+                    let year = new Date().getFullYear();
+
+
+
+                    const daysElement = document.getElementById("days");
+                    daysElement.innerHTML = "";
+
+
+                    <!--해당 월의 첫 날의 요일(일~토 : 0~6)-->
+                    const firstDay = new Date(year, month).getDay();
+
+                    <!--고의적으로 큰 수를 넣어 자동으로 다음달로 넘어가면 그 일 수를 얻을 수 있어 그 전달의 한달 일 수를 얻는 것에 사용된다-->
+                    const daysInMonth = 32 - new Date(year, month, 32).getDate();
+
+                    document.getElementById("month-year").innerHTML = `${year}년 ${viewMonth}월`;
+
+                    <!--1일에 해당하는 특정 요일 전까지는 빈 칸으로 채운다-->
+                    for(let i =0; i< firstDay;i++){
+
+                        const emptyCell = document.createElement("div");
+                        daysElement.appendChild(emptyCell);
+
+                    }
+
+                    <!--날짜들을 채운다-->
+                    for(let i=1; i<=daysInMonth; i++){
+
+                        const dayCell = document.createElement("div");
+                        dayCell.innerText = i;
+
+
+                        <!--날짜 양식 테이블과 맞추기-->
+                        var date = year + '-' + String(month+1).padStart(2,'0') + '-' + String(i).padStart(2,'0');
+                        dayCell.setAttribute("data-date",date);
+                        dayCell.className="day";
+
+
+
+                        dayCell.onclick = function(){
+
+                            <!--날짜 데이터 저장 로직 넣기. i를 보낼 것-->
+                            $('.day').removeClass('selected');
+                            $(this).addClass('selected');
+
+
+
+
+
+
+
+
+
+                        };
+                        daysElement.appendChild(dayCell);
+                    }
+
+                    return daysInMonth;
+                }
+
+                var daysInMonth = makeCalender();
+
+
+
+                // 연쇄 선택
+
+                function findRegionList(daysInMonth){
+
+                const scheduleList = [];
+
+                    $.ajax({
+
+                        url: '/movie/findRegionList',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        success: function(list){
+                            console.log(list);
+                            console.log("??")
+                            $.each(list, function(index,region){
+                                console.log(region.regionName);
+                                $('#content1').append('<div class="region" data-region-no=' + region.regionNo + '>' + region.regionName +'<div>');
+
+                            })
+
+                            $('.region').click(function(){
+
+                                $('.region').removeClass('gray');
+                                $('.cinema').removeClass('gray');
+                                $('.movie').removeClass('gray');
+                                $('.day').removeClass('selected');
+                                $('.day').removeClass('clickable');
+                                $('#time-btn').html("");
+
+
+                                $(this).addClass('gray');
+
+                                $('#content4').html("<h5>영화관 선택</h5>");
+                                const regionNo = $(this).data('region-no');
+                                console.log("regionNo : "+regionNo)
+
+                                $.ajax({
+
+                                    url: '/movie/findCinemaListByRegionNo',
+                                    method: 'POST',
+                                    data: JSON.stringify({ regionNo : regionNo }),
+                                    contentType: 'application/json',
+                                    success: function(list){
+
+                                        console.log(list);
+
+                                        $.each(list, function(index, cinema){
+
+                                            console.log(cinema.cinemaName);
+                                            $('#content4').append('<div class="cinema" data-cinema-no=' + cinema.cinemaNo + '>' + cinema.cinemaName +'<div>');
+
+
+                                        })
+
+                                        $('.cinema').click(function(){
+
+                                            $('.cinema').removeClass('gray');
+                                            $('.movie').removeClass('gray');
+                                            $('.day').removeClass('selected');
+                                            $('.day').removeClass('clickable');
+                                            $('#time-btn').html("");
+
+
+                                            $(this).addClass('gray');
+
+
+
+                                            $('#content2').html("<h5>영화 선택</h5>");
+                                            const cinemaNo = $(this).data('cinema-no');
+                                            console.log("cinemaNo : "+cinemaNo)
+
+                                            $.ajax({
+
+                                                url: '/movie/findScheduleListByCinemaNo',
+                                                method: 'POST',
+                                                data: JSON.stringify({ cinemaNo : cinemaNo }),
+                                                contentType: 'application/json',
+                                                success: function(list){
+
+
+
+
+
+                                                    console.log(list);
+
+                                                    var movieNoList=[];
+
+                                                    $.each(list, function(index, schedule){
+
+                                                        console.log(schedule.movieNo);
+                                                        const movieNo = schedule.movieNo;
+
+                                                        if (! movieNoList.includes(movieNo)){
+                                                            movieNoList.push(movieNo);
+                                                        }
+
+                                                    })
+
+
+                                                    $.each(movieNoList, function(index, movieNo){
+
+
+                                                        $.ajax({
+
+                                                                url: '/movie/findMovieByMovieNo',
+                                                                method: 'POST',
+                                                                data: JSON.stringify({ movieNo : movieNo }),
+                                                                contentType: 'application/json',
+                                                                success: function(movie){
+
+                                                                    console.log(movie);
+
+                                                                    $('#content2').append('<div class="movie" data-movie-no=' + movie.movieNo + '>' + movie.movieTitle +'<div>');
+
+
+                                                                    $('.movie').click(function(){
+
+                                                                        $('.movie').removeClass('gray');
+                                                                        $('.day').removeClass('selected');
+                                                                        $('.day').removeClass('clickable');
+                                                                        $('#time-btn').html("");
+
+                                                                        $(this).addClass('gray');
+
+
+                                                                        var dates = [];
+                                                                        var scheduleByMovieNo=[];
+
+                                                                        var movieNo = $(this).data('movie-no');
+
+                                                                        console.log(movieNo);
+
+                                                                        $.each(list, function(index,schedule){
+
+                                                                            if(schedule.movieNo==movieNo){
+                                                                                scheduleByMovieNo.push(schedule);
+                                                                                dates.push(schedule.date)
+                                                                            }
+
+                                                                        })
+
+                                                                        console.log("scheduleByMovieNo : "+scheduleByMovieNo)
+
+                                                                        console.log(dates);
+
+                                                                        var dayDivs = document.querySelectorAll('#days .day');
+
+                                                                        console.log(dayDivs);
+
+                                                                        $.each(dayDivs, function(index, day){
+                                                                            $(day).removeClass('selected');
+                                                                            $(day).removeClass('clickable');
+                                                                            $('#time-btn').html("");
+
+                                                                            if(dates.includes(day.getAttribute('data-date'))){
+                                                                                $(day).addClass('clickable');
+
+                                                                            }
+
+
+                                                                        })
+
+                                                                         $('.day').click(function(){
+
+                                                                            $('#time-btn').html("");
+
+                                                                            var timeScheduleList = [];
+
+                                                                            var date1 = $(this).attr('data-date');
+
+
+                                                                            $.each(scheduleByMovieNo, function(index,schedule){
+
+
+
+                                                                                if(schedule.date==date1){
+                                                                                    timeScheduleList.push(schedule);
+                                                                                    console.log("chedule.scheduleNo : "+schedule.scheduleNo)
+                                                                                    console.log(schedule.date)
+                                                                                    console.log(schedule.startTime)
+                                                                                    console.log(schedule.endTime)
+                                                                                    console.log(schedule.screenCode)
+
+                                                                                    $('#time-btn').append('<button data-schedule=\'' + JSON.stringify(schedule) +     '\'>' + schedule.startTime + ' ~ ' +  schedule.endTime + ' ( ' +  schedule.screenCode   + ' ) ' +'</button>');
+
+
+
+                                                                                }
+
+                                                                            })
+
+                                                                            console.log("timeScheduleList : "+timeScheduleList);
+
+                                                                            return timeScheduleList;
+
+
+                                                                        })
+
+
+
+
+
+
+
+
+                                                                    })
+
+                                                                }
+
+                                                        })
+
+                                                    })
+
+
+                                                }
+
+                                            })
+                                        })
+
+                                    }
+                                })
+                            })
+                        }
+                    })
+                }
+
+                findRegionList();
+
+
+
+
+
+
+
+            }
+        )
+
+
+    </script>
 
 
 </head>
@@ -152,42 +503,29 @@
 
     <div class="content" id="content1">
 
-        <h4>지역 / 영화관 선택</h4>
-
-        <table>
-
-            <tr>
-                <th>지역</th>
-                <th>영화관</th>
-            </tr>
-
-            <tr>
-                <td>서울</td>
-                <td>가산디지털</td>
-            </tr>
-
-            <tr>
-                <td>경기 / 인천</td>
-                <td>가산디지털</td>
-            </tr>
-
-
-        </table>
+        <h5>지역 선택</h5>
 
 
     </div>
 
+    <div class="content" id="content4">
+
+        <h5>영화관 선택</h5>
+
+
+    </div>
+
+
     <div class="content" id="content2">
 
-        <h4>영화 선택</h4>
-        인사이드아웃<br>
+        <h5>영화 선택</h5>
 
 
     </div>
 
     <div class="content" id="content3">
 
-        <h4>날짜 / 시간 선택</h4>
+        <h5>날짜 / 시간 선택</h5>
 
 
         <p>달력</p>
@@ -195,7 +533,7 @@
         <div class="calendar">
 
             <div class="month">
-            <span id="month-year"></span>
+                <span id="month-year"></span>
             </div>
 
 
@@ -216,12 +554,10 @@
 
         <div class="button" id="time-btn">
 
-            <button>09:00~10:00</button>
-            <button>11:20~13:00</button>
+<!--            <button>09:00~10:00</button>
+            <button>11:20~13:00</button>-->
 
         </div>
-
-
 
 
     </div>
@@ -229,57 +565,14 @@
 
 </div>
 
+<div id="result">
+
+
+
+</div>
+
 
 <script>
-
-
-
-
-
-    function makeCalender(){
-
-        let month = new Date().getMonth();
-        let viewMonth = month +1;
-        let year = new Date().getFullYear();
-
-
-
-        const daysElement = document.getElementById("days");
-        daysElement.innerHTML = "";
-
-
-        <!--해당 월의 첫 날의 요일(일~토 : 0~6)-->
-        const firstDay = new Date(year, month).getDay();
-
-        <!--고의적으로 큰 수를 넣어 자동으로 다음달로 넘어가면 그 일 수를 얻을 수 있어 그 전달의 한달 일 수를 얻는 것에 사용된다-->
-        const daysInMonth = 32 - new Date(year, month, 32).getDate();
-
-        document.getElementById("month-year").innerHTML = `${year}년 ${viewMonth}월`;
-
-        <!--1일에 해당하는 특정 요일 전까지는 빈 칸으로 채운다-->
-        for(let i =0; i< firstDay;i++){
-
-            const emptyCell = document.createElement("div");
-            daysElement.appendChild(emptyCell);
-
-        }
-
-        <!--날짜들을 채운다-->
-        for(let i=1; i<=daysInMonth; i++){
-
-            const dayCell = document.createElement("div");
-            dayCell.innerText = i;
-            dayCell.onclick = function(){
-
-                <!--날짜 데이터 저장 로직 넣기. i를 보낼 것-->
-
-            };
-            daysElement.appendChild(dayCell);
-        }
-    }
-
-    makeCalender();
-
 
 
 </script>

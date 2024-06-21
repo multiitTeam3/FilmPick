@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 public class MovieDTO {
 
 	private int movieNo;
+	private String movieTitle;
 	private String genreNo;
 	private int popularity;
 	private int duration;
