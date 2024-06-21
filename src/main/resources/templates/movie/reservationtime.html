@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <title>Home Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+    <style>
+
+
+        .container{
+
+            display: flex;
+            height: 800px;
+            width: 1500px;
+            background-color: #FFF0F5;
+            border: 1px solid black;
+
+        }
+
+
+        .sidebar{
+            height: 100%;
+            width: 30%;
+            background-color: #A0DFE1;
+
+        }
+
+        .sidebar a{
+            padding: 15px;
+            text-decoration: none;
+            color: #E6FFE6;
+            display: block;
+            font-size: 25px;
+            font-color: #000069	;
+            padding : 40px
+        }
+
+        .sidebar a:hover{
+            background-color: #FFB6C1;
+
+        }
+
+        .content{
+            padding: 40px
+
+        }
+
+        #content3{
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calendar{
+            width: 300px;
+            background-color: white;
+            overflow: hidden;
+            margin-bottom: 20px;
+
+        }
+
+        #month-year{
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: #32AAFF;
+            color: white;
+        }
+
+        .weekdays, .days{
+
+            display: flex;
+            flex-wrap: wrap;
+            padding: 10px;
+
+        }
+
+
+        .weekdays div{
+
+            width: 40px;
+            text-align: center;
+
+
+        }
+
+
+        .days div{
+
+            width: 40px;
+            text-align: center;
+        }
+
+
+        #time-btn{
+
+            display: flex;
+
+            justify-content: center;
+            padding: 10px;
+            background-color: #F0FFF0;
+            color: white;
+
+        }
+
+        button{
+
+            padding: 5px;
+            margin: 5px
+
+        }
+
+
+        .days div:hover{
+
+            background-color: #6482B9;
+
+        }
+
+
+    </style>
+
+
+</head>
+<body>
+
+<div th:replace="common/menubar :: menubar-body"></div>
+
+
+<div class="container">
+
+
+    <div class="sidebar">
+
+        <a href="/movie/reservationtime">상영시간</a>
+        <a href="/movie/reservationseat">인원/좌석 선택</a>
+
+    </div>
+
+
+    <div class="content" id="content1">
+
+        <h4>지역 / 영화관 선택</h4>
+
+        <table>
+
+            <tr>
+                <th>지역</th>
+                <th>영화관</th>
+            </tr>
+
+            <tr>
+                <td>서울</td>
+                <td>가산디지털</td>
+            </tr>
+
+            <tr>
+                <td>경기 / 인천</td>
+                <td>가산디지털</td>
+            </tr>
+
+
+        </table>
+
+
+    </div>
+
+    <div class="content" id="content2">
+
+        <h4>영화 선택</h4>
+        인사이드아웃<br>
+
+
+    </div>
+
+    <div class="content" id="content3">
+
+        <h4>날짜 / 시간 선택</h4>
+
+
+        <p>달력</p>
+
+        <div class="calendar">
+
+            <div class="month">
+            <span id="month-year"></span>
+            </div>
+
+
+            <div class="weekdays">
+                <div>일</div>
+                <div>월</div>
+                <div>화</div>
+                <div>수</div>
+                <div>목</div>
+                <div>금</div>
+                <div>토</div>
+
+            </div>
+            <div class="days" id="days"></div>
+
+        </div>
+
+
+        <div class="button" id="time-btn">
+
+            <button>09:00~10:00</button>
+            <button>11:20~13:00</button>
+
+        </div>
+
+
+
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+
+
+
+    function makeCalender(){
+
+        let month = new Date().getMonth();
+        let viewMonth = month +1;
+        let year = new Date().getFullYear();
+
+
+
+        const daysElement = document.getElementById("days");
+        daysElement.innerHTML = "";
+
+
+        <!--해당 월의 첫 날의 요일(일~토 : 0~6)-->
+        const firstDay = new Date(year, month).getDay();
+
+        <!--고의적으로 큰 수를 넣어 자동으로 다음달로 넘어가면 그 일 수를 얻을 수 있어 그 전달의 한달 일 수를 얻는 것에 사용된다-->
+        const daysInMonth = 32 - new Date(year, month, 32).getDate();
+
+        document.getElementById("month-year").innerHTML = `${year}년 ${viewMonth}월`;
+
+        <!--1일에 해당하는 특정 요일 전까지는 빈 칸으로 채운다-->
+        for(let i =0; i< firstDay;i++){
+
+            const emptyCell = document.createElement("div");
+            daysElement.appendChild(emptyCell);
+
+        }
+
+        <!--날짜들을 채운다-->
+        for(let i=1; i<=daysInMonth; i++){
+
+            const dayCell = document.createElement("div");
+            dayCell.innerText = i;
+            dayCell.onclick = function(){
+
+                <!--날짜 데이터 저장 로직 넣기. i를 보낼 것-->
+
+            };
+            daysElement.appendChild(dayCell);
+        }
+    }
+
+    makeCalender();
+
+
+
+</script>
+
+
+</body>
+</html>

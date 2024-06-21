@@ -3,6 +3,7 @@ package com.multi.mini.movie.controller;
 import com.multi.mini.movie.model.dto.MovieDTO;
 import com.multi.mini.movie.service.MovieService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -37,6 +38,12 @@ public class MovieController {
 		
 	}
 	
+	@GetMapping("/reservationtime")
+	public void movieReservationTime(){
+	
+	
+	
+	}
 	
 	
 	
