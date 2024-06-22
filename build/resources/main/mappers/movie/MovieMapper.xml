@@ -48,6 +48,12 @@
     </select>
 
 
+    <select id="findAllSeat">
+
+        SELECT * FROM mov_seat;
+
+    </select>
+
 
 
 

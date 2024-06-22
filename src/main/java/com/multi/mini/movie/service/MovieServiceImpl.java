@@ -1,16 +1,13 @@
 package com.multi.mini.movie.service;
 
-import com.multi.mini.movie.model.dto.CinemaDTO;
-import com.multi.mini.movie.model.dto.MovieDTO;
-import com.multi.mini.movie.model.dto.MovieScheduleDTO;
-import com.multi.mini.movie.model.dto.RegionDTO;
+import com.multi.mini.movie.model.dto.*;
 import com.multi.mini.movie.model.mapper.MovieMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Service("movieService")
-public class MovieServiceImpl implements MovieService{
+public class MovieServiceImpl implements MovieService {
 	
 	private final MovieMapper movieMapper;
 	
@@ -60,5 +57,12 @@ public class MovieServiceImpl implements MovieService{
 		return movieDTO;
 		
 		
+	}
+	
+	@Override
+	public ArrayList<SeatDTO> findAllSeat() throws Exception {
+		ArrayList<SeatDTO> list = movieMapper.findAllSeat();
+		
+		return list;
 	}
 }

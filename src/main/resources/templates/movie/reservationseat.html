@@ -75,7 +75,7 @@
 
         }
 
-        .seat:hover{
+        .seat:hover, .reset:hover{
 
             background-color: #6482B9;
             color: white;
@@ -84,8 +84,8 @@
 
         .seat .selected{
 
-            background-color: pink;
-
+            background-color: pink !important;
+            color: white;
         }
 
 
@@ -120,47 +120,112 @@
 
                             $.each(list, function(index, seat){
 
-                                console.log(cinema.cinemaName);
-                                $('#content4').append('<div class="cinema" data-cinema-no=' + cinema.cinemaNo + '>' + cinema.cinemaName +'<div>');
+
+                                $('#seats').append('<button value="' + seat.seatNo + '" class="seat">' +  seat.seatName  + '</button>');
 
 
                             })
+
+                            $('#seats').append('<br><button class="reset">좌석 리셋</button>');
+
+
                         }
                     })
 
 
-
-
-
-
-                    $('#seats').append('<button class="seat">1</button>')
-                    $('#seats').append('<button class="seat">2</button>')
-                    $('#seats').append('<button class="seat">2</button>')
-                    $('#seats').append('<button class="seat">2</button>')
-                    $('#seats').append('<button class="seat">2</button>')
-                    $('#seats').append('<button class="seat">2</button>')
-                    $('#seats').append('<button class="seat">2</button>')
-                    $('#seats').append('<button class="seat">2</button>')
-                    $('#seats').append('<button class="seat">2</button>')
-                    $('#seats').append('<button class="seat">2</button>')
-                    $('#seats').append('<button class="seat">2</button>')
-                    $('#seats').append('<button class="seat">2</button>')
-                    $('#seats').append('<button class="seat">2</button>')
-                    $('#seats').append('<button class="seat">2</button>')
-                    $('#seats').append('<button class="seat">2</button>')
-                    $('#seats').append('<button class="seat">2</button>')
-                    $('#seats').append('<button class="seat">2</button>')
-                    $('#seats').append('<button class="seat">2</button>')
-                    $('#seats').append('<button class="seat">2</button>')
-
-
-
-
                 }
 
-
-
                 makeSeats();
+
+                var total= 0;
+
+                $('.ticket').on('change',function(){
+
+                    total= 0;
+
+                    var num1 = parseInt($('#adult').val(),10) || 0;
+                    var num2= parseInt($('#teen').val(),10) || 0;
+
+                    total = num1 + num2;
+
+                    $('#total').val(total);
+
+
+                })
+
+
+
+                var seatNo = [];
+                var count= 0;
+
+                $(document).on('click','.seat',function(){
+
+                    count++;
+                    console.log("$('#total').val() : " + total)
+                    console.log("count : " + count);
+                    console.log("$('.seat').click");
+                    console.log("$(this).val()" + $(this).val())
+
+                    $(this).addClass('selected');
+
+                    seatNo.push($(this).val());
+                    console.log(seatNo);
+
+
+                    if(count==$('#total').val()){
+
+                        $('.seat').addClass('unclickable');
+
+                    }
+
+
+
+
+                })
+
+
+
+
+
+
+                function selectSeat(){
+
+                    $.ajax({
+
+                        url: '/movie/findReservedSeat',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        success: function(list){
+
+                            console.log(list);
+
+                            var seats = document.querySelectorAll('.seats .seat');
+
+                            console.log(seats);
+
+                            $.each(seats, function(index, seat){
+
+                                if(list.includes($(seat).val())){
+                                    $(seat).addClass(unclickable);
+
+                                }
+
+
+                            })
+
+                        }
+
+
+                    })
+                }
+
+                selectSeat();
+
+
+
+
+
+
 
             }
         )
@@ -194,6 +259,17 @@
                 <h5>인원 좌석 선택</h5>
                 <p th:text="${movieScheduleDTO}"></p>
                 <p>스크린</p>
+            </div>
+
+
+
+            <div class="ticketNum">
+
+                성인 : <input type="number" class="ticket" id="adult" min="0"><br>
+                청소년 : <input type="number" class="ticket" id="teen" min="0"><br><br>
+                총 티켓 수: <input type="number" class="total" id="total" val="0" disabled>
+
+
             </div>
 
 

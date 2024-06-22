@@ -1,9 +1,6 @@
 package com.multi.mini.movie.service;
 
-import com.multi.mini.movie.model.dto.CinemaDTO;
-import com.multi.mini.movie.model.dto.MovieDTO;
-import com.multi.mini.movie.model.dto.MovieScheduleDTO;
-import com.multi.mini.movie.model.dto.RegionDTO;
+import com.multi.mini.movie.model.dto.*;
 
 import java.util.ArrayList;
 
@@ -19,4 +16,6 @@ public interface MovieService {
 	ArrayList<MovieScheduleDTO> findScheduleListByCinemaNo(int cinemaNo) throws  Exception;
 	
 	MovieDTO findMovieByMovieNo(int movieNo) throws Exception;
+	
+	ArrayList<SeatDTO> findAllSeat() throws Exception;
 }

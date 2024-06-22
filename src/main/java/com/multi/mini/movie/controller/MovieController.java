@@ -1,9 +1,6 @@
 package com.multi.mini.movie.controller;
 
-import com.multi.mini.movie.model.dto.CinemaDTO;
-import com.multi.mini.movie.model.dto.MovieDTO;
-import com.multi.mini.movie.model.dto.MovieScheduleDTO;
-import com.multi.mini.movie.model.dto.RegionDTO;
+import com.multi.mini.movie.model.dto.*;
 import com.multi.mini.movie.service.MovieService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -146,6 +143,27 @@ public class MovieController {
 		httpSession.removeAttribute("movieScheduleDTO");
 	
 	}
+	
+	
+	
+	@RequestMapping("/findAllSeat")
+	@ResponseBody
+	public ArrayList<SeatDTO> findAllSeat() {
+		
+		ArrayList<SeatDTO> list = null;
+		try {
+			list = movieService.findAllSeat();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+		System.out.println("seatlist : " + list);
+		
+		return list;
+		
+	}
+	
+	
 	
 	
 	
