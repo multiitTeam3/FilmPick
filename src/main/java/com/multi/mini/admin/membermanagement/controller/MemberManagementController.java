@@ -32,11 +32,31 @@ public class MemberManagementController {
             model.addAttribute("count", count);
             model.addAttribute("pages", pages);
             model.addAttribute("users", list);
+            System.out.println(list);
         } catch (Exception e) {
             model.addAttribute("msg", "회원 리스트 조회 실패");
         }
 
-        return "admin/membermanagement/viewUser";
+        return "admin/membermanagement/listUser";
+    }
+
+    @GetMapping("/paging")
+    public String showMemberPaging(PageDTO page, Model model) {
+        page.setStartEnd(page.getPage());
+
+        try {
+            int count = pageService.selectMemberCount();
+            int pages = count / 10 + 1;
+            List<MemberDTO> list = memberService.findMemberAll(page);
+
+            model.addAttribute("count", count);
+            model.addAttribute("pages", pages);
+            model.addAttribute("users", list);
+            System.out.println(list);
+        } catch (Exception e) {
+            model.addAttribute("msg", "회원 리스트 조회 실패");
+        }
+        return "admin/membermanagement/listUser2";
     }
 
 

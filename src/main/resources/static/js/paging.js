@@ -1,9 +1,10 @@
-$(document).ready(function() {
+$(function() {
+    console.log("페이징 확인")
     let page = parseInt($('.pages').eq(0).text());
 
 
     // 페이지 버튼 초기 활성화 설정
-    $('.pages').eq(1).addClass('active');
+    $('.$pages').eq(1).addClass('active');
 
     // 페이지 버튼 클릭 이벤트 처리
     $('.pages').click(function() {
@@ -39,11 +40,12 @@ $(document).ready(function() {
     // 페이징 처리 함수
     function pageing(page) {
         $.ajax({
-            url: "/admin/user/paging",
+            url: "/admin/membermanagement/paging",
             data: {
                 page: page
             },
             success: function(result) {
+                console.log(result)
                 $('#d1').html(result);
             },
             error: function() {
