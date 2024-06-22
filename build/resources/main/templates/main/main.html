@@ -1,12 +1,16 @@
 <!DOCTYPE html>
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
 <html layout:decorate="~{layout}">
 <head>
     <title>Home Page</title>
 </head>
 <body>
+
 <div layout:fragment="content">
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+
     <div class="container">
-        메인페이지 입니다.
+        <div id="posterImg"></div>
     </div>
 </div>
 </body>

@@ -2,10 +2,13 @@ package com.multi.mini.member.model.dto;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
@@ -14,27 +17,24 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> collection = new ArrayList<>();
+        List<GrantedAuthority> authorities = new ArrayList<>();
 
-        collection.add(new GrantedAuthority() {
+        // memberDTO의 roles 리스트에서 각 역할을 GrantedAuthority로 변환
+        for (RoleDTO role : memberDTO.getRoles()) {
+            authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+        }
 
-            @Override
-            public String getAuthority() {
-                return memberDTO.getRole();
-            }
-        });
-
-        return collection;
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return memberDTO.getPw();
+        return memberDTO.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return memberDTO.getId();
+        return memberDTO.getEmail();
     }
 
     @Override
@@ -61,8 +61,23 @@ public class CustomUserDetails implements UserDetails {
         return memberDTO.getMemberNo();
     }
 
-    public String getUserName() {
+    public String getNickName() {
         return memberDTO.getUserName();
     }
 
+    public String getTel() {
+        return memberDTO.getTel();
+    }
+
+    public String getImg() {
+        return memberDTO.getImg();
+    }
+
+    public String getAddress() {
+        return  memberDTO.getAddress();
+    }
+
+    public Date getCreateDate() {
+        return memberDTO.getCreateDate();
+    }
 }

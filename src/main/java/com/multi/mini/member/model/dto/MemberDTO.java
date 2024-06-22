@@ -3,17 +3,21 @@ package com.multi.mini.member.model.dto;
 import lombok.Data;
 
 import java.sql.Date;
+import java.util.List;
 
 
 @Data
 public class MemberDTO {
+    private int rowNum;
     private int memberNo;
-    private String id;
-    private String pw;
+    private String email;
+    private String password;
     private String userName;
     private String tel;
-    private String role;
     private String img;
+    private List<RoleDTO> roles;
+    private int point;
+    private String address;
     private Date createDate;
     private Date modfiyDate;
 

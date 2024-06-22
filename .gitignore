@@ -167,3 +167,11 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,java,intellij
+.gradle/8.8/checksums/checksums.lock
+.gradle/8.8/checksums/checksums.lock
+.gradle/8.8/executionHistory/executionHistory.bin
+.gradle/8.8/executionHistory/executionHistory.lock
+.gradle/8.8/fileHashes/fileHashes.bin
+.gradle/8.8/fileHashes/fileHashes.lock
+.gradle/8.8/fileHashes/resourceHashesCache.bin
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
