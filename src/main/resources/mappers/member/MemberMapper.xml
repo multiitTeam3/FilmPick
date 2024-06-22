@@ -8,64 +8,33 @@
 
 	<resultMap id="memberResultMap" type="memberDTO">
 		<result property="memberNo" column="member_no"/>
-	    <result property="email" column="email"/>
-	    <result property="password" column="password"/>
-	    <result property="userName" column="user_name"/>
-	    <result property="tel" column="tel"/>
+		<result property="email" column="email"/>
+		<result property="password" column="password"/>
+		<result property="userName" column="user_name"/>
+		<result property="tel" column="tel"/>
 		<result property="img" column="img"/>
 		<result property="point" column="point"/>
 		<result property="address" column="address"/>
-	    <result property="createDate" column="crate_date"/>
-	    <result property="modfiyDate" column="modfiy_date"/>
+		<result property="createDate" column="crate_date"/>
+		<result property="modfiyDate" column="modfiy_date"/>
 		<collection property="roles" ofType="roleDTO">
 			<id property="roleNo" column="role_no"/>
-			<result property="name" column="role_name"/>
+			<result property="roleName" column="name"/>
 			<result property="description" column="role_description"/>
 		</collection>
 	</resultMap>
 
-	<insert id="insertMember" parameterType="memberDTO">
-		INSERT INTO mem_member
-		(
-			  email
-			, password
-			, user_name
-			, tel
-		<if test="address != null">
-			, address
-		</if>
-		)
-		VALUES
-		(
-			  #{ email }
-			, #{ password }
-			, #{ userName}
-			, #{ tel }
-		<if test="address != null">
-			, #{ address }
-		</if>
-		)
-	</insert>
-
-	<insert id="insertMemberAndRole">
-		INSERT INTO mem_member_and_role
-		(
-			member_no
-		  , role_no
-		)
-		VALUES
-		(
-			#{ member_no }
-		  , #{ role_no }
-		)
-	</insert>
-	
-	<select id="selectAll" parameterType="pageDTO" resultMap="memberResultMap">
-		SELECT *
-		FROM MEMBER
-		<if test="page != null">
-			ORDER BY MEMBER_NO DESC
-			LIMIT #{start}, #{end}
-		</if>
+	<select id="findMemberAll" parameterType="pageDTO" resultMap="memberResultMap">
+		SELECT
+			  m.*
+			, r.name
+		FROM
+			mem_member m
+		LEFT JOIN
+			mem_member_and_role mar ON m.member_no = mar.member_no
+		LEFT JOIN
+			mem_role r ON mar.role_no = r.role_no
+		ORDER BY MEMBER_NO DESC
+		LIMIT #{start}, #{end}
 	</select>
 </mapper>

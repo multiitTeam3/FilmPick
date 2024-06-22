@@ -16,15 +16,15 @@ public class MemberServiceImpl implements MemberService{
     private final MemberMapper memberMapper;
 
     @Override
-    public List<MemberDTO> selectAll(PageDTO page) throws Exception{
-        List<MemberDTO> list = memberMapper.selectAll(page);
+    public List<MemberDTO> findMemberAll(PageDTO page) throws Exception{
+        List<MemberDTO> list = memberMapper.findMemberAll(page);
         if (list != null) new Exception("회원 리스트 조회에 실패했습니다.");
         return list;
     }
 
     @Override
-    public MemberDTO findUserByNo(int no) throws Exception{
-        MemberDTO userData = memberMapper.selectMember(no);
+    public MemberDTO findMemberByNo(int no) throws Exception{
+        MemberDTO userData = memberMapper.findMemberByNo(no);
         if (userData != null) new Exception("회원 조회에 실패했습니다.");
         return userData;
     }
@@ -37,7 +37,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public void updateMemberRole(MemberDTO userData) {
-        int result = memberMapper.updateMemberRole(userData);
-        if (result > 0) new Exception(("회원 권한 수정에 실패했습니다."));
+        int result = memberMapper.updateMember(userData);
+        if (result > 0) new Exception(("회원 정보 수정에 실패했습니다."));
     }
 }
