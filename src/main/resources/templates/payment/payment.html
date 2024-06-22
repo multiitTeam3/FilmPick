@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Ticket Booking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-6">
+<div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+    <div class="grid grid-cols-3">
+        <!-- Movie Poster -->
+        <div class="p-4">
+            <img th:src="@{https://source.unsplash.com/random/300x450?movie}" alt="Movie Poster" class="w-full h-auto rounded-lg">
+        </div>
+        <!-- Movie Information -->
+        <div class="p-4">
+            <h2 class="text-2xl font-bold mb-4">영화정보</h2>
+            <p><strong>영화명:</strong> <span th:text="${movie.name}">인사이드 아웃</span></p>
+            <p><strong>일시:</strong> <span th:text="${movie.date}">2024-06-18 (화) 23:00 ~ 24:46</span></p>
+            <p><strong>영화관:</strong> <span th:text="${movie.theater}">가디언디지털 5관 - 2D</span></p>
+            <p><strong>인원:</strong> <span th:text="${movie.people}">성인2, 청소년1</span></p>
+            <p><strong>영상물 등급:</strong> <span class="bg-green-500 text-white px-2 py-1 rounded" th:text="${movie.rating}">ALL</span> 전체이용가</p>
+            <p><strong>좌석:</strong> <span th:text="${movie.seat}">G9</span></p>
+        </div>
+        <!-- Payment Section -->
+        <div class="p-4 bg-gray-50">
+            <h2 class="text-2xl font-bold mb-4">결제 하기</h2>
+            <div class="flex space-x-4 mb-4">
+                <button class="flex-1 bg-gray-200 p-2 rounded">카드 결제</button>
+                <button class="flex-1 bg-gray-200 p-2 rounded">휴대폰 결제</button>
+                <button class="flex-1 bg-gray-200 p-2 rounded">카카오 페이</button>
+            </div>
+            <div class="mb-4">
+                <label for="points" class="block mb-2">포인트</label>
+                <input type="text" id="points" class="w-full p-2 border rounded" placeholder="10000P 사용 가능">
+            </div>
+            <div class="mb-4">
+                <label for="coupon" class="block mb-2">쿠폰</label>
+                <select id="coupon" class="w-full p-2 border rounded">
+                    <option>쿠폰 선택</option>
+                    <option th:each="coupon : ${coupons}" th:value="${coupon.id}" th:text="${coupon.name}">쿠폰명</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <div class="flex justify-between mb-2">
+                    <span>상품금액</span>
+                    <span th:text="${movie.price}">38000원</span>
+                </div>
+                <div class="flex justify-between mb-2">
+                    <span>할인금액</span>
+                    <span th:text="${movie.discount}">0원</span>
+                </div>
+                <div class="flex justify-between font-bold">
+                    <span>결제금액</span>
+
+                    <span th:text="${movie.finalPrice}">38000원</span>
+                </div>
+
+<!--                <form method="post" action="/kakaoPay">-->
+<!--                    <button>카카오페이로 결제하기</button>-->
+<!--                </form>-->
+            </div>
+
+        </div>
+
+    </div>
+</div>
+</body>
+</html>`
