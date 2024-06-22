@@ -8,6 +8,7 @@ import java.util.List;
 
 @Data
 public class MemberDTO {
+    private int rowNum;
     private int memberNo;
     private String email;
     private String password;
