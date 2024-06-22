@@ -9,21 +9,21 @@
 
     <select id="findMovieList">
 
-        SELECT * FROM MOVIE;
+        SELECT * FROM MOV_MOVIE;
 
     </select>
 
 
     <select id="findRegionList">
 
-        SELECT * FROM REGION;
+        SELECT * FROM MOV_REGION;
 
     </select>
 
 
     <select id="findCinemaListByRegionNo">
 
-        SELECT * FROM CINEMA
+        SELECT * FROM MOV_CINEMA
 
         WHERE REGION_NO = #{regionNo};
 
@@ -32,7 +32,7 @@
 
     <select id="findScheduleListByCinemaNo">
 
-        SELECT * FROM MOVIE_SCHEDULE
+        SELECT * FROM MOV_MOVIE_SCHEDULE
 
         WHERE CINEMA_NO = #{cinemaNo};
 
@@ -41,7 +41,7 @@
 
     <select id="findMovieByMovieNo">
 
-        SELECT * FROM MOVIE
+        SELECT * FROM MOV_MOVIE
 
         WHERE MOVIE_NO = #{movieNo};
 
