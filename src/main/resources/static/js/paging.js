@@ -1,10 +1,9 @@
 $(function() {
-    console.log("페이징 확인")
+    console.log("페이징 확인");
     let page = parseInt($('.pages').eq(0).text());
 
-
     // 페이지 버튼 초기 활성화 설정
-    $('.$pages').eq(1).addClass('active');
+    $('.pages').eq(0).addClass('active');
 
     // 페이지 버튼 클릭 이벤트 처리
     $('.pages').click(function() {
@@ -17,7 +16,7 @@ $(function() {
 
     // 이전 버튼 클릭 이벤트 처리
     $('.previous').click(function() {
-        if (1 < page) {
+        if (page > 1) {
             $('.pages').removeClass('active');
             page -= 1;
             $('.pages').eq(page - 1).addClass('active');
@@ -45,7 +44,7 @@ $(function() {
                 page: page
             },
             success: function(result) {
-                console.log(result)
+                console.log(result);
                 $('#d1').html(result);
             },
             error: function() {
