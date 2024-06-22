@@ -167,3 +167,23 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,java,intellij
+
+# IntelliJ project files
+.idea
+.idea/*.xml*
+.iml
+out
+gen
+build
+rebel.xml
+
+# Compliled files
+/target/
+**/target
+
+/example
+
+# Gradle
+.gradle
+/build/
+.gradletasknamecache
