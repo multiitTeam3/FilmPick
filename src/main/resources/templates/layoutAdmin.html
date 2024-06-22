@@ -25,10 +25,10 @@
       </div>
       <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
-          <a href="/" class="nav-link text-white">사이트 바로가기</a>
+          <a th:href="@{/home}" class="nav-link text-white">사이트 바로가기</a>
         </li>
         <li class="nav-item">
-          <a href="/admin" class="nav-link text-white">대시보드</a>
+          <a th:href="@{/admin}" class="nav-link text-white">대시보드</a>
         </li>
         <hr>
         <li class="nav-item">
@@ -45,22 +45,22 @@
         </li>
         <hr>
         <li class="nav-item">
-          <a href="/usermgt" class="nav-link text-white">회원 관리</a>
+          <a th:href="@{/admin/membermanagement}" class="nav-link text-white">회원 관리</a>
         </li>
         <li class="nav-item">
-          <a href="/쿠폰관리" class="nav-link text-white">쿠폰 관리</a>
-        </li>
-        <hr>
-        <li class="nav-item">
-          <a href="/상품관리" class="nav-link text-white">상품 관리</a>
+          <a th:href="@{/admin/coupon}" class="nav-link text-white">쿠폰 관리</a>
         </li>
         <hr>
         <li class="nav-item">
-          <a href="/공지관리" class="nav-link text-white">공지 관리</a>
+          <a th:href="@{/admin/product}" class="nav-link text-white">상품 관리</a>
         </li>
         <hr>
         <li class="nav-item">
-          <a href="/Qna관리" class="nav-link text-white">Q&A 관리</a>
+          <a th:href="@{/admin/notice}" class="nav-link text-white">공지 관리</a>
+        </li>
+        <hr>
+        <li class="nav-item">
+          <a th:href="@{/admin/qna}" class="nav-link text-white">Q&A 관리</a>
         </li>
       </ul>
       <hr>
