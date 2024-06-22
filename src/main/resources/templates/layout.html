@@ -19,18 +19,18 @@
 
 <!-- 경고 메시지 -->
 <script th:inline="javascript">
-        /*<![CDATA[*/
-        let msg = [[${msg}]];
-        if (msg != null) {
-            alert(msg);
-            fetch('/clearMessage', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            });
-        }
-        /*]]>*/
+  /*<![CDATA[*/
+  let msg = [[${msg}]];
+  if (msg != null) {
+      alert(msg);
+      fetch('/clearMessage', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+          }
+      });
+  }
+  /*]]>*/
 </script>
 
 <div class="container-fluid">
