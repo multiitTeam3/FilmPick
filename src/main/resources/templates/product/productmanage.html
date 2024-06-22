@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <title th:text="${title}">Insert title here</title>
+    <!-- 부트스트랩 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        .row {
+			display : flex;
+		}
+
+        .divtable{
+            width : 50%;
+        }
+        .row>form{
+		    width : 50%;
+		    display : flex;
+		}
+
+        .divimg{
+            width : 50%;
+        }
+        .divform{
+            width : 50%;
+        }
+        #image_container>img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+
+</head>
+<body>
+<div th:replace="common/menubar :: menubar-body"></div>
+
+<main layout:fragment="content">
+    <div>
+        <div class="row">
+            <div class="divtable">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>
+                            상품번호
+                        </th>
+                        <th>
+                            상품명
+                        </th>
+                        <th>
+                            가격
+                        </th>
+                        <th>
+                            선택
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <form id="form1" action="product/insert">
+            <div class="divimg">
+                <div id="image_container">
+                    <!-- 이미지 들어가는곳 -->
+                </div>
+                <input type="file" id="inputFile" onchange="setThumbnail(event);">
+                <button type="button">
+                    이미지 변경
+                </button>
+            </div>
+            <div class="divform">
+                    <button type="button" id="btnreset">새로입력</button><br>
+
+                    <label>상품 코드 : </label><input type="number" name="code" readonly><br>
+
+                    <select name="categoryCode" id="categoryCode">
+                        <!-- ajax로 조회 -->
+                    </select><br><br>
+                    <label>상품 이름 : </label><input type="text" name="name"><br>
+                    <label>상품 상세 : </label><input type="number" name="price"><br>
+                    <label>상품 가격 : </label><input type="number" name="price"><br>
+            </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <!-- Footer content -->
+</footer>
+
+
+
+<script>
+    $(function (){
+
+        $.ajax({
+            url:"/product/category",
+            success: function (data){
+                const $categoryCode = $("#categoryCode");
+
+                for(let index in data){
+                    $categoryCode.append($("<option>").val(data[index].categorycode).text(data[index].categoryName))
+
+                }
+            },
+            error: function (xhr){
+                console.log(xhr);
+            }
+        })
+
+
+        $('#btnreset').click(function() {
+						$('#form1')[0].reset();
+						$('#image_container').empty();
+					});
+
+    })
+
+        //파일 선택시 표시
+        function setThumbnail(event) {
+        var reader = new FileReader();
+
+        reader.onload = function(event) {
+            imgdiv = document.querySelector("div#image_container");
+
+            imgdiv.replaceChildren();
+
+            var img = document.createElement("img");
+            img.setAttribute("src", event.target.result);
+            imgdiv.appendChild(img);
+        };
+
+        reader.readAsDataURL(event.target.files[0]);
+      }
+</script>
+</body>
+</html>
