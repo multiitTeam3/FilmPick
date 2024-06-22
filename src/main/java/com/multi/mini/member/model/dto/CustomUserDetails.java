@@ -64,4 +64,5 @@ public class CustomUserDetails implements UserDetails {
     public String getUserName() {
         return memberDTO.getUserName();
     }
+
 }

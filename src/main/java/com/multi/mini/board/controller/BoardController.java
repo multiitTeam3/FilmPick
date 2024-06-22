@@ -6,6 +6,8 @@ import com.multi.mini.common.model.dto.PageDTO;
 import com.multi.mini.common.service.PageService;
 import com.multi.mini.member.model.dto.CustomUserDetails;
 import com.multi.mini.member.model.dto.MemberDTO;
+import com.multi.mini.reply.model.dao.ReplyDAO;
+import com.multi.mini.reply.model.dto.ReplyDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,7 +23,15 @@ import java.util.List;
 public class BoardController {
     private final BoardService boardService;
     private final PageService pageService;
+    private final ReplyDAO dao2;
 
+
+    @GetMapping("/updateBoard")
+    public void updateBoard(@RequestParam("no") int no, Model model) throws Exception {
+        BoardDTO dto = boardService.findBoardByNo(no);
+        model.addAttribute("dto", dto);
+
+    }
 
     @GetMapping
     public String listBoard(PageDTO page, Model model) {
@@ -52,7 +62,9 @@ public class BoardController {
     public String findUser(@RequestParam("no") int no, Model model) throws Exception{
         try {
             BoardDTO boardData = boardService.findBoardByNo(no);
+            List<ReplyDTO> list = dao2.list(boardData.getBoardNo());
             model.addAttribute("board", boardData);
+            model.addAttribute("list", list);
         } catch (Exception e) {
             model.addAttribute("msg", "게시글 조회 실패");
         }
@@ -91,7 +103,7 @@ public class BoardController {
         return "redirect:/board";
     }
 
-    @GetMapping("/delete")
+    @GetMapping("/deleteBoard")
     public String deleteBoard(@RequestParam("no") int no, Model model) throws Exception{
         try {
             boardService.deleteBoard(no);
@@ -99,8 +111,16 @@ public class BoardController {
         } catch (Exception e) {
             model.addAttribute("msg", "게시글 삭제 실패");
         }
-        return "redirect:/board/listBoard";
+        return "redirect:/board";
     }
+
+    @PostMapping("/updateBoard")
+    public String updateBoard(BoardDTO boardDTO) throws Exception {
+        boardService.updateBoard(boardDTO);
+        return "redirect:/board";
+    }
+
+
 
 
 }

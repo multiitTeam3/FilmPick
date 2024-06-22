@@ -13,9 +13,11 @@
 
 	<resultMap id="BoardResultMap" type="boardDTO">
 		<id property="boardNo" column="BOARD_NO" />
+		<result property="memNo" column="MEM_NO" />
 		<result property="title" column="TITLE" />
 		<result property="content" column="CONTENT" />
 		<result property="img" column="IMG" />
+		<result property="likehit" column="LIKEHIT" />
 		<result property="createDate" column="CREATE_DATE" />
 		<result property="modifyDate" column="MODIFY_DATE" />
 		<association property="writer" column="MEMBER_NO" javaType="memberDTO" resultMap="memberResultMap" />
@@ -66,4 +68,6 @@
 		</if>
 		)
 	</insert>
+
+
 </mapper>

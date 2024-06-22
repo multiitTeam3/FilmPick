@@ -40,6 +40,8 @@ public class MybatisConfig {
         configuration.getTypeAliasRegistry().registerAlias("memberDTO", com.multi.mini.member.model.dto.MemberDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("boardDTO", com.multi.mini.board.model.dto.BoardDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("pageDTO", com.multi.mini.common.model.dto.PageDTO.class);
+        configuration.getTypeAliasRegistry().registerAlias("replyDTO", com.multi.mini.reply.model.dto.ReplyDTO.class);
+        configuration.getTypeAliasRegistry().registerAlias("likeDTO", com.multi.mini.like.model.dto.LikeDTO.class);
 //        configuration.getTypeAliasRegistry().registerAlias("noticeDTO", com.multi.mini.admin.notice.model.dto.NoticeDTO.class);
 
         seb.setConfiguration(configuration);
@@ -48,4 +50,6 @@ public class MybatisConfig {
 
 
     }
+
+
 }

@@ -1,9 +1,55 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://www.w3.org/1999/XSL/Transform">
 <html layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
     <title>게시글 조회</title>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script th:inline="javascript">
+        $(function() {
+            $('#b2').click(function() {
+                $.ajax({
+                    url: [[@{insertReply}]],
+                    data: {
+                        board_no : [[${board.boardNo}]],
+                        member_no : [[${#authentication.principal.memberNo}]],
+                        content : $('#reply').val()
+                    },
+                    success: function(response) {
+                        $('#result').append(response);
+                        $('#commentList').append(response); // Append new comment to the list
+                        $('#reply').val('');
+                        location.reload();
+                    }
+                });
+            });
+
+
+        });
+    </script>
+    <script>
+        function replyUpdate(no, boardNo) {
+        let comment = prompt("수정할 댓글을 입력해주세요: ");
+        if (comment !== null) {
+            // Construct the URL for replyUpdate
+            let updateUrl = '/board/updateReply?no=' + encodeURIComponent(no) + '&boardNo=' + encodeURIComponent(boardNo) + '&comment=' + encodeURIComponent(comment);
+            location.href = updateUrl;
+        } else {
+            // Construct the URL for one
+            let oneUrl = '/board/view?no=' + encodeURIComponent(boardNo);
+            location.href = oneUrl;
+        }
+    }
+    </script>
+    <script>
+        function updateLike(no, login){
+
+            location.href="updateLike?no=" + no + "&login=" + login;
+        }
+    </script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -36,13 +82,42 @@
                     <p>이미지가 없습니다.</p>
                 </div>
             </div>
-            <div class="mt-4">
-                <a th:href="@{/board/update(no=${board.boardNo})}" class="btn btn-primary">수정</a>
-                <a th:href="@{/board/delete(no=${board.boardNo})}" class="btn btn-primary">삭제</a>
-                <a href="/board/list" class="btn btn-primary">목록으로</a>
+            <div  style="margin-right:1px;">
+                <button id="like_btn" class="btn btn-success" th:data-board-no="${board.boardNo}" th:data-member-no="${#authentication.principal.memberNo}" onclick="updateLike(this.getAttribute('data-board-no'), this.getAttribute('data-member-no'))" th:text="'👍추천 ' + ${board.likehit}">추천</button>
+            </div>
+            <div class="mt-4 text-right">
+                <a href="/board" class="btn btn-outline-primary">목록으로</a>
+                <div th:if="${#authentication.principal.memberNo == board.writer.memberNo}">
+                    <br>
+                    <a th:href="@{/board/updateBoard(no=${board.boardNo})}" class="btn btn-primary">수정</a>
+                    <a th:href="@{/board/deleteBoard(no=${board.boardNo})}" class="btn btn-danger">삭제</a>
+                </div>
             </div>
         </div>
+        <br>
+        <hr>
+        <div id="result">
+            <div th:each="re : ${list}">
+                <b>댓글 <span th:text="${re.reply_no}"></span></b>
+                <div class="text-right" th:if="${#authentication.principal.memberNo == re.member_no}">
+                    <button id="no" class="btn btn-sm" th:data-reply-no="${re.reply_no}" th:data-board-no="${board.boardNo}" onclick="replyUpdate(this.getAttribute('data-reply-no'), this.getAttribute('data-board-no'))">수정</button>
+                    <a th:href="@{/board/deleteReply(no=${re.reply_no}, boardNo=${board.boardNo})}">
+                        <button id="b1" class="btn btn-sm">삭제</button>
+                    </a>
+                </div>
+                <br>
+                <span th:text="${re.content}"></span> <br>
+                <hr>
+            </div>
+            <td class="t1">댓글</td>
+            <td> <input id="reply" class="form-control" style="height:100px;" /> <br> <button id="b2" class="btn btn-primary">입력</button></td>
+            <hr>
+        </div>
     </div>
+
 </div>
+
 </body>
+
+
 </html>

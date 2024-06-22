@@ -19,7 +19,7 @@ public interface BoardMapper {
     @Delete("DELETE FROM BOARD WHERE BOARD_NO = #{no}")
     int deleteBoard(int no) throws Exception;
 
-    @Update("UPDATE MEMBER SET TITLE = #{title}, CONTENT = #{content} WHERE BOARD_NO = #{boardNo}")
+    @Update("UPDATE BOARD SET TITLE = #{title}, CONTENT = #{content} WHERE BOARD_NO = #{boardNo}")
     int updateBoard(BoardDTO boardData) throws Exception;
 
 }
