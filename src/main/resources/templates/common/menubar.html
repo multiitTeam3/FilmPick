@@ -9,6 +9,7 @@
 </head>
 <body th:fragment="menubar-body">
 
+<!-- 경고 메시지 -->
 <script th:inline="javascript">
         /*<![CDATA[*/
         let msg = [[${msg}]];
@@ -23,6 +24,7 @@
         }
         /*]]>*/
 </script>
+
 <link rel="stylesheet" th:href="@{/css/menubar.css}">
 
 <div class="container-fluid">
