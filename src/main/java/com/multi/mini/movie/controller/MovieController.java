@@ -5,7 +5,9 @@ import com.multi.mini.movie.model.dto.MovieDTO;
 import com.multi.mini.movie.model.dto.MovieScheduleDTO;
 import com.multi.mini.movie.model.dto.RegionDTO;
 import com.multi.mini.movie.service.MovieService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +22,7 @@ public class MovieController {
 	private final MovieService movieService;
 	
 	
-	public MovieController(MovieService movieService){
+	public MovieController(MovieService movieService) {
 		super();
 		this.movieService = movieService;
 		
@@ -29,7 +31,7 @@ public class MovieController {
 	
 	@RequestMapping("/findMovieList")
 	@ResponseBody
-	public ArrayList<MovieDTO> findImgList(){
+	public ArrayList<MovieDTO> findImgList() {
 		
 		ArrayList<MovieDTO> list = null;
 		try {
@@ -43,17 +45,15 @@ public class MovieController {
 	}
 	
 	@GetMapping("/reservationtime")
-	public void movieReservationTime(){
-	
+	public void movieReservationTime() {
 	
 	
 	}
 	
 	
-	
 	@RequestMapping("/findRegionList")
 	@ResponseBody
-	public ArrayList<RegionDTO> findRegionList(){
+	public ArrayList<RegionDTO> findRegionList() {
 		
 		ArrayList<RegionDTO> list = null;
 		try {
@@ -62,7 +62,7 @@ public class MovieController {
 			throw new RuntimeException(e);
 		}
 		
-		System.out.println("list : "+list);
+		System.out.println("list : " + list);
 		
 		return list;
 		
@@ -71,7 +71,7 @@ public class MovieController {
 	
 	@RequestMapping("/findCinemaListByRegionNo")
 	@ResponseBody
-	public ArrayList<CinemaDTO> findCinemaListByRegionNo(@RequestBody RegionDTO regionDTO){
+	public ArrayList<CinemaDTO> findCinemaListByRegionNo(@RequestBody RegionDTO regionDTO) {
 		
 		ArrayList<CinemaDTO> list = null;
 		try {
@@ -80,7 +80,7 @@ public class MovieController {
 			throw new RuntimeException(e);
 		}
 		
-		System.out.println("list : "+list);
+		System.out.println("list : " + list);
 		
 		return list;
 		
@@ -89,7 +89,7 @@ public class MovieController {
 	
 	@RequestMapping("/findScheduleListByCinemaNo")
 	@ResponseBody
-	public ArrayList<MovieScheduleDTO> findScheduleListByCinemaNo(@RequestBody CinemaDTO cinemaDTO){
+	public ArrayList<MovieScheduleDTO> findScheduleListByCinemaNo(@RequestBody CinemaDTO cinemaDTO) {
 		
 		ArrayList<MovieScheduleDTO> list = null;
 		try {
@@ -98,7 +98,7 @@ public class MovieController {
 			throw new RuntimeException(e);
 		}
 		
-		System.out.println("list : "+list);
+		System.out.println("list : " + list);
 		
 		return list;
 		
@@ -107,19 +107,44 @@ public class MovieController {
 	
 	@RequestMapping("/findMovieByMovieNo")
 	@ResponseBody
-	public MovieDTO findMovieByMovieNo(@RequestBody MovieDTO movieDTO){
+	public MovieDTO findMovieByMovieNo(@RequestBody MovieDTO movieDTO) {
 		
-		MovieDTO movieDTO2  = null;
+		MovieDTO movieDTO2 = null;
 		try {
 			movieDTO2 = movieService.findMovieByMovieNo(movieDTO.getMovieNo());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 		
-		System.out.println("moviedto : "+ movieDTO2);
+		System.out.println("moviedto : " + movieDTO2);
 		
 		return movieDTO2;
 		
+	}
+	
+	
+	
+	@RequestMapping("/reservationseat")
+	@ResponseBody
+	public void reservationseat(@RequestBody MovieScheduleDTO movieScheduleDTO, HttpSession httpSession) {
+		
+		
+		httpSession.setAttribute("movieScheduleDTO",movieScheduleDTO);
+		System.out.println(movieScheduleDTO);
+		
+		
+		
+	}
+	
+	@GetMapping("/reservationseat")
+	public void movieReservationSeat(HttpSession httpSession, Model model) {
+	
+		MovieScheduleDTO movieScheduleDTO = (MovieScheduleDTO) httpSession.getAttribute("movieScheduleDTO");
+		
+		model.addAttribute("movieScheduleDTO", movieScheduleDTO);
+		
+		httpSession.removeAttribute("movieScheduleDTO");
+	
 	}
 	
 	

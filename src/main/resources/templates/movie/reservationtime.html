@@ -18,8 +18,7 @@
             display: flex;
             background-color: #FFF0F5;
             border: 1px solid black;
-            heigth: 40%;
-            width : 100%;
+            margin: 10%;
 
         }
 
@@ -77,6 +76,13 @@
         .clickable{
             pointer-events: auto;
             background-color: gray !important;
+
+        }
+
+        .unclickable{
+
+            pointer-events: none;
+            background-color: #eddedd;
 
         }
 
@@ -474,23 +480,40 @@
                 $(document).on('click','.timeBtn',function(){
 
                     $('.timeBtn').removeClass('selected');
-
-                    console.log("$('.timeBtn').click")
-
                     $('#result').html("");
+
+                    console.log("$('.timeBtn').click");
+
 
                     $(this).addClass('selected');
 
-                    var finalSchedule = $(this).attr('data-schedule');
+                    var finalSchedule = JSON.parse($(this).attr('data-schedule'));
+
+                    $('#result').append('<p>스케줄 확인</p>');
+                    $('#result').append($(this).attr('data-schedule'));
 
                     console.log(finalSchedule);
 
-                    $('#result').html("<h3>상영시간 확인</h3>");
-                    $('#result').append(finalSchedule);
-                    $('#result').append(finalSchedule.startTime);
+                    $('#result').append('<button id="reservationseat">좌석 선택 화면으로 이동하기</button>');
 
-                    $.ajax({
 
+                    $(document).on('click','#reservationseat',function(){
+
+                         $.ajax({
+
+                                url: '/movie/reservationseat',
+                                method: 'POST',
+                                data: JSON.stringify(finalSchedule),
+                                contentType: 'application/json',
+                                success: function(response){
+
+                                    console.log(response);
+
+                                    window.location.href='/movie/reservationseat'
+
+                                }
+
+                         })
 
 
 
@@ -499,11 +522,6 @@
 
 
                 })
-
-
-
-
-
 
             }
         )
@@ -524,7 +542,7 @@
         <div class="sidebar">
 
             <a href="/movie/reservationtime">상영시간</a>
-            <a href="/movie/reservationseat">인원/좌석 선택</a>
+            <a href="/movie/reservationseat" class="unclickable">인원/좌석 선택</a>
 
         </div>
 
@@ -587,16 +605,21 @@
 
             </div>
 
+            <div class="result" id="result">
+
+
+            </div>
+
 
         </div>
 
-        <div id="result">
 
-
-        </div>
 
 
     </div>
+
+
+</div>
 
 
 </div>
