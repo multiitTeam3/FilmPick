@@ -14,10 +14,69 @@
     <style>
 
 
+        .container{
+            display: flex;
+            background-color: #FFF0F5;
+            border: 1px solid black;
+            margin: 10%;
+
+        }
+
+
+        .sidebar{
+            height: 100%;
+            width: 30%;
+            background-color: #A0DFE1;
+
+        }
+
+        .sidebar a{
+            padding: 15px;
+            text-decoration: none;
+            color: #E6FFE6;
+            display: block;
+            font-size: 25px;
+            font-color: #000069	;
+            padding : 40px
+        }
+
+        .sidebar a:hover{
+            background-color: #FFB6C1;
+
+        }
+
+        .content{
+            padding: 40px;
+            display: flex;
+
+
+        }
+
+
+
     </style>
 
     <script type="text/javascript">
 
+
+        $(document).ready(
+            function(){
+
+                // 좌석 만들기
+                function makeSeats(){
+
+
+
+
+
+                }
+
+
+
+                makeSeats();
+
+            }
+        )
 
     </script>
 
@@ -31,12 +90,29 @@
     <div class="container">
 
 
+        <div class="sidebar">
 
-        <p th:text="${movieScheduleDTO}">
-        <p th:text="${movieScheduleDTO.scheduleNo}">
-        <p th:text="${movieScheduleDTO.startTime}">
+            <a href="/movie/reservationtime">상영시간 재선택</a>
+            <a href="/movie/reservationseat" class="unclickable">인원/좌석 선택</a>
+
+        </div>
+
+
+        <div class="content" id="content1">
+
+            <h5>인원 좌석 선택</h5>
+            <p th:text="${movieScheduleDTO}"></p>
+
+
+        </div>
+
+
+
 
     </div>
+
+
+</div>
 
 
 </div>
@@ -50,3 +126,5 @@
 
 </body>
 </html>
+
+
