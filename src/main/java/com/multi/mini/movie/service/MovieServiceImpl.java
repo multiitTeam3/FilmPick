@@ -65,4 +65,34 @@ public class MovieServiceImpl implements MovieService {
 		
 		return list;
 	}
+	
+	@Override
+	public ArrayList<SeatDTO> findReservedSeat(MovieScheduleDTO movieScheduleDTO) throws Exception {
+		ArrayList<SeatDTO> list = movieMapper.findReservedSeat(movieScheduleDTO);
+		
+		return list;
+	}
+	
+	@Override
+	public ArrayList<SeatDTO> findSeatListByScreen(String screenCode) throws Exception {
+		ArrayList<SeatDTO> list = movieMapper.findSeatListByScreen(screenCode);
+		
+		return list;
+	}
+	
+	@Override
+	public int insertReservation(ReservationDTO reservationDTO) throws Exception {
+		int result = movieMapper.insertReservation(reservationDTO);
+		
+		return result;
+	}
+	
+	@Override
+	public int findReservationNo(ReservationDTO reservationDTO) throws Exception {
+		int rsvNo = movieMapper.findReservationNo(reservationDTO);
+		
+		return rsvNo;
+	}
+	
+	
 }

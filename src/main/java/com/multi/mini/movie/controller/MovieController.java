@@ -1,16 +1,19 @@
 package com.multi.mini.movie.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.multi.mini.member.model.dto.CustomUserDetails;
 import com.multi.mini.movie.model.dto.*;
 import com.multi.mini.movie.service.MovieService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/movie")
@@ -134,11 +137,42 @@ public class MovieController {
 	}
 	
 	@GetMapping("/reservationseat")
-	public void movieReservationSeat(HttpSession httpSession, Model model) {
+	public void movieReservationSeat(HttpSession httpSession, Model model){
 	
 		MovieScheduleDTO movieScheduleDTO = (MovieScheduleDTO) httpSession.getAttribute("movieScheduleDTO");
 		
+		ArrayList<SeatDTO> seatListByScreen=null;
+		
+		try {
+			seatListByScreen= movieService.findSeatListByScreen(movieScheduleDTO.getScreenCode());
+			
+			System.out.println("seatListByScreen : "+seatListByScreen);
+			
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+		
+		ArrayList<SeatDTO> reservedSeatList = null;
+		try {
+			/*reservedSeatList = movieService.reservedSeatList();*/
+			reservedSeatList = movieService.findReservedSeat(movieScheduleDTO);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+		ArrayList<String> seatNoList=new ArrayList();
+		
+		for (SeatDTO seat : reservedSeatList){
+			seatNoList.add(String.valueOf(seat.getSeatNo()));
+		}
+		
+		System.out.println("seatNoList"+ seatNoList);
+		
 		model.addAttribute("movieScheduleDTO", movieScheduleDTO);
+		model.addAttribute("reservedSeatList", reservedSeatList);
+		model.addAttribute("seatNoList", seatNoList);
+		model.addAttribute("seatListByScreen", seatListByScreen);
 		
 		httpSession.removeAttribute("movieScheduleDTO");
 	
@@ -164,6 +198,196 @@ public class MovieController {
 	}
 	
 	
+	
+	@RequestMapping("/insertreservation")
+	@ResponseBody
+	public int insertReservation(@RequestBody ReservationDataDTO reservationDataDTO) {
+		
+		System.out.println(reservationDataDTO);
+		
+		// 현재 인증된 사용자 정보를 가져옴
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+		
+		// 작성자의 memberNo와 userName을 설정
+		
+		int memberNO = userDetails.getMemberNo();
+		int scheduleNo = reservationDataDTO.getScheduleNo();
+		int adult = reservationDataDTO.getAdult();
+		int teen = reservationDataDTO.getTeen();
+		ArrayList<Integer> selectedSeatNoList = reservationDataDTO.getSelectedSeatNoList();
+		
+		ArrayList<Integer> priceList = new ArrayList<>();
+		
+		if (adult>0){
+			
+			for (int i =0; i<adult; i++){
+				
+				priceList.add(12000);
+				
+			}
+			
+		}
+		
+		if (teen>0){
+			
+			for (int i =0; i<teen; i++){
+				
+				priceList.add(8000);
+				
+			}
+			
+		}
+		
+		int result =0;
+		
+		ArrayList<ReservationDTO> list = new ArrayList<>();
+		
+		
+		
+		
+		for (int i=0; i<selectedSeatNoList.size(); i++){
+			
+			ReservationDTO reservationDTO = new ReservationDTO();
+			reservationDTO.setScheduleNo(scheduleNo);
+			reservationDTO.setSeatNo(selectedSeatNoList.get(i));
+			reservationDTO.setMemberNo(memberNO);
+			reservationDTO.setRsvMoviePrice(priceList.get(i));
+			reservationDTO.setRsvIsPaid("N");
+			
+			int result1 = 0;
+			try {
+				result1 = movieService.insertReservation(reservationDTO);
+				list.add(reservationDTO);
+				
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+			result+=result1;
+			
+			
+			
+		}
+		
+		
+		ArrayList<Integer> rsvNoList = new ArrayList<>();
+		
+		for (int i=0; i<list.size(); i++){
+			rsvNoList.add(list.get(i).getRsvNo());
+		}
+		
+		
+		
+		return result;
+		
+	}
+	
+	
+	
+	
+	
+	@RequestMapping("/insertreservationpay")
+	@ResponseBody
+	public ArrayList<Integer> insertReservationPay(@RequestBody ReservationDataDTO reservationDataDTO) {
+		
+		System.out.println(reservationDataDTO);
+		
+		// 현재 인증된 사용자 정보를 가져옴
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+		
+		// 작성자의 memberNo와 userName을 설정
+		
+		int memberNO = userDetails.getMemberNo();
+		int scheduleNo = reservationDataDTO.getScheduleNo();
+		int adult = reservationDataDTO.getAdult();
+		int teen = reservationDataDTO.getTeen();
+		ArrayList<Integer> selectedSeatNoList = reservationDataDTO.getSelectedSeatNoList();
+		
+		ArrayList<Integer> priceList = new ArrayList<>();
+		
+		if (adult>0){
+			
+			for (int i =0; i<adult; i++){
+				
+				priceList.add(12000);
+				
+			}
+			
+		}
+		
+		if (teen>0){
+			
+			for (int i =0; i<teen; i++){
+				
+				priceList.add(8000);
+				
+			}
+			
+		}
+		
+		int result =0;
+		
+		ArrayList<ReservationDTO> list = new ArrayList<>();
+		
+		
+		
+		
+		for (int i=0; i<selectedSeatNoList.size(); i++){
+			
+			ReservationDTO reservationDTO = new ReservationDTO();
+			reservationDTO.setScheduleNo(scheduleNo);
+			reservationDTO.setSeatNo(selectedSeatNoList.get(i));
+			reservationDTO.setMemberNo(memberNO);
+			reservationDTO.setRsvMoviePrice(priceList.get(i));
+			reservationDTO.setRsvIsPaid("N");
+			
+			int result1 = 0;
+			try {
+				result1 = movieService.insertReservation(reservationDTO);
+				list.add(reservationDTO);
+				
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+			result+=result1;
+			
+			
+			
+		}
+		
+		
+		ArrayList<Integer> rsvNoList = new ArrayList<>();
+		
+		for (int i=0; i<list.size(); i++){
+			
+			int rsv = 0;
+			try {
+				rsv = movieService.findReservationNo(list.get(i));
+				rsvNoList.add(rsv);
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+			
+			
+			
+		}
+		
+		System.out.println(rsvNoList);
+		
+		return rsvNoList;
+		
+	}
+	
+	@GetMapping("/reservationseat/payment")
+	public String payment(@RequestParam("list") String list, Model model){
+		
+		List<String> rsvNoList = new Gson().fromJson(list, new TypeToken<List<String>>(){}.getType());
+		model.addAttribute("rsvNoList", rsvNoList);
+		return "payment/pay";
+		
+		
+	}
 	
 	
 	

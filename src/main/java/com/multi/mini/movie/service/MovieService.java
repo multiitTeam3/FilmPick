@@ -18,4 +18,13 @@ public interface MovieService {
 	MovieDTO findMovieByMovieNo(int movieNo) throws Exception;
 	
 	ArrayList<SeatDTO> findAllSeat() throws Exception;
+	
+	
+	ArrayList<SeatDTO> findReservedSeat(MovieScheduleDTO movieScheduleDTO) throws Exception;
+	
+	ArrayList<SeatDTO> findSeatListByScreen(String screenCode) throws Exception;
+	
+	int insertReservation(ReservationDTO reservationDTO) throws Exception;
+	
+	int findReservationNo(ReservationDTO reservationDTO) throws Exception;
 }
