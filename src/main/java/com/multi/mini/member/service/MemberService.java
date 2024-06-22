@@ -6,9 +6,9 @@ import com.multi.mini.member.model.dto.MemberDTO;
 import java.util.List;
 
 public interface MemberService {
-    List<MemberDTO> selectAll(PageDTO page) throws Exception;
+    List<MemberDTO> findMemberAll(PageDTO page) throws Exception;
 
-    MemberDTO findUserByNo(int no) throws Exception;
+    MemberDTO findMemberByNo(int no) throws Exception;
 
     void deleteMember(int no);
 
