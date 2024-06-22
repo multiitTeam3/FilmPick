@@ -1,17 +1,4 @@
-<!--<!DOCTYPE html>-->
-<html xmlns:th="http://www.thymeleaf.org">
-<!DOCTYPE html>
-
-<head th:fragment="movie-main-list-head">
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
-</head>
-<body th:fragment="movie-main-list-body">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript">
-
-
-    $(document).ready(
+$(document).ready(
         function(){
 
             function findImgList(){
@@ -33,32 +20,9 @@
 
                             $("#posterImg").append(
                             '<button onclick="location.href=\'/movie/reservationtime\'">예매하기</button><br>')
-
-
-
-
                         })
                     }
                 })
             }
-
-
             findImgList()
-
-
         })
-
-
-</script>
-
-
-<div>
-
-    <div id="posterImg"></div>
-
-
-</div>
-
-
-</body>
-</html>
