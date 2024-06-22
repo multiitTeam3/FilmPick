@@ -1,5 +1,8 @@
 package com.multi.mini.config;
 
+import com.multi.mini.movie.model.dto.CinemaDTO;
+import com.multi.mini.movie.model.dto.MovieDTO;
+import com.multi.mini.movie.model.dto.RegionDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.JdbcType;
@@ -42,7 +45,20 @@ public class MybatisConfig {
         configuration.getTypeAliasRegistry().registerAlias("pageDTO", com.multi.mini.common.model.dto.PageDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("roleDTO", com.multi.mini.member.model.dto.RoleDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("memberAndRoleDTO", com.multi.mini.member.model.dto.MemberAndRoleDTO.class);
+
 //        configuration.getTypeAliasRegistry().registerAlias("noticeDTO", com.multi.mini.admin.notice.model.dto.NoticeDTO.class);
+        
+
+        
+        //movie dto 추가
+        configuration.getTypeAliasRegistry().registerAlias("movieDTO", MovieDTO.class);
+        configuration.getTypeAliasRegistry().registerAlias("regionDTO", RegionDTO.class);
+        configuration.getTypeAliasRegistry().registerAlias("cinemaDTO", CinemaDTO.class);
+        
+        
+        
+
+       
 
         seb.setConfiguration(configuration);
 
