@@ -65,27 +65,25 @@
                     </tbody>
                 </table>
             </div>
-            <form id="form1" action="product/insert">
+            <form id="form1" action="insert" method="post" enctype="multipart/form-data" >
             <div class="divimg">
                 <div id="image_container">
                     <!-- 이미지 들어가는곳 -->
                 </div>
-                <input type="file" id="inputFile" onchange="setThumbnail(event);">
-                <button type="button">
-                    이미지 변경
-                </button>
+                <input type="file" id="inputFile" onchange="setThumbnail(event);" name="file">
             </div>
             <div class="divform">
                     <button type="button" id="btnreset">새로입력</button><br>
 
-                    <label>상품 코드 : </label><input type="number" name="code" readonly><br>
+                    <label>상품 코드 : </label><input type="number" name="productNo" value="0" readonly><br>
 
-                    <select name="categoryCode" id="categoryCode">
+                    <select name="categorycode" id="categorycode">
                         <!-- ajax로 조회 -->
                     </select><br><br>
                     <label>상품 이름 : </label><input type="text" name="name"><br>
-                    <label>상품 상세 : </label><input type="number" name="price"><br>
+                    <label>상품 상세 : </label><input type="test" name="content"><br>
                     <label>상품 가격 : </label><input type="number" name="price"><br>
+                <button type="submit">추가</button>
             </div>
             </form>
         </div>
@@ -104,10 +102,10 @@
         $.ajax({
             url:"/product/category",
             success: function (data){
-                const $categoryCode = $("#categoryCode");
+                const $categorycode = $("#categorycode");
 
                 for(let index in data){
-                    $categoryCode.append($("<option>").val(data[index].categorycode).text(data[index].categoryName))
+                    $categorycode.append($("<option>").val(data[index].categorycode).text(data[index].categoryName))
 
                 }
             },

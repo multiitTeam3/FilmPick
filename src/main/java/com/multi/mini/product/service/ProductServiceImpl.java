@@ -1,6 +1,7 @@
 package com.multi.mini.product.service;
 
 import com.multi.mini.product.model.dto.CategoryDTO;
+import com.multi.mini.product.model.dto.ProductDTO;
 import com.multi.mini.product.model.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,5 +21,10 @@ public class ProductServiceImpl implements ProductService {
     public List<CategoryDTO> findAllCategory() throws Exception {
         List<CategoryDTO> list =  productMapper.findAllCategory();
         return list;
+    }
+
+    @Override
+    public int insertProduct(ProductDTO productDTO) throws Exception {
+        return productMapper.insertProduct(productDTO);
     }
 }
