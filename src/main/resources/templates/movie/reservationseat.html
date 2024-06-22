@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="~{layout.html}">
+<head>
+    <title>Home Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+    <style>
+
+
+        .container{
+            display: flex;
+            background-color: #FFF0F5;
+            border: 1px solid black;
+            margin: 10%;
+
+        }
+
+
+        .sidebar{
+            height: 100%;
+            width: 30%;
+            background-color: #A0DFE1;
+
+        }
+
+        .sidebar a{
+            padding: 15px;
+            text-decoration: none;
+            color: #E6FFE6;
+            display: block;
+            font-size: 25px;
+            font-color: #000069	;
+            padding : 40px
+        }
+
+        .sidebar a:hover{
+            background-color: #FFB6C1;
+
+        }
+
+        #content1{
+            padding: 40px;
+            display: flex;
+            flex-flow: column;
+
+
+        }
+
+        #seats{
+            display: flex;
+            flex-wrap: wrap;
+            width: 600px;
+            background-color:  #defcf9;
+            border: 1px solid black;
+            margin: 5px;
+            padding: 10px;
+
+        }
+
+        .seat{
+
+           width: 40px;
+           height: 40px;
+           margin: 5px;
+           border: 1px solid black;
+           text-align: center;
+           background-color: white;
+
+        }
+
+        .seat:hover{
+
+            background-color: #6482B9;
+            color: white;
+
+        }
+
+        .seat .selected{
+
+            background-color: pink;
+
+        }
+
+
+        .unclickable{
+
+            pointer-events: none;
+            background-color: #eddedd;
+
+        }
+
+
+
+    </style>
+
+    <script type="text/javascript">
+
+
+        $(document).ready(
+            function(){
+
+                // 좌석 만들기
+                function makeSeats(){
+
+                    $.ajax({
+
+                        url: '/movie/findAllSeat',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        success: function(list){
+
+                            console.log(list);
+
+                            $.each(list, function(index, seat){
+
+                                console.log(cinema.cinemaName);
+                                $('#content4').append('<div class="cinema" data-cinema-no=' + cinema.cinemaNo + '>' + cinema.cinemaName +'<div>');
+
+
+                            })
+                        }
+                    })
+
+
+
+
+
+
+                    $('#seats').append('<button class="seat">1</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+
+
+
+
+                }
+
+
+
+                makeSeats();
+
+            }
+        )
+
+    </script>
+
+
+</head>
+<body>
+
+<div layout:fragment="content">
+
+
+    <div class="container">
+
+
+        <div class="sidebar">
+
+            <a href="/movie/reservationtime">상영시간 재선택</a>
+            <a href="/movie/reservationseat" class="unclickable">인원/좌석 선택</a>
+
+        </div>
+
+
+        <div class="content" id="content1">
+
+
+
+            <div>
+
+                <h5>인원 좌석 선택</h5>
+                <p th:text="${movieScheduleDTO}"></p>
+                <p>스크린</p>
+            </div>
+
+
+
+            <div class="seats" id="seats">
+
+
+
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+</script>
+
+
+</body>
+</html>
+
+
