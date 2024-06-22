@@ -46,3 +46,17 @@ body {
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
+
+        .email-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .email-container .form-control {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .email-container .btn {
+            white-space: nowrap;
+        }

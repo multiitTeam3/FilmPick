@@ -73,10 +73,4 @@
 		WHERE
 			email = #{ email }
 	</select>
-	
-	<select id="login" parameterType="memberDTO">
-		SELECT *
-		FROM mem_member
-		WHERE email = #{ email }
-	</select>
 </mapper>
