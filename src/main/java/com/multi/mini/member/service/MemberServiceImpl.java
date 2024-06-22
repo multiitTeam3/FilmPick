@@ -31,13 +31,14 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public void deleteMember(int no) {
-        int result = memberMapper.deleteMember(no);
-        if (result > 0) new Exception("회원 삭제에 실패했습니다.");
+        int resultRole = memberMapper.deleteMemberRole(no);
+        int resultMember = memberMapper.deleteMember(no);
+        if (resultRole == resultMember) new Exception("회원 삭제에 실패했습니다.");
     }
 
     @Override
     public void updateMemberRole(MemberDTO userData) {
         int result = memberMapper.updateMember(userData);
-        if (result > 0) new Exception(("회원 정보 수정에 실패했습니다."));
+        if (result == 0) new Exception(("회원 정보 수정에 실패했습니다."));
     }
 }

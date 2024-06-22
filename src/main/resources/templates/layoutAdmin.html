@@ -21,6 +21,23 @@
   <link rel="stylesheet" th:href="@{/css/adminsidebar.css}">
 </head>
 <body>
+
+<!-- 경고 메시지 -->
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  let msg = [[${msg}]];
+  if (msg != null) {
+      alert(msg);
+      fetch('/clearMessage', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+          }
+      });
+  }
+  /*]]>*/
+</script>
+
 <div class="container-fluid">
   <div class="row">
     <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar">

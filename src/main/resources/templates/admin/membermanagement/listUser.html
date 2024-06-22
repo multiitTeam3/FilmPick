@@ -38,15 +38,17 @@
                     <th scope="col">UserName</th>
                     <th scope="col">CREATE_DATE</th>
                     <th scope="col">ROLE</th>
+                    <th scope="col">DELETE</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="user : ${users}">
                     <th scope="row" th:text="${user.rowNum}"></th>
-                    <td><a th:href="@{/admin/user/view(no=${user.memberNo})}" th:text="${user.email}"></a></td>
+                    <td><a th:href="@{/admin/membermanagement/find(no=${user.memberNo})}" th:text="${user.email}"></a></td>
                     <td th:text="${user.userName}"></td>
                     <td th:text="${user.createDate}"></td>
                     <td th:each="role : ${user.roles}" th:text="${role.roleName}"></td>
+                    <td><a th:href="@{/admin/membermanagement/delete(no=${user.memberNo})}"><button type="button" class="btn btn-primary">DELETE</button></a></td>
                 </tr>
                 </tbody>
             </table>

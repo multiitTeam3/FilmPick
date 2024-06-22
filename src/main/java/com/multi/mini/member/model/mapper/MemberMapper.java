@@ -13,8 +13,11 @@ public interface MemberMapper {
 
     MemberDTO findMemberByNo(int no);
 
-    @Delete("DELETE FROM MEMBER WHERE MEMBER_NO = #{no}")
+    @Delete("DELETE FROM mem_member WHERE member_no = #{no}")
     int deleteMember(int no);
+
+    @Delete("DELETE FROM mem_member_and_role WHERE member_no = #{no}")
+    int deleteMemberRole(int no);
 
     int updateMember(MemberDTO userData);
 }
