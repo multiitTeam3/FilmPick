@@ -78,7 +78,7 @@ public class BoardController {
         // 작성자의 memberNo와 userName을 설정
         MemberDTO writer = new MemberDTO();
         writer.setMemberNo(userDetails.getMemberNo());
-        writer.setUserName(userDetails.getUserName());
+        writer.setUserName(userDetails.getNickName());
         boardData.setWriter(writer);
 
         try {

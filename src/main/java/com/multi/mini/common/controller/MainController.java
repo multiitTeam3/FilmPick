@@ -9,8 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -22,11 +23,16 @@ public class MainController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        Iterator<? extends  GrantedAuthority> iter = authorities.iterator();
-        GrantedAuthority auth = iter.next();
-        String role = auth.getAuthority();
+        
+        // 권한을 여러개 가질 수 있으므로 List 사용해 권한 추가
+        List<String> roles = new ArrayList<>();
+        if (authorities != null) {
+            for (GrantedAuthority authority : authorities) {
+                roles.add(authority.getAuthority());
+            }
+        }
 
-        model.addAttribute("role", role);
+        model.addAttribute("role", roles);
         return "main/main";
     }
 
