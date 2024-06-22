@@ -45,10 +45,54 @@
 
         }
 
-        .content{
+        #content1{
             padding: 40px;
             display: flex;
+            flex-flow: column;
 
+
+        }
+
+        #seats{
+            display: flex;
+            flex-wrap: wrap;
+            width: 600px;
+            background-color:  #defcf9;
+            border: 1px solid black;
+            margin: 5px;
+            padding: 10px;
+
+        }
+
+        .seat{
+
+           width: 40px;
+           height: 40px;
+           margin: 5px;
+           border: 1px solid black;
+           text-align: center;
+           background-color: white;
+
+        }
+
+        .seat:hover{
+
+            background-color: #6482B9;
+            color: white;
+
+        }
+
+        .seat .selected{
+
+            background-color: pink;
+
+        }
+
+
+        .unclickable{
+
+            pointer-events: none;
+            background-color: #eddedd;
 
         }
 
@@ -65,6 +109,49 @@
                 // 좌석 만들기
                 function makeSeats(){
 
+                    $.ajax({
+
+                        url: '/movie/findAllSeat',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        success: function(list){
+
+                            console.log(list);
+
+                            $.each(list, function(index, seat){
+
+                                console.log(cinema.cinemaName);
+                                $('#content4').append('<div class="cinema" data-cinema-no=' + cinema.cinemaNo + '>' + cinema.cinemaName +'<div>');
+
+
+                            })
+                        }
+                    })
+
+
+
+
+
+
+                    $('#seats').append('<button class="seat">1</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
+                    $('#seats').append('<button class="seat">2</button>')
 
 
 
@@ -100,8 +187,24 @@
 
         <div class="content" id="content1">
 
-            <h5>인원 좌석 선택</h5>
-            <p th:text="${movieScheduleDTO}"></p>
+
+
+            <div>
+
+                <h5>인원 좌석 선택</h5>
+                <p th:text="${movieScheduleDTO}"></p>
+                <p>스크린</p>
+            </div>
+
+
+
+            <div class="seats" id="seats">
+
+
+
+
+
+            </div>
 
 
         </div>
