@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:log4jdbc:mysql://mini.cxwee6aeygsa.ap-northeast-2.rds.amazonaws.com/cafe
+    url: jdbc:log4jdbc:mysql://mini.cxwee6aeygsa.ap-northeast-2.rds.amazonaws.com/movie
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     username: admin
     password: admin1234
@@ -11,8 +11,14 @@ spring:
     restart:
       enabled: true
 
+  servlet:
+    multipart:
+      max-file-size: 1MB
+    mvc:
+      static-path-pattern: /webapp/**
+
 server:
-  port: 8099
+  port: 8098
   servlet:
     session:
       timeout: 1800

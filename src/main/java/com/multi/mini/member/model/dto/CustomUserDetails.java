@@ -80,4 +80,5 @@ public class CustomUserDetails implements UserDetails {
     public Date getCreateDate() {
         return memberDTO.getCreateDate();
     }
+
 }

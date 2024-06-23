@@ -22,7 +22,7 @@ public class ReplyController {
 	@Autowired
 	ReplyService replyService;
 	
-	@GetMapping("/board/updateReply")
+	@GetMapping("/community/updateReply")
 	public void updateBoard(@RequestParam("no") int no, @RequestParam("comment") String comment, Model model) throws Exception {
 		ReplyDTO dto = replyService.selectReply(no);
 		model.addAttribute("dto", dto);
@@ -33,7 +33,7 @@ public class ReplyController {
 	
 	
 	
-	@RequestMapping("/board/insertReply") //ajax호출!
+	@RequestMapping("/community/insertReply") //ajax호출!
 	//ajax호출은 views/insert4.jsp를 만들지 않으면 ajax호출 404에러가 뜬다. 
 	public void insert(ReplyDTO replyDTO, Model model) {
 		System.out.println(replyDTO);
@@ -43,11 +43,11 @@ public class ReplyController {
 		model.addAttribute("result", result);
 	}
 	
-	@RequestMapping("/board/deleteReply") //ajax호출!
+	@RequestMapping("/community/deleteReply") //ajax호출!
 	//ajax호출은 views/insert4.jsp를 만들지 않으면 ajax호출 404에러가 뜬다. 
 	public String delete(@RequestParam("boardNo") String boardNo ,@RequestParam("no") int no) throws Exception {
 		replyService.deleteReply(no);
-		return "redirect:/board/view?no=" + boardNo;
+		return "redirect:/community/view?no=" + boardNo;
 	}
 	
 	

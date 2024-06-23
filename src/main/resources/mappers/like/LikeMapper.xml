@@ -7,38 +7,38 @@
 <mapper namespace="likeMapper">
 	
 	<resultMap id="likeResultMap" type="likeDTO">
-	    <id property="like_no" column="LIKE_NO"/>
-	    <result property="board_no" column="BOARD_NO"/>
-	    <result property="member_no" column="MEMBER_NO"/>
+	    <id property="like_no" column="like_no"/>
+	    <result property="board_no" column="board_no"/>
+	    <result property="member_no" column="member_no"/>
 	</resultMap>
 
 	<insert id="insertLike">
-    INSERT INTO COMM_LIKE(LIKE_NO, BOARD_NO, MEMBER_NO) 
+    INSERT INTO comm_like(like_no, board_no, member_no)
     VALUES (
-        (SELECT MAX_LIKE_NO + 1 FROM (SELECT IFNULL(MAX(LIKE_NO), 0) AS MAX_LIKE_NO FROM COMM_LIKE) AS temp_table),
+        (SELECT MAX_LIKE_NO + 1 FROM (SELECT IFNULL(MAX(like_no), 0) AS MAX_LIKE_NO FROM comm_like) AS temp_table),
         #{board_no},
         #{member_no}
     )
 	</insert>
 	
 	<select id="likeCheck" resultType="int">
-		SELECT COUNT(*) FROM COMM_LIKE WHERE BOARD_NO = #{board_no} AND MEMBER_NO = #{member_no} 
+		SELECT COUNT(*) FROM comm_like WHERE board_no = #{board_no} AND member_no = #{member_no}
 	</select>
 	
 	<update id="updateLike" parameterType="int">
-		UPDATE BOARD set 
-		LIKEHIT = LIKEHIT+1
-		WHERE BOARD_NO = #{board_no}
+		UPDATE comm_board set
+		likehit = likehit+1
+		WHERE board_no = #{board_no}
 	</update>
 	
 	<update id="updateLikeCancel" parameterType="int">
-	UPDATE BOARD set 
-	LIKEHIT = LIKEHIT - 1
-	where BOARD_NO = #{board_no}
+	UPDATE comm_board set
+	likehit = likehit - 1
+	where board_no = #{board_no}
 	</update>
 	
 	<delete id="deleteLike">
-	DELETE FROM COMM_LIKE WHERE BOARD_NO = #{board_no} AND MEMBER_NO = #{member_no} 
+	DELETE FROM comm_like WHERE board_no = #{board_no} AND member_no = #{member_no}
 	</delete>
 	
 	
