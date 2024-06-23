@@ -176,6 +176,7 @@
 
                                 console.log(reservation.memberNo);
                                 var scheduleNo = reservation.scheduleNo;
+                                var movieNo = reservation.movieNo;
                                 console.log("scheduleNo: "+scheduleNo)
 
                                 <!--미결제 처리-->
@@ -204,7 +205,9 @@
                                     '" width="60%"></div><div class="content1"><p>' +
                                     reservation.cinemaName + '<p><p>' + reservation.screenName + '</p><p>' + reservation.startTime + '~' + reservation.endTime + '</p><p> 성인 ' + reservation.adultNum + '인, 청소년 ' +
                                     reservation.teenNum + '인(' + reservation.seatNameList +
-                                ') </p><button class="review">감상평 남기기</button></div></div></div>')
+                                ') </p><a href="/movie/review?movieNo='
+                                + movieNo
+                                + '"><button class="review" data-movie-no=' +  movieNo + '>감상평 남기기</button></a></div></div></div>')
                                 }
 
                             })
@@ -332,6 +335,9 @@
                      payTheBill(scheduleNo);
 
                 })
+
+
+
 
 
             }

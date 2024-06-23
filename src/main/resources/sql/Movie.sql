@@ -281,6 +281,7 @@ SELECT
 	r.schedule_no
 	, r.member_no
 	, m.poster_path
+	, m.movie_no
     , m.movie_title
     , r.rsv_is_paid
     , sch.date
@@ -325,6 +326,20 @@ SELECT
 
 
 
+CREATE VIEW vw_rew_data AS
+SELECT
+	r.*
+
+	, m.movie_title
+    , mem.user_name
+
+FROM mov_movie_review r
+
+JOIN mov_movie m ON r.movie_no = m.movie_no
+JOIN mem_member mem ON r.member_no = mem.member_no
+
+WHERE
+	r.movie_no = m.movie_no;
 
 
 

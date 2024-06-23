@@ -132,5 +132,25 @@ public class MovieServiceImpl implements MovieService {
 		return list;
 	}
 	
+	@Override
+	public ArrayList<VWRewDataDTO> findVWReviewListByMovieNo(Map<String, Object> params) throws Exception {
+		ArrayList<VWRewDataDTO> list = movieMapper.findVWReviewListByMovieNo(params);
+		
+		return list;
+	}
+	
+	@Override
+	public int findAllReviewCountByMovieNo(int movieNo) throws Exception {
+		int count = movieMapper.findAllReviewCountByMovieNo(movieNo);
+		return count;
+	}
+	
+	@Override
+	public int insertReview(ReviewDTO reviewDTO) throws Exception {
+		int result = movieMapper.insertReview(reviewDTO);
+		
+		return result;
+	}
+	
 	
 }

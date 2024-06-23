@@ -40,4 +40,10 @@ public interface MovieMapper {
 	int findAllNotPaidReservationCountByMemberNo(int memberNO) throws Exception;
 	
 	ArrayList<Integer> findRsvNoListByVWGroupDTO(VWResDataGroupDTO vwResDataGroupDTO) throws Exception;
+	
+	ArrayList<VWRewDataDTO> findVWReviewListByMovieNo(Map<String, Object> params) throws Exception;
+	
+	int findAllReviewCountByMovieNo(int movieNo) throws Exception;
+	
+	int insertReview(ReviewDTO reviewDTO) throws Exception;
 }

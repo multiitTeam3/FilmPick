@@ -6,6 +6,7 @@ import com.multi.mini.member.model.dto.CustomUserDetails;
 import com.multi.mini.movie.model.dto.*;
 import com.multi.mini.movie.service.MovieService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -586,6 +587,107 @@ public class MovieController {
 		
 		return rsvNoList;
 		
+	}
+	
+	@GetMapping("/review")
+	public void goReview(@RequestParam("movieNo") int movieNo, Model model){
+		
+		model.addAttribute("movieNo", movieNo);
+		
+	}
+	
+	
+	@RequestMapping("VWReviewListByMovieNo")
+	@ResponseBody
+	public ReviewResponseDTO response3(@RequestParam("page") int page, @RequestParam("movieNo") int movieNo , Model model){
+		
+		
+		MoviePageDTO moviePageDTO = new MoviePageDTO();
+		moviePageDTO.setPage(page);
+		System.out.println("page : " + moviePageDTO.getPage());
+		moviePageDTO.setStartEnd(moviePageDTO.getPage());
+		
+		
+		
+		
+		Map<String, Object> params = new HashMap<>();
+		params.put("movieNo", movieNo);
+		params.put("start",moviePageDTO.getStart());
+		params.put("end",moviePageDTO.getEnd());
+		
+		ReviewResponseDTO responseDTO= null;
+		
+		ArrayList<VWRewDataDTO> list = null;
+		try {
+			list = movieService.findVWReviewListByMovieNo(params);
+			
+			int count = movieService.findAllReviewCountByMovieNo(movieNo);
+			
+			System.out.println("count : " + count);
+			
+			int pages = count / 3 + 1 ;
+			
+			
+			
+			System.out.println("pages : " +pages);
+			
+			
+			
+			responseDTO = new ReviewResponseDTO();
+			responseDTO.setReviews(list);
+			responseDTO.setPages(pages);
+			responseDTO.setCount(count);
+			
+			
+			
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+		System.out.println("VWRewDataDTO" +list);
+		
+		
+		
+		
+		
+		
+		return responseDTO;
+		
+		
+	}
+	
+	
+	@PostMapping("insertReview")
+	@ResponseBody
+	public ResponseEntity<String> insertReview(@RequestBody ReviewDTO reviewDTO){
+		
+		
+		
+		// 현재 인증된 사용자 정보를 가져옴
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+		
+		// 작성자의 memberNo와 userName을 설정
+		
+		int memberNO = userDetails.getMemberNo();
+
+		reviewDTO.setMemberNo(memberNO);
+		
+		System.out.println(reviewDTO);
+		
+		int result = 0;
+		try {
+			result = movieService.insertReview(reviewDTO);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+		
+		System.out.println(result);
+		
+		
+		
+		return ResponseEntity.ok("리뷰 입력됨");
 	}
 	
 	

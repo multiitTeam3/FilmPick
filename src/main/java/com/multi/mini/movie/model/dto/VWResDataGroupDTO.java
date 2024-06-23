@@ -12,6 +12,7 @@ public class VWResDataGroupDTO {
 	private int scheduleNo;
 	private int memberNo;
 	private String posterPath;
+	private int movieNo;
 	private String movieTitle;
 	
 	private String rsvIsPaid;
