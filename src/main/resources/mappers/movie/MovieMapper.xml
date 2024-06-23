@@ -88,6 +88,78 @@
 
 
 
+
+    <select id="findRsvNoListByVWGroupDTO">
+
+        SELECT rsv_no
+        FROM mov_reservation
+        WHERE
+            schedule_no= #{scheduleNo}
+        AND
+            member_no= #{memberNo}
+        AND
+            rsv_is_paid="N";
+
+    </select>
+
+
+
+
+
+
+    <select id="findAllReservationCountByMemberNo">
+
+        SELECT COUNT(*) count
+        FROM vw_res_group_data
+        WHERE member_no= #{memberNo};
+
+    </select>
+
+ <select id="findAllNotPaidReservationCountByMemberNo">
+
+        SELECT COUNT(*) count
+        FROM vw_res_group_data
+        WHERE member_no= #{memberNo}
+        AND rsv_is_paid="N";
+
+    </select>
+
+
+
+    <select id="findAllReservationByMemberNo" parameterType="map" resultType="vwResDataGroupDTO">
+
+        SELECT *
+        FROM (
+            SELECT ROW_NUMBER() OVER(ORDER BY schedule_no desc) AS rownum, vw.*
+            FROM vw_res_group_data vw) vw2
+
+        WHERE
+            vw2.member_no= #{memberNo}
+        AND
+            vw2.rownum BETWEEN ${start} and ${end};
+
+    </select>
+
+
+    <select id="findAllNotPaidReservationByMemberNo" parameterType="map" resultType="vwResDataGroupDTO">
+
+        SELECT *
+        FROM (
+            SELECT ROW_NUMBER() OVER(ORDER BY schedule_no desc) AS rownum, vw.*
+            FROM vw_res_group_data vw
+        ) vw2
+
+        WHERE
+            vw2.member_no= #{memberNo}
+        AND
+            vw2.rownum BETWEEN ${start} and ${end}
+
+        AND vw2.rsv_is_paid="N";
+
+    </select>
+
+
+
     <insert id="insertReservation" parameterType="reservationDTO">
 
         INSERT INTO mov_reservation(schedule_no, seat_no, member_no, rsv_movie_price, rsv_is_paid)

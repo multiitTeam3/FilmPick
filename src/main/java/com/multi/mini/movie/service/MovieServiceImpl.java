@@ -5,6 +5,7 @@ import com.multi.mini.movie.model.mapper.MovieMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 @Service("movieService")
 public class MovieServiceImpl implements MovieService {
@@ -92,6 +93,43 @@ public class MovieServiceImpl implements MovieService {
 		int rsvNo = movieMapper.findReservationNo(reservationDTO);
 		
 		return rsvNo;
+	}
+	
+	@Override
+	public ArrayList<VWResDataGroupDTO> findAllReservationByMemberNo(Map<String, Object> params) throws Exception {
+		
+		ArrayList<VWResDataGroupDTO> list = movieMapper.findAllReservationByMemberNo(params);
+		
+		return list;
+		
+		
+	}
+	
+	@Override
+	public int findAllReservationCountByMemberNo(int memberNO) throws Exception {
+		int count = movieMapper.findAllReservationCountByMemberNo(memberNO);
+		return count;
+	}
+	
+	@Override
+	public ArrayList<VWResDataGroupDTO> findAllNotPaidReservationByMemberNo(Map<String, Object> params) throws Exception {
+		ArrayList<VWResDataGroupDTO> list = movieMapper.findAllNotPaidReservationByMemberNo(params);
+		
+		return list;
+	}
+	
+	@Override
+	public int findAllNotPaidReservationCountByMemberNo(int memberNO) throws Exception {
+		int count = movieMapper.findAllNotPaidReservationCountByMemberNo(memberNO);
+		return count;
+	}
+	
+	@Override
+	public ArrayList<Integer> findRsvNoListByVWGroupDTO(VWResDataGroupDTO vwResDataGroupDTO) throws Exception {
+		
+		ArrayList<Integer> list = movieMapper.findRsvNoListByVWGroupDTO(vwResDataGroupDTO);
+		
+		return list;
 	}
 	
 	

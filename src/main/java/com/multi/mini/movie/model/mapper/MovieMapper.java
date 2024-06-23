@@ -4,6 +4,7 @@ import com.multi.mini.movie.model.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 @Mapper
 public interface MovieMapper {
@@ -29,4 +30,14 @@ public interface MovieMapper {
 	int insertReservation(ReservationDTO reservationDTO) throws Exception;
 	
 	int findReservationNo(ReservationDTO reservationDTO) throws Exception;
+	
+	ArrayList<VWResDataGroupDTO> findAllReservationByMemberNo(Map<String, Object> params) throws Exception;
+	
+	int findAllReservationCountByMemberNo(int memberNO) throws Exception;
+	
+	ArrayList<VWResDataGroupDTO> findAllNotPaidReservationByMemberNo(Map<String, Object> params);
+	
+	int findAllNotPaidReservationCountByMemberNo(int memberNO) throws Exception;
+	
+	ArrayList<Integer> findRsvNoListByVWGroupDTO(VWResDataGroupDTO vwResDataGroupDTO) throws Exception;
 }

@@ -236,6 +236,95 @@ REFERENCES `mem_member` (
 );
 
 
+CREATE VIEW vw_res_data AS
+SELECT
+      r.rsv_no
+    , r.schedule_no
+    , r.seat_no
+    , r.member_no
+    , r.rsv_is_paid
+    , m.poster_path
+    , m.movie_title
+    , sch.date
+    , sch.start_time
+    , sch.end_time
+    , c.cinema_name
+    , s.screen_name
+    , m.adult
+    , seat.seat_name
+    , r.rsv_movie_price
+FROM
+    mov_reservation r
+JOIN
+    mov_movie_schedule sch ON r.schedule_no = sch.schedule_no
+JOIN
+    mov_movie m ON sch.movie_no = m.movie_no
+JOIN
+    mov_cinema c ON sch.cinema_no = c.cinema_no
+JOIN
+    mov_screen s ON sch.screen_code = s.screen_code
+JOIN
+    mov_screen_and_seat sas ON s.screen_code = sas.screen_code
+JOIN
+    mov_seat seat ON sas.seat_no = seat.seat_no
+
+WHERE
+	r.seat_no = seat.seat_no;
+
+
+SELECT * FROM vw_res_data WHERE member_no = 5;
+
+
+
+CREATE VIEW vw_res_group_data AS
+SELECT
+	r.schedule_no
+	, r.member_no
+	, m.poster_path
+    , m.movie_title
+    , r.rsv_is_paid
+    , sch.date
+    , sch.start_time
+    , sch.end_time
+    , c.cinema_name
+    , s.screen_name
+    , m.adult
+    , SUM(CASE WHEN r.rsv_movie_price = 12000 THEN 1 ELSE 0 END) AS adult_num
+    , SUM(CASE WHEN r.rsv_movie_price = 8000 THEN 1 ELSE 0 END) AS teen_num
+    , GROUP_CONCAT(seat.seat_name ORDER BY seat.seat_name SEPARATOR ',') AS seat_names
+    , SUM(r.rsv_movie_price) AS total_price
+
+    FROM
+    mov_reservation r
+
+	JOIN
+	    mov_movie_schedule sch ON r.schedule_no = sch.schedule_no
+	JOIN
+	    mov_movie m ON sch.movie_no = m.movie_no
+	JOIN
+	    mov_cinema c ON sch.cinema_no = c.cinema_no
+	JOIN
+	    mov_screen s ON sch.screen_code = s.screen_code
+	JOIN
+	    mov_screen_and_seat sas ON s.screen_code = sas.screen_code
+	JOIN
+	    mov_seat seat ON sas.seat_no = seat.seat_no
+	WHERE
+	    r.seat_no = seat.seat_no
+	GROUP BY
+	    r.schedule_no
+	    , r.member_no
+	    , m.poster_path
+	    , m.movie_title
+	    , sch.date
+	    , sch.start_time
+	    , sch.end_time
+	    , c.cinema_name
+	    , s.screen_name;
+
+
+
+
 
 
 

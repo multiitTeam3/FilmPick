@@ -55,6 +55,8 @@ public class MybatisConfig {
         configuration.getTypeAliasRegistry().registerAlias("seatDTO", SeatDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("reservationDataDTO", ReservationDataDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("reservationDTO", ReservationDTO.class);
+        configuration.getTypeAliasRegistry().registerAlias("vwResDataDTO", VWResDataDTO.class);
+        configuration.getTypeAliasRegistry().registerAlias("vwResDataGroupDTO", VWResDataGroupDTO.class);
         
         
         
