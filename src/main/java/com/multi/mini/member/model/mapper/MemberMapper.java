@@ -2,10 +2,7 @@ package com.multi.mini.member.model.mapper;
 
 import com.multi.mini.common.model.dto.PageDTO;
 import com.multi.mini.member.model.dto.MemberDTO;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -25,4 +22,7 @@ public interface MemberMapper {
     int deleteMemberRole(int no);
 
     int updateMember(MemberDTO userData);
+
+    @Select("SELECT member_no FROM mem_member WHERE email = #{ userEmail }")
+    MemberDTO findMemberByEmail(String userEmail);
 }

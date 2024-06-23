@@ -59,7 +59,7 @@ public class MemberManagementController {
         return "admin/membermanagement/listUser2";
     }
 
-    @GetMapping
+    @GetMapping("/search")
     public String findListMember(PageDTO page, Model model) throws Exception{
         page.setPage(1);
         page.setStartEnd(page.getPage());
@@ -107,13 +107,6 @@ public class MemberManagementController {
 
     @PostMapping("/find/update")
     public String updateMembers(@ModelAttribute MemberDTO userData, @RequestParam("roleList") String[] roles, Model model) throws Exception{
-//        List<RoleDTO> roleList = new ArrayList<>();
-//        for (String roleName : roles) {
-//            RoleDTO roleDTO = new RoleDTO();
-//            roleDTO.setRoleName(roleName);
-//            roleList.add(roleDTO);
-//        }
-//        userData.setRoles(roleList);
         System.out.println("유저 권한 확인 : " + Arrays.toString(roles));
         System.out.println("유저 DTO 확인 : " + userData);
 

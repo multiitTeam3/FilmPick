@@ -12,14 +12,14 @@
         <hr color="grey">
 
         <!--/* 회원 검색 폼 */-->
-        <form>
+        <form th:action="@{/admin/membermanagement/search}" method="get">
             <div class="btn-group">
-                <select class="form-select" aria-label="Default select example">
-                    <option value="1" selected>이메일</option>
-                    <option value="2">닉네임</option>
-                    <option value="3">권한</option>
+                <select class="form-select" aria-label="search list" name="type">
+                    <option value="email" selected>이메일</option>
+                    <option value="name">닉네임</option>
+                    <option value="role">권한</option>
                 </select>
-                <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2">
+                <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword">
                 <button class="btn btn-outline-secondary" type="submit" id="button-addon2">검색</button>
             </div>
         </form>
