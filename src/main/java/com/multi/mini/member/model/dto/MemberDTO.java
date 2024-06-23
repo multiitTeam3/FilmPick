@@ -14,7 +14,6 @@ public class MemberDTO {
     private String password;
     private String userName;
     private String tel;
-    private String img;
     private List<RoleDTO> roles;
     private int point;
     private String address;

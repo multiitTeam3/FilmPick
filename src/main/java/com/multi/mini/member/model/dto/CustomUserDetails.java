@@ -69,10 +69,6 @@ public class CustomUserDetails implements UserDetails {
         return memberDTO.getTel();
     }
 
-    public String getImg() {
-        return memberDTO.getImg();
-    }
-
     public String getAddress() {
         return  memberDTO.getAddress();
     }

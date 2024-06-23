@@ -13,7 +13,6 @@
 		<result property="password" column="password"/>
 		<result property="userName" column="user_name"/>
 		<result property="tel" column="tel"/>
-		<result property="img" column="img"/>
 		<result property="point" column="point"/>
 		<result property="address" column="address"/>
 		<result property="createDate" column="crate_date"/>
@@ -52,4 +51,21 @@
 		WHERE
 			m.member_no = #{ no };
 	</select>
+
+	<update id="updateMember" parameterType="memberDTO">
+		UPDATE mem_member
+		SET
+			  email = #{ email }
+		<if test="password != null">
+			, password = #{ password }
+		</if>
+			, user_name = #{ userName }
+			, tel = #{ tel }
+		<if test="point != null">
+			, point = #{ point }
+		</if>
+			, address = #{ address }
+		WHERE
+			member_no = #{ memberNo }
+	</update>
 </mapper>
