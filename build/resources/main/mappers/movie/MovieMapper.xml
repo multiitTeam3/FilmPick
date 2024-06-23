@@ -48,9 +48,54 @@
     </select>
 
 
+    <select id="findAllSeat">
+
+        SELECT * FROM mov_seat;
+
+    </select>
 
 
 
+    <select id="findReservedSeat">
+
+        SELECT ms.seat_no, ms.seat_name
+        FROM mov_seat ms
+        JOIN mov_reservation mr ON ms.seat_no = mr.seat_no
+        WHERE mr.schedule_no= #{scheduleNo};
+
+    </select>
+
+
+
+    <select id="findSeatListByScreen">
+
+        SELECT ms.seat_no, ms.seat_name
+        FROM mov_seat ms
+        JOIN mov_screen_and_seat msas ON ms.seat_no = msas.seat_no
+        WHERE screen_code= #{screenCode};
+
+    </select>
+
+
+
+    <select id="findReservationNo">
+
+        SELECT rsv_no
+        FROM mov_reservation
+        WHERE schedule_no= #{scheduleNo} AND seat_no= #{seatNo};
+
+    </select>
+
+
+
+    <insert id="insertReservation" parameterType="reservationDTO">
+
+        INSERT INTO mov_reservation(schedule_no, seat_no, member_no, rsv_movie_price, rsv_is_paid)
+        VALUES(#{scheduleNo}, #{seatNo}, #{memberNo}, #{rsvMoviePrice}, #{rsvIsPaid})
+
+
+
+    </insert>
 
 
 

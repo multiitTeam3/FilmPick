@@ -1,16 +1,13 @@
 package com.multi.mini.movie.service;
 
-import com.multi.mini.movie.model.dto.CinemaDTO;
-import com.multi.mini.movie.model.dto.MovieDTO;
-import com.multi.mini.movie.model.dto.MovieScheduleDTO;
-import com.multi.mini.movie.model.dto.RegionDTO;
+import com.multi.mini.movie.model.dto.*;
 import com.multi.mini.movie.model.mapper.MovieMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Service("movieService")
-public class MovieServiceImpl implements MovieService{
+public class MovieServiceImpl implements MovieService {
 	
 	private final MovieMapper movieMapper;
 	
@@ -61,4 +58,41 @@ public class MovieServiceImpl implements MovieService{
 		
 		
 	}
+	
+	@Override
+	public ArrayList<SeatDTO> findAllSeat() throws Exception {
+		ArrayList<SeatDTO> list = movieMapper.findAllSeat();
+		
+		return list;
+	}
+	
+	@Override
+	public ArrayList<SeatDTO> findReservedSeat(MovieScheduleDTO movieScheduleDTO) throws Exception {
+		ArrayList<SeatDTO> list = movieMapper.findReservedSeat(movieScheduleDTO);
+		
+		return list;
+	}
+	
+	@Override
+	public ArrayList<SeatDTO> findSeatListByScreen(String screenCode) throws Exception {
+		ArrayList<SeatDTO> list = movieMapper.findSeatListByScreen(screenCode);
+		
+		return list;
+	}
+	
+	@Override
+	public int insertReservation(ReservationDTO reservationDTO) throws Exception {
+		int result = movieMapper.insertReservation(reservationDTO);
+		
+		return result;
+	}
+	
+	@Override
+	public int findReservationNo(ReservationDTO reservationDTO) throws Exception {
+		int rsvNo = movieMapper.findReservationNo(reservationDTO);
+		
+		return rsvNo;
+	}
+	
+	
 }

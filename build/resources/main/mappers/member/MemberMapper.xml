@@ -7,6 +7,7 @@
 <mapper namespace="com.multi.mini.member.model.mapper.MemberMapper">
 
 	<resultMap id="memberResultMap" type="memberDTO">
+		<result property="rowNum" column="row_num"/>
 		<result property="memberNo" column="member_no"/>
 		<result property="email" column="email"/>
 		<result property="password" column="password"/>
@@ -26,7 +27,8 @@
 
 	<select id="findMemberAll" parameterType="pageDTO" resultMap="memberResultMap">
 		SELECT
-			  m.*
+			  ROW_NUMBER() OVER (ORDER BY member_no DESC) AS row_num
+			, m.*
 			, r.name
 		FROM
 			mem_member m
@@ -34,7 +36,6 @@
 			mem_member_and_role mar ON m.member_no = mar.member_no
 		LEFT JOIN
 			mem_role r ON mar.role_no = r.role_no
-		ORDER BY MEMBER_NO DESC
 		LIMIT #{start}, #{end}
 	</select>
 </mapper>

@@ -5,6 +5,10 @@
     <title>SingUp Page</title>
     <link rel="stylesheet" th:href="@{/css/signup.css}">
     <script type="text/javascript" th:src="@{/js/signup.js}"></script>
+    <style>
+
+    </style>
+
 </head>
 <body>
 
@@ -15,7 +19,7 @@
             <h1 id="signupTitle">FilmPick</h1>
         </div>
         <form id="signUpForm" method="post" action="/sign-up">
-            <div class="form-group">
+            <div class="form-group" mb-3>
                 <label for="email"><i class="fa fa-envelope-o" aria-hidden="true"></i> 이메일</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="로그인 시 사용할 이메일을 입력해주세요." required>
                 <div class="error-message" id="emailError" style="display: none;">중복된 이메일 입니다.</div>
