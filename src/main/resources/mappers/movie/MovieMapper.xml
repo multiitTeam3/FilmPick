@@ -49,7 +49,14 @@
 
 
 
+<select id="getMovieInfo">
 
+
+    SELECT * FROM vw_res_data;
+    SELECT * FROM vw_res_data WHERE RSV_NO = #{rsvNo};
+
+
+</select>
 
 
 

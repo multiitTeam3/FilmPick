@@ -1,21 +1,25 @@
-<!DOCTYPE html><html layout:decorate="~{layout}"><head>
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
     <meta charset="UTF-8">
-    <title>결제 페이지</title></head><body><div layout:fragment="content">
+    <title>결제 페이지</title></head>
+<body>
+<div layout:fragment="content">
     <div class="container">
         <div class="row">
             <!-- Movie Poster -->
             <div class="col-md-4 p-4">
-                <img th:src="@{${movie.posterUrl}}" alt="Movie Poster" class="img-fluid rounded">
+                <img th:src="@{${movie.posterPath}}" alt="Movie Poster" class="img-fluid rounded">
             </div>
             <!-- Movie Information -->
             <div class="col-md-4 p-4">
                 <h2 class="font-weight-bold mb-4">영화정보</h2>
-                <p><strong>영화명:</strong> <span th:text="${movie.name}"></span></p>
-                <p><strong>일시:</strong> <span th:text="${movie.date}"></span></p>
-                <p><strong>영화관:</strong> <span th:text="${movie.theater}"></span></p>
-                <p><strong>인원:</strong> <span th:text="${movie.people}"></span></p>
-                <p><strong>영상물 등급:</strong> <span class="badge badge-success" th:text="${movie.rating}"></span> </p>
-                <p><strong>좌석:</strong> <span th:text="${movie.seat}"></span></p>
+                <p><strong>영화명:</strong> <span id="movieTitle"></span></p>
+                <p><strong>일시:</strong> <span id="movieDate"></span></p>
+                <p><strong>영화관:</strong> <span id="movieTheater"></span></p>
+                <p><strong>인원:</strong> <span id="moviePeople"></span></p>
+                <p><strong>영상물 등급:</strong> <span id="movieRating" class="badge badge-success"></span></p>
+                <p><strong>좌석:</strong> <span id="movieSeat"></span></p>
 
             </div>
             <!-- Payment Section -->
@@ -34,7 +38,8 @@
                     <label for="coupon" class="form-label">쿠폰</label>
                     <select id="coupon" class="form-control">
                         <option>쿠폰 선택</option>
-                        <option th:each="coupon : ${coupons}" th:value="${coupon.id}" th:text="${coupon.name}">쿠폰명</option>
+                        <option th:each="coupon : ${coupons}" th:value="${coupon.id}" th:text="${coupon.name}">쿠폰명
+                        </option>
                     </select>
                 </div>
                 <div class="mb-4">
@@ -53,4 +58,8 @@
                 </div>
             </div>
         </div>
-    </div></div></body></html>
+    </div>
+</div>
+
+</body>
+</html>
