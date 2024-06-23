@@ -9,4 +9,6 @@ public interface CouponService {
     void insertCoupon(CouponDTO couponDTO, String email, int discount, String desc, int expDate) throws Exception;
 
     List<CouponDTO> findCouponAll() throws Exception;
+
+    void deleteCoupon(String couponCode) throws Exception;
 }

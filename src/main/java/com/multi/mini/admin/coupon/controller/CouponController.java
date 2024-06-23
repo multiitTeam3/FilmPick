@@ -43,4 +43,15 @@ public class CouponController {
 
         return "/admin/coupon/viewCoupon";
     }
+
+    @GetMapping("/delete")
+    public String deleteCoupn(@RequestParam("code") String couponCode, Model model) {
+            try {
+                couponService.deleteCoupon(couponCode);
+                model.addAttribute("msg", "쿠폰 삭제 성공");
+            } catch (Exception e) {
+                model.addAttribute("msg", "쿠폰 삭제 실패");
+            }
+        return "redirect:/admin/coupon";
+    }
 }

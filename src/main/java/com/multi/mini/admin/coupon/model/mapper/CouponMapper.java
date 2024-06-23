@@ -1,6 +1,7 @@
 package com.multi.mini.admin.coupon.model.mapper;
 
 import com.multi.mini.admin.coupon.model.dto.CouponDTO;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -15,4 +16,7 @@ public interface CouponMapper {
     int insetCoupon(CouponDTO couponCode);
 
     List<CouponDTO> findCouponAll();
+
+    @Delete("DELETE FROM mem_coupon WHERE coupon_code = #{ couponCode }")
+    int deleteCoupon(String couponCode);
 }

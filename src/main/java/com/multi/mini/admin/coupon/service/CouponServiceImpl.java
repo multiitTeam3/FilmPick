@@ -6,6 +6,7 @@ import com.multi.mini.member.model.dto.MemberDTO;
 import com.multi.mini.member.model.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(rollbackFor = Exception.class)
 public class CouponServiceImpl implements CouponService{
     private final CouponMapper couponMapper;
     private final MemberMapper memberMapper;
@@ -26,7 +28,7 @@ public class CouponServiceImpl implements CouponService{
         MemberDTO memberDTO = memberMapper.findMemberByEmail(email);
 
         // 존재하는 회원인지 검증
-        if (memberDTO == null) new Exception("존재하지 않는 사용자 입니다.");
+        if (memberDTO == null) throw new Exception("존재하지 않는 사용자 입니다.");
 
         // 쿠폰 DTO 정보 세팅
         couponDTO.setDiscount(discount);
@@ -55,12 +57,17 @@ public class CouponServiceImpl implements CouponService{
         }
         couponDTO.setCouponCode(couponCode.toString());
 
-        if (couponMapper.insetCoupon(couponDTO) == 0) new Exception("쿠폰 생성 실패");
+        if (couponMapper.insetCoupon(couponDTO) == 0) throw  new RuntimeException("쿠폰 생성 실패");
     }
 
     @Override
     public List<CouponDTO> findCouponAll() throws Exception{
         List<CouponDTO> list = couponMapper.findCouponAll();
         return list;
+    }
+
+    @Override
+    public void deleteCoupon(String couponCode) throws Exception{
+        if(couponMapper.deleteCoupon(couponCode) == 0) throw new RuntimeException("쿠폰 삭제 실패");
     }
 }
