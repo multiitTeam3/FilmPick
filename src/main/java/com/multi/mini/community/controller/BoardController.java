@@ -6,6 +6,8 @@ import com.multi.mini.common.model.dto.PageDTO;
 import com.multi.mini.common.service.PageService;
 import com.multi.mini.member.model.dto.CustomUserDetails;
 import com.multi.mini.member.model.dto.MemberDTO;
+import com.multi.mini.reply.model.dao.ReplyDAO;
+import com.multi.mini.reply.model.dto.ReplyDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,13 +19,21 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/board")
+@RequestMapping("/community")
 public class BoardController {
     private final BoardService boardService;
     private final PageService pageService;
+    private final ReplyDAO dao2;
 
 
-    @GetMapping
+    @GetMapping("/updateBoard")
+    public void updateBoard(@RequestParam("no") int no, Model model) throws Exception {
+        BoardDTO dto = boardService.findBoardByNo(no);
+        model.addAttribute("dto", dto);
+
+    }
+
+    @GetMapping("/list")
     public String listBoard(PageDTO page, Model model) {
         page.setPage(1);
         page.setStartEnd(page.getPage());
@@ -45,18 +55,20 @@ public class BoardController {
             System.out.println("board list error : " + e);
         }
 
-        return "board/listBoard";
+        return "community/listBoard";
     }
 
     @GetMapping("/view")
     public String findUser(@RequestParam("no") int no, Model model) throws Exception{
         try {
             BoardDTO boardData = boardService.findBoardByNo(no);
+            List<ReplyDTO> list = dao2.list(boardData.getBoardNo());
             model.addAttribute("board", boardData);
+            model.addAttribute("list", list);
         } catch (Exception e) {
             model.addAttribute("msg", "게시글 조회 실패");
         }
-        return "board/viewBoard";
+        return "community/viewBoard";
     }
 
 
@@ -66,7 +78,7 @@ public class BoardController {
         boardData.setWriter(new MemberDTO());
 
         model.addAttribute("board", boardData);
-        return "board/insertBoard";
+        return "community/insertBoard";
     }
 
     @PostMapping("/insert")
@@ -78,7 +90,7 @@ public class BoardController {
         // 작성자의 memberNo와 userName을 설정
         MemberDTO writer = new MemberDTO();
         writer.setMemberNo(userDetails.getMemberNo());
-        writer.setUserName(userDetails.getNickName());
+        writer.setUserName(userDetails.getUsername());
         boardData.setWriter(writer);
 
         try {
@@ -88,10 +100,10 @@ public class BoardController {
         }
 
         // 서비스 계층에 게시글 저장 요청
-        return "redirect:/board";
+        return "redirect:/community/list";
     }
 
-    @GetMapping("/delete")
+    @GetMapping("/deleteBoard")
     public String deleteBoard(@RequestParam("no") int no, Model model) throws Exception{
         try {
             boardService.deleteBoard(no);
@@ -99,8 +111,16 @@ public class BoardController {
         } catch (Exception e) {
             model.addAttribute("msg", "게시글 삭제 실패");
         }
-        return "redirect:/board/listBoard";
+        return "redirect:/community/list";
     }
+
+    @PostMapping("/updateBoard")
+    public String updateBoard(BoardDTO boardDTO) throws Exception {
+        boardService.updateBoard(boardDTO);
+        return "redirect:/community/list";
+    }
+
+
 
 
 }

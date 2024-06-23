@@ -16,7 +16,7 @@ public class LikeController {
 	
 	
 	
-	@GetMapping("/board/updateLike")
+	@GetMapping("/community/updateLike")
 	//ajax호출은 views/insert4.jsp를 만들지 않으면 ajax호출 404에러가 뜬다. 
 	public void updateLike(@RequestParam("no") int no, @RequestParam("login") String login) throws Exception{
 		int likeCheck = service.likeCheck(no, login);

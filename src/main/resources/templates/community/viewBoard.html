@@ -86,7 +86,7 @@
                 <button id="like_btn" class="btn btn-success" th:data-board-no="${board.boardNo}" th:data-member-no="${#authentication.principal.memberNo}" onclick="updateLike(this.getAttribute('data-board-no'), this.getAttribute('data-member-no'))" th:text="'👍추천 ' + ${board.likehit}">추천</button>
             </div>
             <div class="mt-4 text-right">
-                <a href="/board" class="btn btn-outline-primary">목록으로</a>
+                <a href="/community/list" class="btn btn-outline-primary">목록으로</a>
                 <div th:if="${#authentication.principal.memberNo == board.writer.memberNo}">
                     <br>
                     <a th:href="@{/community/updateBoard(no=${board.boardNo})}" class="btn btn-primary">수정</a>
