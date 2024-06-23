@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,10 +37,14 @@ public class ProductController {
 
 
     @PostMapping("insert")
-    public void productInsert(ProductDTO productDTO, @RequestParam(value = "file") MultipartFile file, HttpServletRequest request){
-        String root = request.getSession().getServletContext().getRealPath("resources");
+    public void productInsert(ProductDTO productDTO, @RequestParam(value = "file") MultipartFile file, HttpServletRequest request) throws IOException {
 
-        String filePath = root + "\\uploadFiles";
+        String path = request.getSession().getServletContext().getRealPath("");
+        String root = path.substring(0,path.length() - 7);
+        System.out.println("path : " + path);
+        System.out.println("root : " + root);
+
+        String filePath = root + "resources/static/img/uploadFiles";
 
         File mkdir = new File(filePath);
         if (!mkdir.exists()) {
