@@ -331,15 +331,40 @@ SELECT
 	r.*
 
 	, m.movie_title
+	, m.poster_path
     , mem.user_name
 
-FROM mov_movie_review r
+FROM mov_reservation r
 
 JOIN mov_movie m ON r.movie_no = m.movie_no
 JOIN mem_member mem ON r.member_no = mem.member_no
 
 WHERE
 	r.movie_no = m.movie_no;
+
+
+
+CREATE VIEW vw_reser2_data AS
+SELECT
+	r.*
+
+	, m.movie_title
+	, m.poster_path
+    , mem.user_name
+    , sch.start_time
+    , sch.end_time
+    , s.seat_name
+
+FROM mov_reservation r
+JOIN mov_movie_schedule sch on r.schedule_no = sch.schedule_no
+JOIN mov_movie m ON sch.movie_no = m.movie_no
+JOIN mem_member mem ON r.member_no = mem.member_no
+JOIN mov_seat s ON s.seat_no = r.seat_no
+
+WHERE
+	sch.schedule_no = r.schedule_no
+AND
+	s.seat_no = r.seat_no;
 
 
 

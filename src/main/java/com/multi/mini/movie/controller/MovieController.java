@@ -691,6 +691,12 @@ public class MovieController {
 	}
 	
 	
+	@GetMapping("/movieManage")
+	public void movieManage() {
+	
+	
+	}
+	
 	
 	
 	
