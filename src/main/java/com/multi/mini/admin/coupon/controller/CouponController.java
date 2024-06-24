@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -31,26 +32,26 @@ public class CouponController {
 
     @PostMapping("/insert")
     public String insertCoupon(@RequestParam("email") String email, @RequestParam("discount") int discount,
-                               @RequestParam("desc") String desc, @RequestParam("expDate") int expDate, Model model) throws Exception{
+                               @RequestParam("desc") String desc, @RequestParam("expDate") int expDate, Model model , RedirectAttributes redirectAttributes) throws Exception{
         CouponDTO couponDTO = new CouponDTO();
 
         try {
             couponService.insertCoupon(couponDTO, email, discount, desc, expDate);
-            model.addAttribute("msg", "쿠폰 등록 완료");
+            redirectAttributes.addFlashAttribute("msg", "쿠폰 등록 완료");
         } catch (Exception e) {
-            model.addAttribute("msg", "쿠폰 등록 실패");
+            redirectAttributes.addFlashAttribute("msg", "쿠폰 등록 실패");
         }
 
-        return "/admin/coupon/viewCoupon";
+        return "redirect:/admin/coupon";
     }
 
     @GetMapping("/delete")
-    public String deleteCoupn(@RequestParam("code") String couponCode, Model model) {
+    public String deleteCoupn(@RequestParam("code") String couponCode, RedirectAttributes redirectAttributes, Model model) {
             try {
                 couponService.deleteCoupon(couponCode);
-                model.addAttribute("msg", "쿠폰 삭제 성공");
+                redirectAttributes.addFlashAttribute("msg", "쿠폰 삭제 성공");
             } catch (Exception e) {
-                model.addAttribute("msg", "쿠폰 삭제 실패");
+                redirectAttributes.addFlashAttribute("msg", "쿠폰 삭제 실패");
             }
         return "redirect:/admin/coupon";
     }

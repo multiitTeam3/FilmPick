@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layoutAdmin}">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <script th:src="@{/js/paging.js}"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h2 class="text-center mb-4">영화관 관리</h2>
+        <hr color="grey">
+
+        <!--/* 영화관 검색 폼 */-->
+        <form th:action="@{/admin/coupon/search}" method="get">
+            <div class="btn-group">
+                <select class="form-select" aria-label="search list" name="type">
+                    <option value="cinema" selected>영화관 이름</option>
+                    <option value="region">지역명</option>
+                </select>
+                <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword">
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">검색</button>
+            </div>
+        </form>
+
+        <!--/* 영화관 목록 테이블 */-->
+        <div id="d1">
+            <table class="table table-hover table-bordered" w-80>
+                <thead class="table-dark">
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">영화관 명</th>
+                    <th scope="col">지역 명</th>
+                    <th scope="col">주소</th>
+                    <th scope="col">개장 시간</th>
+                    <th scope="col">폐장 시간</th>
+                    <th scope="col">수정</th>
+                    <th scope="col">삭제</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="cinema : ${cinemas}">
+<!--                        <th scope="row" th:text="${coupon.rowNum}"></th>-->
+                        <th scope="row" th:text="${cinema.cinemaNo}"></th>
+                        <td th:text="${cinema.cinemaName}"></a></td>
+                        <th:block th:switch="${cinema.regionNo}">
+                            <td th:case="1">서울</td>
+                            <td th:case="2">경기</td>
+                            <td th:case="3">강원</td>
+                            <td th:case="4">제주</td>
+                        </th:block>
+                        <td th:text="${cinema.cinemaAddr}"></td>
+                        <td th:text="${cinema.openTime}"></td>
+                        <td th:text="${cinema.closeTime}"></td>
+                        <td><a th:href="@{/admin/cinemamanage/update(code=${cinema.cinemaNo})}"><button type="button" class="btn btn-primary">수정(미구현)</button></a></td>
+                        <td><a th:href="@{/admin/cinemamanage/delete(code=${cinema.cinemaNo})}"><button type="button" class="btn btn-primary">삭제</button></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <button data-bs-toggle="modal" data-bs-target="#cinemaModal" type="button" class="btn btn-outline-primary me-2">
+                영화관 등록
+            </button>
+        </div>
+
+        <th:block th:if="${pages != null}">
+            <div class="d-flex justify-content-center">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary btn-sm previous">이전</button>
+                    <th:block th:each="p : ${#numbers.sequence(1, pages)}">
+                        <button type="button" class="btn btn btn-outline-dark btn-sm me-2 pages"
+                                th:text="${p}"></button>
+                    </th:block>
+                    <button type="button" class="btn btn-secondary btn-sm  next">다음</button>
+                </div>
+            </div>
+        </th:block>
+
+        <!-- 쿠폰 등록 모달 -->
+        <div class="modal fade" id="cinemaModal" tabindex="-1" aria-labelledby="couponModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="insertCinemaModalLabel">영화관 등록</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <form th:action="@{/admin/cinemamanage/insert}" method="post">
+                        <div class="modal-body">
+                            <label class="mr-sm-2">지역 선택 :</label>
+                            <select class="form-select" aria-label="Default select example" name="regionNo">
+                                <option value="1" selected>서울</option>
+                                <option value="2">경기</option>
+                                <option value="3">강원</option>
+                                <option value="4">제주</option>
+                            </select> <br>
+                            <label class="mr-sm-2">영화관 명 :</label>
+                            <input type="text" class="form-control mb-2 mr-sm-2" name="cinemaName" required> <br>
+                            <label class="mr-sm-2">주소 :</label>
+                            <input type="text" class="form-control mb-2 mr-sm-2" id="address" name="cinemaAddr" readonly onclick="findAddr()" required> <br>
+                            <label class="mr-sm-2">개장 시간 :</label>
+                            <input type="text" class="form-control mb-2 mr-sm-2" placeholder="00:00" pattern="^(0\d|1\d|2[0-3]):[0-5]\d$" title="시간 형식은 00:00부터 23:59까지 입력 가능 합니다." name="openTime" required> <br>
+                            <label class="mr-sm-2">폐장 시간 :</label>
+                            <input type="text" class="form-control mb-2 mr-sm-2" placeholder="00:00" pattern="^(0\d|1\d|2[0-3]):[0-5]\d$" title="시간 형식은 00:00부터 23:59까지 입력 가능 합니다." name="closeTime" required> <br>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">등록</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script th:src="@{/js/kakakoAddr.js}"></script>
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    </div>
+</div>
+
+<script th:inline="javascript">
+		/*<![CDATA[*/
+		let pages = /*[[${pages}]]*/;
+		/*]]>*/
+
+</script>
+
+
+</body>
+</html>

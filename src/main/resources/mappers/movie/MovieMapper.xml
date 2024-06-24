@@ -54,7 +54,11 @@
 
 
 
+    <select id="findCinemaList">
 
+        SELECT * FROM mov_cinema
+
+    </select>
 
 
 

@@ -61,4 +61,25 @@ public class MovieServiceImpl implements MovieService{
 		
 		
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	public ArrayList<CinemaDTO> findCinemaList() throws Exception {
+		ArrayList<CinemaDTO> list = movieMapper.findCinemaList();
+
+		return list;
+	}
 }

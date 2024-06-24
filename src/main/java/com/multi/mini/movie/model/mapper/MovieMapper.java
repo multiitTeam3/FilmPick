@@ -21,4 +21,21 @@ public interface MovieMapper {
 	ArrayList<MovieScheduleDTO> findScheduleListByCinemaNo(int cinemaNo) throws  Exception;
 	
 	MovieDTO findMovieByMovieNo(int movieNo) throws Exception;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	ArrayList<CinemaDTO> findCinemaList() throws Exception;
 }
