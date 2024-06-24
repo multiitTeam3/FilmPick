@@ -30,7 +30,7 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public BoardDTO findBoardByNo(int no) {
         BoardDTO boardData = boardMapper.selectBoard(no);
-        if (boardData != null) new Exception("회원 조회에 실패했습니다.");
+        if (boardData != null) new Exception("게시글 상세 조회에 실패했습니다.");
         return boardData;
     }
 

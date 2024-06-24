@@ -21,4 +21,10 @@ public class PageServiceImpl implements PageService{
         int count = pageMapper.selectBoardCount();
         return count;
     }
+
+    @Override
+    public int selectQnaCount(PageDTO page) throws Exception {
+        int count = pageMapper.selectQnaCount();
+        return count;
+    }
 }

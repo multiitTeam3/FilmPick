@@ -6,4 +6,6 @@ public interface PageService {
     int selectMemberCount() throws Exception;
 
     int selectBoardCount(PageDTO page) throws Exception;
+
+    int selectQnaCount(PageDTO page) throws Exception;
 }
