@@ -10,7 +10,7 @@ public interface MemberService {
 
     MemberDTO findMemberByNo(int no) throws Exception;
 
-    void deleteMember(int no);
+    void deleteMember(int no) throws Exception;
 
-    void updateMemberRole(MemberDTO userData);
+    void updateMember(MemberDTO userData, String[] roles, String userEmail) throws Exception;
 }
