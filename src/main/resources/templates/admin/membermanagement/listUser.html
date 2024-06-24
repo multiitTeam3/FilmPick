@@ -12,7 +12,7 @@
         <hr color="grey">
 
         <!--/* 회원 검색 폼 */-->
-        <form th:action="@{/admin/membermanagement/search}" method="get">
+        <form th:action="@{/admin/membermanage/search}" method="get">
             <div class="btn-group">
                 <select class="form-select" aria-label="search list" name="type">
                     <option value="email" selected>이메일</option>
@@ -40,11 +40,11 @@
                 <tbody>
                 <tr th:each="user : ${users}">
                     <th scope="row" th:text="${user.rowNum}"></th>
-                    <td><a th:href="@{/admin/membermanagement/find(no=${user.memberNo})}" th:text="${user.email}"></a></td>
+                    <td><a th:href="@{/admin/membermanage/find(no=${user.memberNo})}" th:text="${user.email}"></a></td>
                     <td th:text="${user.userName}"></td>
                     <td th:text="${user.createDate}"></td>
                     <td th:each="role : ${user.roles}" th:text="${role.roleName}"></td>
-                    <td><a th:href="@{/admin/membermanagement/delete(no=${user.memberNo})}"><button type="button" class="btn btn-primary">DELETE</button></a></td>
+                    <td><a th:href="@{/admin/membermanage/delete(no=${user.memberNo})}"><button type="button" class="btn btn-primary">DELETE</button></a></td>
                 </tr>
                 </tbody>
             </table>

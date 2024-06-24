@@ -36,7 +36,7 @@
                     회원 수정
                 </button>
 
-                <a th:href="@{/admin/membermanagement/find/delete(no=${user.memberNo})}" class="card-link">회원 삭제</a>
+                <a th:href="@{/admin/membermanage/find/delete(no=${user.memberNo})}" class="card-link">회원 삭제</a>
             </div>
         </div>
     </div>
@@ -51,7 +51,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form th:action="@{/admin/membermanagement/find/update}" th:object="${user}" method="post">
+            <form th:action="@{/admin/membermanage/find/update}" th:object="${user}" method="post">
                 <div class="modal-body">
                     <input type="hidden" th:field="*{memberNo}">
                     <label class="mr-sm-2">Email :</label>

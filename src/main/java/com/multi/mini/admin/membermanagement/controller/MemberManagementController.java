@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
 
-@RequestMapping("/admin/membermanagement")
+@RequestMapping("/admin/membermanage")
 @RequiredArgsConstructor
 @Controller
 public class MemberManagementController {
@@ -37,7 +37,7 @@ public class MemberManagementController {
             model.addAttribute("msg", "회원 리스트 조회 실패");
         }
 
-        return "admin/membermanagement/listUser";
+        return "admin/membermanage/listUser";
     }
 
     @GetMapping("/paging")
@@ -56,7 +56,7 @@ public class MemberManagementController {
         } catch (Exception e) {
             model.addAttribute("msg", "회원 리스트 조회 실패");
         }
-        return "admin/membermanagement/listUser2";
+        return "admin/membermanage/listUser2";
     }
 
     @GetMapping("/search")
@@ -77,7 +77,7 @@ public class MemberManagementController {
             model.addAttribute("msg", "회원 리스트 조회 실패");
         }
 
-        return "admin/membermanagement/listUser";
+        return "admin/membermanage/listUser";
     }
 
 
@@ -90,7 +90,7 @@ public class MemberManagementController {
         } catch (Exception e) {
             model.addAttribute("msg", "회원 조회 실패");
         }
-        return "admin/membermanagement/viewUser";
+        return "admin/membermanage/viewUser";
     }
 
     @GetMapping(value = {"/delete", "/find/delete"})
@@ -101,7 +101,7 @@ public class MemberManagementController {
         } catch (Exception e) {
             model.addAttribute("msg", "회원 삭제 실패");
         }
-        return  "redirect:/admin/membermanagement";
+        return  "redirect:/admin/membermanage";
     }
 
 
@@ -113,7 +113,7 @@ public class MemberManagementController {
         memberService.updateMember(userData, roles, null);
 
 
-        return "redirect:/admin/membermanagement/find?no=" + userData.getMemberNo();
+        return "redirect:/admin/membermanage/find?no=" + userData.getMemberNo();
     }
 
 }
