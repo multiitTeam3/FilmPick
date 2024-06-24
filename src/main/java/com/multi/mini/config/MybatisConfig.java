@@ -61,6 +61,10 @@ public class MybatisConfig {
         configuration.getTypeAliasRegistry().registerAlias("vwResDataGroupDTO", VWResDataGroupDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("vwRewDataDTO", VWRewDataDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("reviewDTO", ReviewDTO.class);
+        configuration.getTypeAliasRegistry().registerAlias("moviePageDTO", MoviePageDTO.class);
+        
+        configuration.getTypeAliasRegistry().registerAlias("vwMovieManageDataDTO", VWMovieManageDataDTO.class);
+        configuration.getTypeAliasRegistry().registerAlias("genreDTO", GenreDTO.class);
         
         
         

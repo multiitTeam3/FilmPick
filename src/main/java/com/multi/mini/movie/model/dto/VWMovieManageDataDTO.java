@@ -2,12 +2,9 @@ package com.multi.mini.movie.model.dto;
 
 import lombok.Data;
 
-import java.sql.Timestamp;
-
 @Data
-public class MovieDTO {
-
-	private int id;
+public class VWMovieManageDataDTO {
+	
 	private int movieNo;
 	private String movieTitle;
 	private int genreNo;
@@ -17,15 +14,11 @@ public class MovieDTO {
 	private String movieContent;
 	private int adult;
 	private String posterPath;
-	private Timestamp createDate;
-	private Timestamp modifyDate;
+	private String genreContent;
+	private double avgRate;
+	private int ticketSold;
 	
 	
 	
-
-
-
-
-
-
+	
 }

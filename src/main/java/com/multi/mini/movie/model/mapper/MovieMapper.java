@@ -46,4 +46,14 @@ public interface MovieMapper {
 	int findAllReviewCountByMovieNo(int movieNo) throws Exception;
 	
 	int insertReview(ReviewDTO reviewDTO) throws Exception;
+	
+	
+	
+	ArrayList<VWMovieManageDataDTO> findAllEnrolledMovie(MoviePageDTO moviePageDTO) throws Exception;
+	
+	int findAllEnrolledMovieCount() throws Exception;
+	
+	void insertGenre(GenreDTO genreDTO) throws Exception;
+	
+	void insertAPIMovie(MovieDTO movieDTO) throws Exception;
 }
