@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <title th:text="${title}">Insert title here</title>
+    <!-- 부트스트랩 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+    <style>
+        .divbtnwrap{
+            display: flex;
+            justify-content: center;
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+        .divbtn{
+            width: 80%;
+        }
+
+        .btnbasket{
+            float: right ;
+        }
+        .selectdiv{
+            display: flex;
+            height: 40vh;
+        }
+        .table{
+            width: 60%;
+        }
+        .tablediv{
+            display : flex;
+        }
+        .productdiv{
+            width: 10vh;
+            height: 15vh;
+        }
+        .pcount{
+            width: 5vh;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="common/menubar :: menubar-body"></div>
+
+<div layout:fragment="content">
+
+    <div class="divbtnwrap">
+        <div class="divbtn"><button>콤보</button><button>팝콘</button><button>음료</button><button>스낵</button><button class="btnbasket">장바구니</button></div>
+    </div>
+
+
+    <div>
+        <h2>콤보</h2>
+        <div class="selectdiv" id="selectdiv">
+
+        </div>
+    </div>
+
+    <div class="tablediv">
+        <table class="table" id="table">
+            <thead>
+            <tr>
+                <th>
+                    상품번호
+                </th>
+                <th>
+                    상품명
+                </th>
+                <th>
+                    가격
+                </th>
+                <th>
+                    선택
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        <div id="totaldiv">
+
+            <form action="basket" method="post" id="resultform">
+                <input type="number" value="0" id="totalprice" name="totalprice" readonly>
+
+                <button type="submit">확인</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $(function (){
+
+        $.ajax({
+            url:"/product/productbycategory",
+            data: {category : 0},
+            success: function (data){
+            for(let index in data){
+                var one = JSON.stringify(data[index]);
+                $('#selectdiv').append(
+                $('<div>').prop({
+                    id: data[index].productNo,
+                    className: 'productdiv',
+                    innerText: data[index].name
+                    }).attr("onclick", "addtbody(" + one + ")")
+                );
+
+            }
+
+            },
+            error: function (xhr){
+                console.log(xhr);
+            }
+        })
+
+
+
+
+    })
+    function addtbody(one){
+            var p = JSON.stringify(one);
+            if ($('#' + one.productNo + 'tbody').length){
+
+            }
+            else{
+                $('#totaldiv').append(
+                    '<input type="hidden" value="' + one.price + '" id = "' + one.productNo + 'total'  + '">'
+                );
+
+                $('#table').append(
+                $('<tbody>').prop({
+                    id: one.productNo + 'tbody'
+                })
+                );
+
+             $('#' + one.productNo + 'tbody' ).append(
+                $('<td>').prop({
+                    innerText: one.productNo
+                })
+             );
+
+             $('#' + one.productNo + 'tbody' ).append(
+                $('<td>').prop({
+                    innerText: one.name
+                })
+             );
+
+             $('#' + one.productNo + 'tbody' ).append(
+                $('<td>').prop({
+                    id: one.productNo + 'tprice'
+                })
+             );
+
+              $('#' + one.productNo + 'tprice' ).append(
+                    '<input type="number" value="' + one.price + '" id = "' + one.productNo + 'price'  + ' "readonly>'
+              );
+
+
+              total = Number($('#totalprice').val()) + one.price;
+
+              $('#totalprice').val(total);
+
+
+             $('#' + one.productNo + 'tbody' ).append(
+                $('<td>').prop({
+                    id: one.productNo + 'tdnum'
+                })
+             );
+
+             $('#' + one.productNo + 'tdnum' ).append(
+                '<input type="number" class="pcount" value="1" min="1" id = "' + one.productNo + 'count'  + '">'
+             );
+             $('#' + one.productNo + 'count' ).attr("onChange", "totalchange(" + p + ")");
+
+             count = $('#' + one.productNo + 'count' ).val();
+
+             $('#resultform').append(
+                    '<input type="hidden" value="' + one.productNo + '" name = "productnum">'
+             );
+             $('#resultform').append(
+                    '<input type="hidden" value="' + count + '" name = "productcount" id = "' + one.productNo + 'formcount'  + '">'
+             );
+            }
+
+    }
+
+    function totalchange(one){
+        before = $('#' + one.productNo + 'total' ).val();
+
+        count = $('#' + one.productNo + 'count' ).val();
+        $('#' + one.productNo + 'total' ).val(one.price*count);
+        $('#' + one.productNo + 'formcount' ).val(count);
+
+        pricechange = one.price*count - before;
+
+        total = Number($('#totalprice').val()) + pricechange;
+
+        $('#totalprice').val(total);
+    }
+
+
+</script>
+</body>
+</html>

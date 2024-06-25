@@ -11,6 +11,12 @@ spring:
     restart:
       enabled: true
 
+  servlet:
+    multipart:
+      max-file-size: 1MB
+    mvc:
+      static-path-pattern: /webapp/**
+
 server:
   port: 8099
   servlet:
