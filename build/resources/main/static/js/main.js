@@ -16,10 +16,8 @@ $(document).ready(
                             console.log(movie.posterPath)
 
                             $("#posterImg").append(
-                                '<img src="' + movie.posterPath + '" alt="no img"><br><br>')
-
-                            $("#posterImg").append(
-                            '<button onclick="location.href=\'/movie/reservationtime\'">예매하기</button><br>')
+                                '<div class="oneMovie"><img width=600px src="' + movie.posterPath +
+                                '" alt="no img"><button class="mainBtn" onclick="location.href=\'/movie/reservationtime\'">예매하기</button></div>')
                         })
                     }
                 })
