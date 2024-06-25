@@ -1,10 +1,15 @@
 package com.multi.mini.product.controller;
 
+import com.multi.mini.member.model.dto.CustomUserDetails;
 import com.multi.mini.product.model.dto.CategoryDTO;
 import com.multi.mini.product.model.dto.ProductDTO;
+import com.multi.mini.product.model.dto.ProductListDTO;
 import com.multi.mini.product.service.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -91,15 +95,30 @@ public class ProductController {
     }
 
     @PostMapping("basket")
-    public void basketMake(HttpServletRequest request, @RequestParam("totalprice") int totalprice) {
+    public void basketMake(HttpServletRequest request, @RequestParam("totalprice") int totalprice) throws Exception {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        ProductListDTO productListDTO = new ProductListDTO();
+
+        productListDTO.setMemberNo(userDetails.getMemberNo());
+        productListDTO.setUsername(userDetails.getUsername());
+        productListDTO.setTotalprice(totalprice);
+
         String[] productNo = request.getParameterValues("productnum");
         String[] quantity = request.getParameterValues("productcount");
 
-        System.out.println(Arrays.toString(productNo));
-        System.out.println(Arrays.toString(quantity));
-        System.out.println(totalprice);
 
 
+        for (int i = 0; i < productNo.length; i++) {
+            productListDTO.getProductList().add(productService.findProductByProductNo(Integer.parseInt(productNo[i])));
+            productListDTO.getProductQuantityList().add(Integer.parseInt(quantity[i]));
+        }
+
+        HttpSession session = request.getSession();
+
+        session.setAttribute( productListDTO.getMemberNo() + "basket" , productListDTO);
 
 
     }

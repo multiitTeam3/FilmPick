@@ -31,6 +31,12 @@
     WHERE categorycode= #{ category };
 </select>
 
+<select id="findProductByProductNo" parameterType="int">
+    SELECT *
+    FROM prod_product
+    WHERE product_no= #{ productNo };
+</select>
+
 
 
 
