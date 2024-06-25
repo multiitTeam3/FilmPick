@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 조회</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h2 class="text-center mb-4" th:text="${board.title}">게시글 제목</h2>
+        <hr color="grey">
+        <div id="d1">
+            <div class="mb-3">
+                <label class="form-label">게시글 번호:</label>
+                <span th:text="${board.boardNo}"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">작성자:</label>
+                <span th:text="${board.writer.userName}"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">작성일:</label>
+                <span th:text="${board.createDate}"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">내용:</label>
+                <p th:text="${board.content}"></p>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">이미지:</label>
+                <div th:if="${board.img != null}">
+                    <img th:src="@{${board.img}}" alt="게시글 이미지" class="img-fluid">
+                </div>
+                <div th:if="${board.img == null}">
+                    <p>이미지가 없습니다.</p>
+                </div>
+            </div>
+            <div class="mt-4">
+                <a th:href="@{/board/update(no=${board.boardNo})}" class="btn btn-primary">수정</a>
+                <a th:href="@{/board/delete(no=${board.boardNo})}" class="btn btn-primary">삭제</a>
+                <a href="/board/list" class="btn btn-primary">목록으로</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

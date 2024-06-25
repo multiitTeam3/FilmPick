@@ -1,0 +1,62 @@
+body {
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 600px;
+            min-width: 600px;
+            min-height: 600px;
+            margin-top: 50px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group span {
+            margin-left: 10px;
+            color: gray;
+        }
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #495057;
+        }
+        .btn-custom {
+            background-color: #dc3545;
+            color: white;
+            border-radius: 25px;
+            padding: 10px 20px;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            max-width: 100px;
+        }
+        .logo h1 {
+          color: #000000;
+          font-weight: bold;
+          font-size: 32px;
+          text-transform: uppercase;
+          padding: 5px;
+          margin-bottom: 20px;
+          background: linear-gradient(to right, #270a09, #8ca6ce);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        .email-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .email-container .form-control {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .email-container .btn {
+            white-space: nowrap;
+        }

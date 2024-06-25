@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
+    <title>공지사항 관리</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .container-box {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .menu-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+        .menu-card {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+            width: 20%;
+        }
+        .menu-card:hover {
+            transform: scale(1.05);
+        }
+
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-5">
+        <!-- 관리자 페이지 제목 -->
+        <div class="container-box text-center">
+            <h1>관리자 페이지</h1>
+        </div>
+
+        <!-- 공지사항 관리 페이지 -->
+        <div class="container-box">
+            <h2>공지사항 관리 페이지</h2>
+            <button class="btn btn-primary mb-3" onclick="location.href='/admin/notice/create'">새 공지사항 작성</button>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>액션</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>공지사항1</td>
+                    <td>관리자</td>
+                    <td>2023-06-16</td>
+                    <td>
+                        <button class="btn btn-sm btn-warning" onclick="location.href='/admin/notice/edit/1'">수정
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteNotice(1)">삭제</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>공지사항2</td>
+                    <td>관리자</td>
+                    <td>2023-06-15</td>
+                    <td>
+                        <button class="btn btn-sm btn-warning" onclick="location.href='/admin/notice/edit/2'">수정
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteNotice(2)">삭제</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+        function deleteNotice(id) {
+            if (confirm('공지사항을 삭제하시겠습니까?')) {
+                // 삭제 로직 추가
+                location.href = '/admin/notice/delete/' + id;
+            }
+        }
+</script>
+</body>
+</html>
