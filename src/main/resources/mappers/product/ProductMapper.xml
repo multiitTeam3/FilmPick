@@ -25,7 +25,11 @@
     #{ productImg });
 </insert>
 
-
+<select id="findProductByCategory" parameterType="int">
+    SELECT *
+    FROM prod_product
+    WHERE categorycode= #{ category };
+</select>
 
 
 

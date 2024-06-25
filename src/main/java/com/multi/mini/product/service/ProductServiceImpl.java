@@ -27,4 +27,14 @@ public class ProductServiceImpl implements ProductService {
     public int insertProduct(ProductDTO productDTO) throws Exception {
         return productMapper.insertProduct(productDTO);
     }
+
+    @Override
+    public List<ProductDTO> findAllProduct() throws Exception {
+        return productMapper.findAllProduct();
+    }
+
+    @Override
+    public List<ProductDTO> findProductByCategory(int category) throws Exception {
+        return productMapper.findProductByCategory(category);
+    }
 }

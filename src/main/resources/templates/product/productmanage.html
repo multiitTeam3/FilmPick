@@ -60,8 +60,11 @@
                         </th>
                     </tr>
                     </thead>
-                    <tbody>
-
+                    <tbody th:each="pro : ${productList}">
+                    <td th:text="${pro.productNo}"></td>
+                    <td th:text="${ pro.name }"></td>
+                    <td th:text="${ pro.price }"></td>
+                    <td><button th:onclick="productSelect([[${pro}]])">선택</button></td>
                     </tbody>
                 </table>
             </div>
@@ -75,14 +78,14 @@
             <div class="divform">
                     <button type="button" id="btnreset">새로입력</button><br>
 
-                    <label>상품 코드 : </label><input type="number" name="productNo" value="0" readonly><br>
+                    <label>상품 코드 : </label><input type="number" name="productNo" value="0" id="productNo" readonly><br>
 
                     <select name="categorycode" id="categorycode">
                         <!-- ajax로 조회 -->
                     </select><br><br>
-                    <label>상품 이름 : </label><input type="text" name="name"><br>
-                    <label>상품 상세 : </label><input type="test" name="content"><br>
-                    <label>상품 가격 : </label><input type="number" name="price"><br>
+                    <label>상품 이름 : </label><input type="text" name="name" id="name"><br>
+                    <label>상품 상세 : </label><input type="test" name="content" id="content"><br>
+                    <label>상품 가격 : </label><input type="number" name="price" id="price"><br>
                 <button type="submit">추가</button>
             </div>
             </form>
@@ -120,7 +123,21 @@
 						$('#image_container').empty();
 					});
 
+
+
     })
+
+        //선택시 상품정보 표시
+        function productSelect(product) {
+            $('#productNo').val(product.productNo);
+            $("#categorycode").val(product.categorycode).prop("selected", true);
+            $('#name').val(product.name);
+            $('#content').val(product.content);
+            $('#price').val(product.price);
+            $('#name').val(product.name);
+
+        }
+
 
         //파일 선택시 표시
         function setThumbnail(event) {

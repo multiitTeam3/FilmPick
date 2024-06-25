@@ -14,4 +14,9 @@ public interface ProductMapper {
     public List<CategoryDTO> findAllCategory();
 
     public int insertProduct(ProductDTO productDTO) throws Exception;
+
+    @Select("SELECT * FROM prod_product")
+    public List<ProductDTO> findAllProduct();
+
+    List<ProductDTO> findProductByCategory(int category);
 }

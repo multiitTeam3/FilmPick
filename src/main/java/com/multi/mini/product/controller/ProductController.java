@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,10 +23,20 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping("productselect")
-    public String productmanage(){
+    @GetMapping("productmanage")
+    public ModelAndView productmanage(ModelAndView mv) throws Exception {
 
-        return "product/productmanage";
+        List<ProductDTO> list = productService.findAllProduct();
+
+        mv.addObject("productList", list);
+        mv.setViewName("product/productmanage");
+
+        return mv;
+    }
+
+    @GetMapping("productselect")
+    public void productselect(){
+
     }
 
 
@@ -68,6 +79,19 @@ public class ProductController {
             /* 실패시 파일 삭제 */
             new File(filePath + "\\" + savedName).delete();
         }
+    }
+
+    @GetMapping(value="productbycategory", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public List<ProductDTO> findProductByCategory(@RequestParam("category") int category) throws Exception {
+
+        List<ProductDTO> list = productService.findProductByCategory(category);
+        return list;
+    }
+
+    @PostMapping("basket")
+    public void basketMake() {
+
     }
 
 }
