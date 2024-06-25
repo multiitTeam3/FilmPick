@@ -47,6 +47,7 @@ public class MybatisConfig {
         configuration.getTypeAliasRegistry().registerAlias("likeDTO", com.multi.mini.like.model.dto.LikeDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("roleDTO", com.multi.mini.member.model.dto.RoleDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("memberAndRoleDTO", com.multi.mini.member.model.dto.MemberAndRoleDTO.class);
+        configuration.getTypeAliasRegistry().registerAlias("qnaDTO", com.multi.mini.qna.model.dto.QnaDTO.class);
 
 //        configuration.getTypeAliasRegistry().registerAlias("noticeDTO", com.multi.mini.admin.notice.model.dto.NoticeDTO.class);
         
