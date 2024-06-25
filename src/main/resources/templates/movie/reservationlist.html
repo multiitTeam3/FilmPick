@@ -58,13 +58,15 @@
                                 if(reservation.rsvIsPaid=="N"){
                                     $('#reservations').append('<div class="reservation"><p>'  +   reservation.date   +
                                     '</p><p><span class="title">' +  reservation.movieTitle  +
-                                    '</span><button id="update">예약 변경</button><button id="delete">취소하기</button></p><div class="mov-content"><div class="img"><img src="' +
-                                    reservation.posterPath  +
-                                    '" width="60%"></div><div class="content1"><p>' +
-                                    reservation.cinemaName + '</p><p>' + reservation.screenName  +
-                                    '</p><p>' + reservation.startTime + '~' + reservation.endTime +
-                                    '</p><p> 성인 ' + reservation.adultNum + '인, 청소년 ' +
-                                    reservation.teenNum + '인(' + reservation.seatNameList +
+                                   '</span><button id="update" onclick="location.href=\'/movie/updatemovie?scheduleno=' +
+                                    scheduleNo + '\'" data-schedule-no=' + scheduleNo + '>예약 변경</button><button id="delete" data-schedule-no='
+                                + scheduleNo + '>취소하기</button></p><div class="mov-content"><div class="img"><img src="' +
+                                reservation.posterPath  +
+                                '" width="60%"></div><div class="content1"><p>' +
+                                reservation.cinemaName + '</p><p>' + reservation.screenName  +
+                                '</p><p>' + reservation.startTime + '~' + reservation.endTime +
+                                '</p><p> 성인 ' + reservation.adultNum + '인, 청소년 ' +
+                                reservation.teenNum + '인(' + reservation.seatNameList +
                                 ') </p><button class="pay" data-schedule-no=' +  scheduleNo  + '>'
                                 + reservation.totalPrice   +'원 결제하기</button></div></div></div>')
 
@@ -127,7 +129,9 @@
 
                                 $('#reservations').append('<div class="reservation"><p>'  +   reservation.date   +
                                 '</p><p><span class="title">' +  reservation.movieTitle  +
-                                '</span><button id="update">예약 변경</button><button id="delete">취소하기</button></p><div class="mov-content"><div class="img"><img src="' +
+                                '</span><button id="update" onclick="location.href=\'/movie/updatemovie?scheduleno=' +
+                                    scheduleNo + '\'" data-schedule-no=' + scheduleNo + '>예약 변경</button><button id="delete" data-schedule-no='
+                                + scheduleNo + '>취소하기</button></p><div class="mov-content"><div class="img"><img src="' +
                                 reservation.posterPath  +
                                 '" width="60%"></div><div class="content1"><p>' +
                                 reservation.cinemaName + '</p><p>' + reservation.screenName  +
@@ -210,6 +214,39 @@
                      payTheBill(scheduleNo);
 
                 })
+
+                // 삭제하기 버튼
+                $(document).on('click','#delete',function(){
+                     const scheduleNo = $(this).data('schedule-no');
+
+                     console.log("scheduleNo : "+scheduleNo);
+
+                    // 삭제 처리
+
+                     $.ajax({
+
+                        url: '/movie/deleteReservation',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ scheduleNo : scheduleNo }),
+                        success: function(response){
+
+                            console.log(response);
+
+                            alert("예약 삭제 성공!");
+                        }
+
+                    })
+
+                     // 리스트 재로딩
+                     findReservationList(1);
+
+                })
+
+
+
+
+
 
 
 

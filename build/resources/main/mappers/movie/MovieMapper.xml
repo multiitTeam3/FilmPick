@@ -247,4 +247,13 @@
         SELECT * FROM vw_res_data WHERE RSV_NO = #{rsv_no};
     </select>
 
+
+    <delete id="deleteReservation" parameterType="reservationDTO">
+
+        DELETE FROM mov_reservation
+        WHERE schedule_no = #{scheduleNo}
+        AND member_no = #{memberNo};
+
+    </delete>
+
 </mapper>

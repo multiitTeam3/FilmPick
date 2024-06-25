@@ -52,6 +52,7 @@ public interface MovieService {
   	ArrayList<CinemaDTO> findCinemaList() throws Exception;
 
 	VwResDataDTO getResNo(int rsvNo) throws Exception;
-
-
+	
+	
+	int deleteReservation(ReservationDTO reservationDTO) throws Exception;
 }

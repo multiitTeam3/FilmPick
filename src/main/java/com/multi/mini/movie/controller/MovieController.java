@@ -695,7 +695,30 @@ public class MovieController {
 	
 	
 	
+	@PostMapping("/deleteReservation")
+	@ResponseBody
+	public String deleteReservation(@RequestBody ReservationDTO reservationDTO){
+
+		// 현재 인증된 사용자 정보를 가져옴
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+		
+		// 작성자의 memberNo와 userName을 설정
+		
+		int memberNO = userDetails.getMemberNo();
 	
+		reservationDTO.setMemberNo(memberNO);
+		
+		try {
+			int result = movieService.deleteReservation(reservationDTO);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+		return "예약 삭제 성공!";
+	
+	
+	}
 	
 	
 	

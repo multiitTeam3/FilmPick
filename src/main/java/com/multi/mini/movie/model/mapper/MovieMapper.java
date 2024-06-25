@@ -66,6 +66,7 @@ public interface MovieMapper {
 	ArrayList<VwResDataDTO> reservationPayment(int rsvNo) throws Exception;
 
     VwResDataDTO vwResDataNo(int rsvNo) throws Exception;
-
-
+	
+	
+	int deleteReservation(ReservationDTO reservationDTO) throws Exception;
 }
