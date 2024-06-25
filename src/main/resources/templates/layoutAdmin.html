@@ -46,8 +46,7 @@
   /*]]>*/
 </script>
 
-<div class="container-fluid">
-  <div class="row">
+<div class="d-flex">
     <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar">
       <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
         <img th:src="@{/img/common/logo.png}" alt="Logo" id="adminLogo"/>
@@ -69,9 +68,6 @@
         <hr>
         <li class="nav-item">
           <a href="/movie/moviemanage" class="nav-link text-white">영화 관리</a>
-        </li>
-        <li class="nav-item">
-          <a href="/상영관관리" class="nav-link text-white">상영관 관리</a>
         </li>
         <li class="nav-item">
           <a href="/예매내역관리" class="nav-link text-white">예매 내역 관리</a>
@@ -101,10 +97,10 @@
       </ul>
       <hr>
     </div>
-    <div class="col" style="margin-left: 280px; padding: 20px;">
+
+    <div class="flex-grow-1 p-3">
       <div layout:fragment="content"></div>
     </div>
-  </div>
 </div>
 
 
