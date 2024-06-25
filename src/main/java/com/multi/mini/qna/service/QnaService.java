@@ -1,0 +1,15 @@
+package com.multi.mini.qna.service;
+
+import com.multi.mini.qna.model.dto.QnaDTO;
+
+import java.util.List;
+
+public interface QnaService {
+
+    void insertQna(QnaDTO qnaDTO) throws Exception;
+
+    List<QnaDTO> selectQnaAll(int member_no) throws Exception;
+
+
+    QnaDTO findQnaByNo(int no) throws Exception;
+}
