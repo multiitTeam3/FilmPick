@@ -10,4 +10,7 @@ public interface PageMapper {
 
     @Select("SELECT COUNT(*) FROM comm_board")
     int selectBoardCount() throws Exception;
+
+    @Select("SELECT COUNT(*) FROM admin_question")
+    int selectQnaCount() throws Exception;
 }
