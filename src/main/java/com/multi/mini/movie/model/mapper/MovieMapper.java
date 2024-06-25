@@ -8,16 +8,16 @@ import java.util.Map;
 
 @Mapper
 public interface MovieMapper {
-	
-	
+
+
 	ArrayList<MovieDTO> findMovieList() throws Exception;
-	
+
 	ArrayList<RegionDTO> findRegionList() throws Exception;
-	
+
 	ArrayList<CinemaDTO> findCinemaListByRegionNo(int regionNo) throws Exception;
-	
+
 	ArrayList<MovieScheduleDTO> findScheduleListByCinemaNo(int cinemaNo) throws  Exception;
-	
+
 	MovieDTO findMovieByMovieNo(int movieNo) throws Exception;
 	
 	ArrayList<SeatDTO> findAllSeat() throws Exception;
@@ -56,4 +56,8 @@ public interface MovieMapper {
 	void insertGenre(GenreDTO genreDTO) throws Exception;
 	
 	void insertAPIMovie(MovieDTO movieDTO) throws Exception;
+
+
+	ArrayList<CinemaDTO> findCinemaList() throws Exception;
+
 }

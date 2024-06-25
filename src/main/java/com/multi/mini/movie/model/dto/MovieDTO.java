@@ -19,9 +19,9 @@ public class MovieDTO {
 	private String posterPath;
 	private Timestamp createDate;
 	private Timestamp modifyDate;
-	
-	
-	
+
+
+
 
 
 
