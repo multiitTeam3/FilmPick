@@ -1,6 +1,7 @@
 package com.multi.mini.config;
 
 import com.multi.mini.movie.model.dto.*;
+import com.multi.mini.payment.model.dto.VwResDataDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.JdbcType;
@@ -43,7 +44,10 @@ public class MybatisConfig {
         configuration.getTypeAliasRegistry().registerAlias("pageDTO", com.multi.mini.common.model.dto.PageDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("roleDTO", com.multi.mini.member.model.dto.RoleDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("memberAndRoleDTO", com.multi.mini.member.model.dto.MemberAndRoleDTO.class);
+        
         configuration.getTypeAliasRegistry().registerAlias("couponDTO", com.multi.mini.admin.coupon.model.dto.CouponDTO.class);
+        configuration.getTypeAliasRegistry().registerAlias("VwResDataDTO", com.multi.mini.payment.model.dto.VwResDataDTO.class);
+
 
 
 //        configuration.getTypeAliasRegistry().registerAlias("noticeDTO", com.multi.mini.admin.notice.model.dto.NoticeDTO.class);
@@ -57,6 +61,7 @@ public class MybatisConfig {
         configuration.getTypeAliasRegistry().registerAlias("seatDTO", SeatDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("reservationDataDTO", ReservationDataDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("reservationDTO", ReservationDTO.class);
+
         configuration.getTypeAliasRegistry().registerAlias("vwResDataDTO", VWResDataDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("vwResDataGroupDTO", VWResDataGroupDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("vwRewDataDTO", VWRewDataDTO.class);
@@ -66,6 +71,15 @@ public class MybatisConfig {
         configuration.getTypeAliasRegistry().registerAlias("vwMovieManageDataDTO", VWMovieManageDataDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("genreDTO", GenreDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("screenDTO", ScreenDTO.class);
+
+      
+
+        
+        
+        
+
+       
+
 
         seb.setConfiguration(configuration);
 
