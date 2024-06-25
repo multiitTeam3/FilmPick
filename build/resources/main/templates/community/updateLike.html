@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+<body>
+<!-- 서버 측 변수들을 Thymeleaf 변수로 설정합니다 -->
+<div th:with="no=${param.no}, login=${param.login}">
+	<script type="text/javascript">
+		// Thymeleaf 변수를 자바스크립트 변수로 전달
+        var no = [[${no}]];
+        var login = [[${login}]];
+
+        location.href = "view?no=" + encodeURIComponent(no);
+	</script>
+</div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+#posterImg{
+
+            display: flex;
+            flex-flow: row;
+            flex-wrap: wrap;
+
+        }
+
+        .oneMovie{
+
+            display: flex;
+            flex-flow: column;
+            margin: 1%;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .mainBtn{
+
+            width: 80px;
+            height:30px;
+            margin: 1%;
+        }
