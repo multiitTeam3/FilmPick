@@ -19,4 +19,6 @@ public class MemberDTO {
     private String address;
     private LocalDate createDate;
     private LocalDate modfiyDate;
+
+
 }

@@ -76,4 +76,5 @@ public class CustomUserDetails implements UserDetails {
     public LocalDate getCreateDate() {
         return memberDTO.getCreateDate();
     }
+
 }
