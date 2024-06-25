@@ -425,12 +425,16 @@ public class MovieController {
 		Map<String, Object> params = new HashMap<>();
 		params.put("memberNo", memberNO);
 		params.put("start",moviePageDTO.getStart());
+		System.out.println("moviePageDTO.getStart() : " + moviePageDTO.getStart());
 		params.put("end",moviePageDTO.getEnd());
+		System.out.println("moviePageDTO.getEnd() : " + moviePageDTO.getEnd());
 		
 		ReservationResponseDTO responseDTO= null;
 		
 		try {
 			list = movieService.findAllReservationByMemberNo(params);
+			
+			System.out.println(" findAllReservationByMemberNo(params) list : " + list);
 			
 			for (VWResDataGroupDTO reservation : list){
 				
@@ -444,7 +448,7 @@ public class MovieController {
 			
 			System.out.println("count : " + count);
 			
-			int pages = count / 3 + 1 ;
+			int pages = (count / 3) + 1 ;
 			
 			System.out.println("pages : " +pages);
 			
