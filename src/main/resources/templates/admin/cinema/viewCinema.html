@@ -34,6 +34,7 @@
                     <th scope="col">주소</th>
                     <th scope="col">개장 시간</th>
                     <th scope="col">폐장 시간</th>
+                    <th scope="col">상영관 관리</th>
                     <th scope="col">수정</th>
                     <th scope="col">삭제</th>
                 </tr>
@@ -52,6 +53,7 @@
                         <td th:text="${cinema.cinemaAddr}"></td>
                         <td th:text="${cinema.openTime}"></td>
                         <td th:text="${cinema.closeTime}"></td>
+                        <td><a th:href="@{/admin/cinemamanage/screen(no=${cinema.cinemaNo})}"><button type="button" class="btn btn-primary">상영관</button></a></td>
                         <td><a th:href="@{/admin/cinemamanage/update(code=${cinema.cinemaNo})}"><button type="button" class="btn btn-primary">수정(미구현)</button></a></td>
                         <td><a th:href="@{/admin/cinemamanage/delete(code=${cinema.cinemaNo})}"><button type="button" class="btn btn-primary">삭제</button></a></td>
                     </tr>
@@ -78,7 +80,7 @@
             </div>
         </th:block>
 
-        <!-- 쿠폰 등록 모달 -->
+        <!-- 영화관 등록 모달 -->
         <div class="modal fade" id="cinemaModal" tabindex="-1" aria-labelledby="couponModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">

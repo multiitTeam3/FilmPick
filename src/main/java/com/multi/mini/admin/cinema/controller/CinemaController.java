@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 
@@ -35,24 +36,24 @@ public class CinemaController {
     }
 
     @PostMapping("/insert")
-    public String insertCinema(CinemaDTO cinemaDTO, Model model) {
+    public String insertCinema(CinemaDTO cinemaDTO, RedirectAttributes redirectAttributes) {
         try {
             cinemaService.insertCinema(cinemaDTO);
-            model.addAttribute("msg",  "영화관 등록에 성공했습니다.");
+            redirectAttributes.addFlashAttribute("msg",  "영화관 등록에 성공했습니다.");
         } catch (Exception e) {
-            model.addAttribute("msg", "영화관 등록에 실패했습니다." + e);
+            redirectAttributes.addAttribute("msg", "영화관 등록에 실패했습니다." + e);
         }
 
         return "redirect:/admin/cinemamanage";
     }
 
     @GetMapping("/delete")
-    public String deleteCinema(@RequestParam("code") int cinemaNo, Model model) {
+    public String deleteCinema(@RequestParam("code") int cinemaNo, RedirectAttributes redirectAttributes) {
         try {
             cinemaService.deleteCinema(cinemaNo);
-            model.addAttribute("msg",  "영화관 삭제에 성공했습니다.");
+            redirectAttributes.addFlashAttribute("msg",  "영화관 삭제에 성공했습니다.");
         } catch (Exception e) {
-            model.addAttribute("msg", "영화관 삭제에 실패했습니다." + e);
+            redirectAttributes.addFlashAttribute("msg", "영화관 삭제에 실패했습니다." + e);
         }
 
         return "redirect:/admin/cinemamanage";

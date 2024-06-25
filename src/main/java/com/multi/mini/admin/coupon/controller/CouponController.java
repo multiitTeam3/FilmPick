@@ -31,7 +31,7 @@ public class CouponController {
     }
 
     @PostMapping("/insert")
-    public String insertCoupon(@RequestParam("email") String email, @RequestParam("discount") int discount,
+    public String createCoupon(@RequestParam("email") String email, @RequestParam("discount") int discount,
                                @RequestParam("desc") String desc, @RequestParam("expDate") int expDate, Model model , RedirectAttributes redirectAttributes) throws Exception{
         CouponDTO couponDTO = new CouponDTO();
 
@@ -46,7 +46,7 @@ public class CouponController {
     }
 
     @GetMapping("/delete")
-    public String deleteCoupn(@RequestParam("code") String couponCode, RedirectAttributes redirectAttributes, Model model) {
+    public String deleteCoupon(@RequestParam("code") String couponCode, RedirectAttributes redirectAttributes, Model model) {
             try {
                 couponService.deleteCoupon(couponCode);
                 redirectAttributes.addFlashAttribute("msg", "쿠폰 삭제 성공");

@@ -26,7 +26,6 @@ public class MovieController {
 		
 	}
 	
-	
 	@RequestMapping("/findMovieList")
 	@ResponseBody
 	public ArrayList<MovieDTO> findImgList(){
