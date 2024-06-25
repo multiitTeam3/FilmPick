@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
 <html layout:decorate="~{layout}">
 <head>
     <title>Home Page</title>
@@ -10,13 +10,14 @@
 
 
 <body>
+
 <div layout:fragment="content">
 
     <link rel="stylesheet" th:href="@{/css/main.css}">
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
 
     <div class="container">
-        메인페이지 입니다.
+        <div id="posterImg"></div>
     </div>
 </div>
 </body>
