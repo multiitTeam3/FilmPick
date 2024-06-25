@@ -387,7 +387,7 @@ public class MovieController {
 		
 		
 		model.addAttribute("rsvNoList", rsvNoList);
-		return "payment/pay";
+		return "payment/payment";
 		
 		
 	}
