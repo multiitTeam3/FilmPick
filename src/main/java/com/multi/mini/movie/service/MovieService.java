@@ -6,16 +6,16 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public interface MovieService {
-	
+
 	ArrayList<MovieDTO> findMovieList() throws Exception;
-	
-	
+
+
 	ArrayList<RegionDTO> findRegionList() throws Exception;
-	
+
 	ArrayList<CinemaDTO> findCinemaListByRegionNo(int regionNo) throws Exception;
-	
+
 	ArrayList<MovieScheduleDTO> findScheduleListByCinemaNo(int cinemaNo) throws  Exception;
-	
+
 	MovieDTO findMovieByMovieNo(int movieNo) throws Exception;
 	
 	ArrayList<SeatDTO> findAllSeat() throws Exception;
@@ -44,4 +44,7 @@ public interface MovieService {
 	int findAllReviewCountByMovieNo(int movieNo) throws Exception;
 	
 	int insertReview(ReviewDTO reviewDTO) throws Exception;
+  
+  	ArrayList<CinemaDTO> findCinemaList() throws Exception;
+
 }
