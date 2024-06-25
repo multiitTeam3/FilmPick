@@ -1,32 +1,50 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout}">
+<html layout:decorate="~{layoutAdmin}">
 <head>
     <meta charset="UTF-8">
     <title>Insert title here</title>
+    <script th:src="@{/js/paging.js}"></script>
 </head>
 <body>
 <div layout:fragment="content">
     <div class="container">
         <h2 class="text-center mb-4">회원 관리</h2>
         <hr color="grey">
+
+        <!--/* 회원 검색 폼 */-->
+        <form th:action="@{/admin/membermanage/search}" method="get">
+            <div class="btn-group">
+                <select class="form-select" aria-label="search list" name="type">
+                    <option value="email" selected>이메일</option>
+                    <option value="name">닉네임</option>
+                    <option value="role">권한</option>
+                </select>
+                <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword">
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">검색</button>
+            </div>
+        </form>
+
+        <!--/* 회원 목록 테이블 */-->
         <div id="d1">
-            <table class="table table-hover table-bordered">
+            <table class="table table-hover table-bordered" w-80>
                 <thead class="table-dark">
                 <tr>
-                    <th scope="col">MEMBER NO</th>
-                    <th scope="col">ID</th>
-                    <th scope="col">USERNAME</th>
+                    <th scope="col">row_num</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">UserName</th>
                     <th scope="col">CREATE_DATE</th>
                     <th scope="col">ROLE</th>
+                    <th scope="col">DELETE</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="user : ${users}">
-                    <th scope="row" th:text="${pages}"></th>
-                    <td th:text="${user.email}"></td>
-                    <td><a th:href="@{/admin/user/view(no=${user.memberNo})}" th:text="${user.userName}"></a></td>
+                    <th scope="row" th:text="${user.rowNum}"></th>
+                    <td><a th:href="@{/admin/membermanage/find(no=${user.memberNo})}" th:text="${user.email}"></a></td>
+                    <td th:text="${user.userName}"></td>
                     <td th:text="${user.createDate}"></td>
-<!--                    <td th:text="${user.role}"></td>-->
+                    <td th:each="role : ${user.roles}" th:text="${role.roleName}"></td>
+                    <td><a th:href="@{/admin/membermanage/delete(no=${user.memberNo})}"><button type="button" class="btn btn-primary">DELETE</button></a></td>
                 </tr>
                 </tbody>
             </table>
@@ -53,7 +71,7 @@
 		/*]]>*/
 
 </script>
-<!--	<script th:src="@{/js/paging.js}"></script>-->
+
 
 </body>
 </html>
