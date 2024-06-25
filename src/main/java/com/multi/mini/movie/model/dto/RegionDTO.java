@@ -7,7 +7,6 @@ public class RegionDTO {
 	
 	private int regionNo;
 	private String regionName;
-	private String regionCode;
 	
 	
 	
