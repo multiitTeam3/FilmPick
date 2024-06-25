@@ -6,7 +6,7 @@
     <script th:src="@{/js/paging.js}"></script>
     <script>
     $(document).ready(function(){
-        $('#movieSceduleModal').on('show.bs.modal', function (event) {
+        $('#movieScheduleModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var screenCode = button.data('screen-code');
             var cinemaNo = button.data('cinema-no');

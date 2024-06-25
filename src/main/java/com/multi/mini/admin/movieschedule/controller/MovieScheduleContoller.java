@@ -17,6 +17,7 @@ public class MovieScheduleContoller {
 
     @PostMapping("/admin/cinemamanage/schedule/insert")
     public String createMovieSchedule(MovieScheduleDTO movieScheduleDTO, @RequestParam("breaktime") int breakTime, RedirectAttributes redirectAttributes) {
+        System.out.println("확인 테스트");
         try {
             movieScheduleService.insertMovieSchedule(movieScheduleDTO, breakTime);
             redirectAttributes.addFlashAttribute("msg", "영화 일정 등록 성공");
