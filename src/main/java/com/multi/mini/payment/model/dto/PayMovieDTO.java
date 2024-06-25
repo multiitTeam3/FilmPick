@@ -11,7 +11,6 @@ public class PayMovieDTO {
     private int rsvNo;
 
     private PaymentsDTO paymentsDTO;
-    private
 
 
 

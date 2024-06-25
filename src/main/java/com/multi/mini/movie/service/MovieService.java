@@ -1,8 +1,10 @@
 package com.multi.mini.movie.service;
 
 import com.multi.mini.movie.model.dto.*;
+import com.multi.mini.payment.model.dto.VwResDataDTO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface MovieService {
 	
@@ -27,4 +29,7 @@ public interface MovieService {
 	int insertReservation(ReservationDTO reservationDTO) throws Exception;
 	
 	int findReservationNo(ReservationDTO reservationDTO) throws Exception;
+
+	VwResDataDTO getResNo(int rsvNo) throws Exception;
+
 }
