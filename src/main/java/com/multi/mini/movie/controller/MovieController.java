@@ -1,11 +1,11 @@
 package com.multi.mini.movie.controller;
 
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.multi.mini.member.model.dto.CustomUserDetails;
 import com.multi.mini.movie.model.dto.*;
 import com.multi.mini.movie.service.MovieService;
-import com.multi.mini.payment.model.dto.VwResDataDTO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -22,7 +22,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("/movie")
 public class MovieController {
-
 	private final MovieService movieService;
 
 
@@ -154,15 +153,6 @@ public class MovieController {
 			
 			System.out.println("seatListByScreen : " + seatListByScreen);
 
-
-		MovieScheduleDTO movieScheduleDTO = (MovieScheduleDTO) httpSession.getAttribute("movieScheduleDTO");
-
-		ArrayList<SeatDTO> seatListByScreen = null;
-
-		try {
-			seatListByScreen = movieService.findSeatListByScreen(movieScheduleDTO.getScreenCode());
-
-			System.out.println("seatListByScreen : " + seatListByScreen);
 
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -400,69 +390,30 @@ public class MovieController {
 		return rsvNoList;
 
 	}
-		List<Integer> rsvNoList = new Gson().fromJson(list, new TypeToken<List<Integer>>() {
-		}.getType());
-
-		List<VwResDataDTO> reservations = new ArrayList<>();
-
-		ReservationDataDTO reservationDataDTO = new ReservationDataDTO();
-
-		int adultCount = 0;
-		int teenCount = 0;
-		ArrayList<Integer> selectedSeatNoList = reservationDataDTO.getSelectedSeatNoList();
-
-		for (int rsvNo : rsvNoList) {
-			try {
-				VwResDataDTO reservation = movieService.getResNo(rsvNo);
-				reservations.add(reservation);
-				adultCount += reservationDataDTO.getAdult(); // 성인 수 합산
-				teenCount += reservationDataDTO.getTeen();
-				selectedSeatNoList.addAll(reservationDataDTO.getSelectedSeatNoList());
-
-				for(int i=0; reservation.getSeatName())
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			System.out.println("reservations: "+ reservations);
-			model.addAttribute("adultCount", adultCount);
-			model.addAttribute("teenCount", teenCount);
-			model.addAttribute("selectedSeatNoList", selectedSeatNoList);
-
-
-			model.addAttribute("reservations", reservations);
-
-
-		}
-		return "payment/payment";
-
-	}
 
 	@GetMapping("/reservationseat/payment")
 	public String payment(@RequestParam("list") String list, Model model) {
 
-		
 		List<String> rsvNoList = new Gson().fromJson(list, new TypeToken<List<String>>() {
 		}.getType());
-		
-		
+
+
 		// 현재 인증된 사용자 정보를 가져옴
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-		
+
 		// 작성자의 memberNo와 userName을 설정
-		
+
 		int memberNO = userDetails.getMemberNo();
-		
+
 		VWResDataGroupDTO vwResDataGroupDTO = new VWResDataGroupDTO();
-		
-		
+
+
 		model.addAttribute("rsvNoList", rsvNoList);
-		return "payment/pay";
-		
-		
+		return "payment/payment";
+
+
 	}
-	
 	
 	@GetMapping("/reservationlist")
 	public void movieReservationList() {
