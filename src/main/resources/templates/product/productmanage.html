@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html layout:decorate="~{layout}">
 <head>
     <title th:text="${title}">Insert title here</title>
     <!-- 부트스트랩 -->
@@ -37,6 +35,7 @@
 
 </head>
 <body>
+
 <div th:replace="common/menubar :: menubar-body"></div>
 
 <main layout:fragment="content">
