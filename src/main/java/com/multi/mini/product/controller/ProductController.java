@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -90,7 +91,16 @@ public class ProductController {
     }
 
     @PostMapping("basket")
-    public void basketMake() {
+    public void basketMake(HttpServletRequest request, @RequestParam("totalprice") int totalprice) {
+        String[] productNo = request.getParameterValues("productnum");
+        String[] quantity = request.getParameterValues("productcount");
+
+        System.out.println(Arrays.toString(productNo));
+        System.out.println(Arrays.toString(quantity));
+        System.out.println(totalprice);
+
+
+
 
     }
 
