@@ -77,9 +77,6 @@
                         <div th:if="${board.img != null}">
                             <img th:src="@{'/uploadFiles/' + ${board.img}}" width="250" height="250" alt="게시글 이미지" class="img-fluid">
                         </div>
-                        <div th:if="${board.img == null}">
-                            <p>이미지가 없습니다.</p>
-                        </div>
                     </label>
                 </div>
                 <div style="margin-right:1px;" class="mt-4 text-center">

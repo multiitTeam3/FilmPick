@@ -38,18 +38,20 @@ public class BoardController {
     }
 
     @GetMapping("/list")
-    public String listBoard(PageDTO page, Model model) {
-        page.setPage(1);
-        page.setStartEnd(page.getPage());
+    public String listBoard(@RequestParam(value = "page", required = false, defaultValue = "1")  int page, Model model) {
+        PageDTO pageDTO = new PageDTO();
+        pageDTO.setPage(page);
+        pageDTO.setStartEnd(pageDTO.getPage());
         try {
-            int count = pageService.selectBoardCount(page);
+            int count = pageService.selectBoardCount(pageDTO);
             int pages = count / 10 + 1;
 
-            List<BoardDTO> boards = boardService.selectBoardAll(page);
+            List<BoardDTO> boards = boardService.selectBoardAll(pageDTO);
 
             model.addAttribute("count", count);
             model.addAttribute("pages", pages);
             model.addAttribute("boards", boards);
+            model.addAttribute("currentPage", page);
 
             for (BoardDTO board : boards) {
                 System.out.println(board);
@@ -108,21 +110,31 @@ public class BoardController {
 
         /* 파일명 변경 처리 */
         String originFileName = singleFile.getOriginalFilename();
-        String ext = originFileName.substring(originFileName.lastIndexOf("."));
-        String savedName = UUID.randomUUID().toString().replace("-", "") + ext;
+        if(originFileName != null && !originFileName.isEmpty()){
+            String ext = originFileName.substring(originFileName.lastIndexOf("."));
+            String savedName = UUID.randomUUID().toString().replace("-", "") + ext;
 
-        /* 파일을 저장한다. */
-        try {
-            singleFile.transferTo(new File(filePath + "\\" + savedName));
-            model.addAttribute("savedName", savedName);
-            boardData.setImg(savedName);
-            boardService.insertBoard(boardData);
-        } catch (Exception e) {
-            System.out.println("board insert error : " + e);
-            /* 실패시 파일 삭제 */
-            new File(filePath + "\\" + savedName).delete();
-            model.addAttribute("message", "파일 업로드 실패!!");
+            /* 파일을 저장한다. */
+            try {
+                singleFile.transferTo(new File(filePath + "\\" + savedName));
+                model.addAttribute("savedName", savedName);
+                boardData.setImg(savedName);
+                boardService.insertBoard(boardData);
+            } catch (Exception e) {
+                System.out.println("board insert error : " + e);
+                /* 실패시 파일 삭제 */
+                new File(filePath + "\\" + savedName).delete();
+                model.addAttribute("message", "파일 업로드 실패!!");
+            }
         }
+        else{
+            try {
+                boardService.insertBoard(boardData);
+            } catch (Exception e) {
+                System.out.println("board insert error : " + e);
+            }
+        }
+
 
         // 서비스 계층에 게시글 저장 요청
         return "redirect:/community/list";
