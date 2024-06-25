@@ -10,134 +10,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <link rel="stylesheet" th:href="@{/css/reservationlist.css}">
 
-    <style>
-
-        h1, .buttons{
-            text-align: center;
-
-        }
-
-        .medium{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            wrap: auto-warp;
-            background-color: #FFF0F5;
-            border: 1px solid black;
-            margin: 5%;
-        }
-
-        .pageNums{
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            wrap: auto-warp;
-            border: 1px solid black;
-            margin: 5%;
-
-        }
-
-        .head{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .foot{
-
-            margin: 0 0 0 5%;
-
-        }
-
-        .title{
-            font-size: 30px;
-            font-weight: 900;
-        }
-
-        .content{
-            padding: 40px;
-
-        }
-
-        .mov-content{
-            display: flex;
-            flex-direction: row;
-
-        }
-
-        .img{
-            width: 60%;
-            margin: 5% 0 0 0;
-
-        }
-
-        .img img{
-            heigth: 100%
-        }
-
-        #select-buttons, #reservations{
-
-            text-align: center;
-
-        }
-
-
-        #reservations{
-            display: flex;
-            flex-direction: row;
-            margin: 5px;
-
-        }
-
-        .reservation{
-            border: 1px solid black;
-            margin: 20px;
-            width: 450px;
-            height: 450px;
-            background-color: #DFD7F2;
-
-        }
-
-        .reservation p, .reservation button{
-            margin: 15px;
-
-        }
-
-
-        button{
-
-            padding: 5px;
-            margin: 5px
-
-        }
-
-
-
-        button:hover{
-
-            background-color: #6482B9;
-            color: white;
-
-        }
-
-        .none{
-            display: none;
-        }
-
-        .selected{
-
-            background-color: pink;
-            color: white;
-
-        }
-
-
-
-    </style>
-
-    <script type="text/javascript">
+    <script th:inline="javascript">
 
         $(document).on('click','.plus1',function(){
             $('.a1').toggleClass('none');
@@ -344,9 +219,7 @@
         )
 
 
-
-
-    </script>
+    </script>>
 
 
 </head>

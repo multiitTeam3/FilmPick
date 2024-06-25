@@ -10,86 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
-    <style>
-
-        .above{
-
-            display: flex;
-            flex-flow: row;
-            align-items: center;
-            justify-content: center
-            margin: 15%;
-
-
-        }
-
-
-        .left{
-
-            display: flex;
-            flex-flow: column;
-            align-items: center;
-            justify-content: center
-            margin: 5%;
-            width: 40%;
-
-        }
-
-
-        .right{
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-flow: column;
-            align-items: space-between;
-            justify-content: space-between;
-            margin: 5%;
-
-        }
-
-        textarea{
-
-            background-color: white;
-            width: 500px;
-            height: 40px;
-
-        }
-
-        button:hover{
-            background-color: #6482B9;
-            color: white;
-
-        }
-
-
-        .right div .list{
-
-            margin-bottom: 10%;
-
-        }
-
-        table, th, td{
-            border: 1px solid black;
-        }
-
-
-        th, td{
-            width: 300px;
-
-        }
-
-        td #content{
-            width: 800px;
-        }
-
-        img{
-            margin: 10%;
-        }
-
-
-    </style>
-
+    <link rel="stylesheet" th:href="@{/css/review.css}">
     <script th:inline="javascript">
 
         var movieNo = "[[${movieNo}]]";
@@ -217,6 +138,8 @@
 
             }
         )
+
+
 
 
     </script>
