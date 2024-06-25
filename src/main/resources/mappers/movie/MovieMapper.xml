@@ -88,20 +88,18 @@
 
 
 
-    <insert id="insertReservation" parameterType="reservationDTO">
 
-        INSERT INTO mov_reservation(schedule_no, seat_no, member_no, rsv_movie_price, rsv_is_paid)
-        VALUES(#{scheduleNo}, #{seatNo}, #{memberNo}, #{rsvMoviePrice}, #{rsvIsPaid})
+    <select id="findRsvNoListByVWGroupDTO">
 
+        SELECT rsv_no
+        FROM mov_reservation
+        WHERE
+        schedule_no= #{scheduleNo}
+        AND
+        member_no= #{memberNo}
+        AND
+        rsv_is_paid="N";
 
-
-    </insert>
-
-
-
-    <select id="vwResDataNo" parameterType="int" resultType="vwResDataDTO">
-
-        SELECT * FROM vw_res_data WHERE RSV_NO = #{rsv_no};
     </select>
 
 
@@ -109,5 +107,144 @@
 
 
 
+    <select id="findAllReservationCountByMemberNo">
+
+        SELECT COUNT(*) count
+        FROM vw_res_group_data
+        WHERE member_no= #{memberNo};
+
+    </select>
+
+    <select id="findAllNotPaidReservationCountByMemberNo">
+
+        SELECT COUNT(*) count
+        FROM vw_res_group_data
+        WHERE member_no= #{memberNo}
+        AND rsv_is_paid="N";
+
+    </select>
+
+    <select id="findAllReviewCountByMovieNo">
+
+        SELECT COUNT(*) count
+        FROM vw_rew_data
+        WHERE movie_no= #{movierNo};
+
+    </select>
+
+
+    <select id="findAllEnrolledMovieCount">
+
+        SELECT COUNT(*) count
+        FROM vw_movie_manage_data;
+
+    </select>
+
+
+
+    <select id="findAllReservationByMemberNo" parameterType="map" resultType="vwResDataGroupDTO">
+
+        SELECT *
+        FROM (
+        SELECT ROW_NUMBER() OVER(ORDER BY schedule_no desc) AS rownum, vw.*
+        FROM vw_res_group_data vw) vw2
+
+        WHERE
+        vw2.member_no= #{memberNo}
+        AND
+        vw2.rownum BETWEEN ${start} and ${end};
+
+    </select>
+
+    <select id="findVWReviewListByMovieNo" parameterType="map" resultType="vwRewDataDTO">
+
+        SELECT *
+        FROM (
+        SELECT ROW_NUMBER() OVER(ORDER BY create_date desc) AS rownum, vw.*
+        FROM vw_rew_data vw) vw2
+
+        WHERE
+        vw2.movie_no= #{movieNo}
+        AND
+        vw2.rownum BETWEEN ${start} and ${end};
+
+    </select>
+
+
+    <select id="findAllEnrolledMovie" parameterType="moviePageDTO" resultType="vwMovieManageDataDTO">
+
+        SELECT *
+        FROM (
+        SELECT ROW_NUMBER() OVER(ORDER BY movie_no asc) AS rownum, vw.*
+        FROM vw_movie_manage_data vw) vw2
+
+        WHERE vw2.rownum BETWEEN #{start} AND #{end};
+
+    </select>
+
+
+    <select id="findAllNotPaidReservationByMemberNo" parameterType="map" resultType="vwResDataGroupDTO">
+
+        SELECT *
+        FROM (
+        SELECT ROW_NUMBER() OVER(ORDER BY schedule_no desc) AS rownum, vw.*
+        FROM vw_res_group_data vw
+        ) vw2
+
+        WHERE
+        vw2.member_no= #{memberNo}
+        AND
+        vw2.rownum BETWEEN ${start} and ${end}
+
+        AND vw2.rsv_is_paid="N";
+
+    </select>
+
+
+
+    <insert id="insertReservation" parameterType="reservationDTO">
+
+        INSERT INTO mov_reservation(schedule_no, seat_no, member_no, rsv_movie_price, rsv_is_paid)
+        VALUES(#{scheduleNo}, #{seatNo}, #{memberNo}, #{rsvMoviePrice}, #{rsvIsPaid})
+
+    </insert>
+
+
+    <insert id="insertReview" parameterType="reviewDTO">
+
+        INSERT INTO mov_movie_review
+        VALUES(NULL, #{movieNo}, #{memberNo}, #{content}, #{rate}, NOW())
+
+    </insert>
+
+
+    <insert id="insertGenre" parameterType="genreDTO">
+
+        INSERT INTO mov_genre
+        VALUES(#{genreNo}, #{genreContent})
+
+    </insert>
+
+
+    <insert id="insertAPIMovie" parameterType="movieDTO">
+
+        INSERT INTO mov_movie
+        VALUES(NULL,#{movieTitle}, #{genreNo}, #{popularity}, #{duration},#{originalLanguage},#{movieContent},#{adult},#{posterPath},NOW(), NULL )
+
+    </insert>
+
+
+
+
+    <select id="findCinemaList"> 
+
+        SELECT * FROM mov_cinema
+
+    </select>
+
+  <select id="vwResDataNo" parameterType="int" resultType="vwResDataDTO">
+
+        SELECT * FROM vw_res_data WHERE RSV_NO = #{rsv_no};
+    </select>
 
 </mapper>

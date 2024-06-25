@@ -51,8 +51,8 @@
       <li><a th:href="@{/mypage}" class="nav-link px-2 link-secondary">마이페이지</a></li>
       <li><a th:href="@{/product/productselect}" class="nav-link px-2 link-secondary">상점</a></li>
       <li><a th:href="@{/community/list}" class="nav-link px-2 link-secondary">커뮤니티</a></li>
-      <li><a th:href="@{/movie/reservationlist}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-ticket"></i>예매</a></li>
-      <li><a th:href="@{/movie/reservationSeat/moviepayment}" class="nav-link px-2 link-secondary">예매확인</a></li>
+      <li><a th:href="@{/movie/reservationtime}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-ticket"></i>예매</a></li>
+      <li><a th:href="@{/movie/reservationlist}" class="nav-link px-2 link-secondary">예매확인</a></li>
     </ul>
 
     <div class="col-md-3 text-end">
@@ -90,7 +90,7 @@
 
       <form th:action="@{/login}" method="post">
         <div class="modal-body">
-          <label for="userId" class="mr-sm-2">ID :</label>
+          <label for="userId" class="mr-sm-2">Email :</label>
           <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter ID" id="userId" name="username"> <br>
           <label for="userPwd" class="mr-sm-2">Password:</label>
           <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter password" id="userPwd" name="password">

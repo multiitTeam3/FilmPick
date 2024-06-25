@@ -42,6 +42,9 @@ dependencies {
 	implementation group: 'org.bgee.log4jdbc-log4j2', name: 'log4jdbc-log4j2-jdbc4.1', version: '1.16'
 
 	implementation 'com.google.code.gson:gson:2.8.9'
+
+	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.9.0'
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.2'
 }
 
 tasks.named('test') {

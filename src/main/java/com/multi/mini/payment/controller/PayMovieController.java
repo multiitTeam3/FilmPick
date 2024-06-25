@@ -2,17 +2,14 @@ package com.multi.mini.payment.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.multi.mini.movie.model.dto.MovieDTO;
-import com.multi.mini.movie.model.dto.ReservationDTO;
 import com.multi.mini.movie.model.dto.ReservationDataDTO;
 import com.multi.mini.movie.service.MovieService;
-import com.multi.mini.payment.model.dto.PayMovieDTO;
 import com.multi.mini.payment.model.dto.VwResDataDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +42,6 @@ public class PayMovieController {
                 teenCount += reservationDataDTO.getTeen();
                 selectedSeatNoList.addAll(reservationDataDTO.getSelectedSeatNoList());
 
-                for(int i=0; reservation.getSeatName())
             } catch (Exception e) {
                 e.printStackTrace();
             }
