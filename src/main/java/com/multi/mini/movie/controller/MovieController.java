@@ -736,7 +736,7 @@ public class MovieController {
 		int memberNO = userDetails.getMemberNo();
 		
 		httpSession.setAttribute("deleteSheduleNo", scheduleNo);
-		System.out.println("deleteSheduleNo" + scheduleNo);
+		System.out.println("@GetMapping(updatemovie) deleteSheduleNo : " + scheduleNo);
 		
 		VWResDataGroupDTO vwResDataGroupDTO = new VWResDataGroupDTO();
 		
@@ -760,9 +760,9 @@ public class MovieController {
 	
 	// 예약 취소 후 변경
 	// 오류 : 삭제한 영화 movieScheduleDTO 내용을 넘기고 있다
-	@RequestMapping("/updateseat")
+	@PostMapping("/updateseat")
 	@ResponseBody
-	public void updateseat(@RequestBody MovieScheduleDTO movieScheduleDTO, HttpSession httpSession) {
+	public String updateseat(@RequestBody MovieScheduleDTO movieScheduleDTO2, HttpSession httpSession) {
 		
 		// 현재 인증된 사용자 정보를 가져옴
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -773,8 +773,8 @@ public class MovieController {
 		int memberNO = userDetails.getMemberNo();
 		
 		int deleteSheduleNo = (int) httpSession.getAttribute("deleteSheduleNo");
-		httpSession.removeAttribute("deleteSheduleNo");
-		System.out.println("deleteSheduleNo : " + deleteSheduleNo);
+		/*httpSession.removeAttribute("deleteSheduleNo");*/
+		System.out.println("@PostMapping(updateseat) deleteSheduleNo : " + deleteSheduleNo);
 		
 		ReservationDTO reservationDTO = new ReservationDTO();
 		reservationDTO.setScheduleNo(deleteSheduleNo);
@@ -787,16 +787,60 @@ public class MovieController {
 		}
 		
 		
-		// 삭제 후 보낼 정보 저장에서 문제가?????
-		httpSession.setAttribute("movieScheduleDTO", movieScheduleDTO);
-		System.out.println("@RequestMapping(\"/updateseat\") movieScheduleDTO: " + movieScheduleDTO);
+		// 삭제해야하는 정보가 넘어온다?? 분명 넘길 때는 클릭한 정보인데..
+		httpSession.setAttribute("movieScheduleDTO2", movieScheduleDTO2);
+		System.out.println("@RequestMapping(updateseat) movieScheduleDTO2 exist here???: " + movieScheduleDTO2);
 		
 		
-		
+		return "PostMapping(updateseat) 받은 거: " + movieScheduleDTO2.toString();
 		
 	}
 	
 	
+	@GetMapping("/updateseat")
+	public void updateSeat(HttpSession httpSession, Model model) {
+		
+		
+		MovieScheduleDTO movieScheduleDTO = (MovieScheduleDTO) httpSession.getAttribute("movieScheduleDTO2");
+		System.out.println("@GetMapping(updateseat) : " + movieScheduleDTO);
+		
+		
+		ArrayList<SeatDTO> seatListByScreen = null;
+		
+		try {
+			seatListByScreen = movieService.findSeatListByScreen(movieScheduleDTO.getScreenCode());
+			
+			System.out.println("seatListByScreen : " + seatListByScreen);
+			
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+		
+		ArrayList<SeatDTO> reservedSeatList = null;
+		try {
+			/*reservedSeatList = movieService.reservedSeatList();*/
+			reservedSeatList = movieService.findReservedSeat(movieScheduleDTO);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+		ArrayList<String> seatNoList = new ArrayList();
+		
+		for (SeatDTO seat : reservedSeatList) {
+			seatNoList.add(String.valueOf(seat.getSeatNo()));
+		}
+		
+		System.out.println("seatNoList" + seatNoList);
+		
+		model.addAttribute("movieScheduleDTO", movieScheduleDTO);
+		model.addAttribute("reservedSeatList", reservedSeatList);
+		model.addAttribute("seatNoList", seatNoList);
+		model.addAttribute("seatListByScreen", seatListByScreen);
+		
+		httpSession.removeAttribute("movieScheduleDTO");
+		
+	}
 	
 	
 	

@@ -288,7 +288,7 @@
                                                                             })
 
                                                                             console.log("timeScheduleList : "+timeScheduleList);
-                                                                            setTimeout(triggerTimeBtnClick, 100);
+                                                                            <!--setTimeout(triggerTimeBtnClick, 100);-->
 
                                                                             $('.timeBtn').click(function(){
 
@@ -305,12 +305,15 @@
                                                                                     $('#result').append('<p>스케줄 확인</p>');
                                                                                     $('#result').append($(this).attr('data-schedule'));
 
+                                                                                    console.log("finalSchedule : ");
                                                                                     console.log(finalSchedule);
 
                                                                                     $('#result').append('<button id="reservationseat">기존 예약 취소 및 좌석 선택 화면으로 이동하기</button>');
 
 
                                                                                     $(document).on('click','#reservationseat',function(){
+
+
 
                                                                                          $.ajax({
 
@@ -322,7 +325,7 @@
 
                                                                                                     console.log(response);
 
-                                                                                                    window.location.href='/movie/reservationseat'
+                                                                                                    window.location.href='/movie/updateseat';
 
                                                                                                 }
 
