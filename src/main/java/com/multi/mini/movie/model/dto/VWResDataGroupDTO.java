@@ -20,7 +20,13 @@ public class VWResDataGroupDTO {
 	private String date;
 	private String startTime;
 	private String endTime;
+	
+	private int cinemaNo;
+	private int regionNo;
+	
 	private String cinemaName;
+	
+	private String screenCode;
 	private String screenName;
 	private String adult;
 	

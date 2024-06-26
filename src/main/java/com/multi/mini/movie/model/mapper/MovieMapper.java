@@ -69,4 +69,6 @@ public interface MovieMapper {
 	
 	
 	int deleteReservation(ReservationDTO reservationDTO) throws Exception;
+	
+	VWResDataGroupDTO findVWResDataGroupDTO(VWResDataGroupDTO vwResDataGroupDTO) throws Exception;
 }

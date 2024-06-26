@@ -139,7 +139,10 @@ public class MovieController {
 	@GetMapping("/reservationseat")
 	public void movieReservationSeat(HttpSession httpSession, Model model) {
 		
+		
 		MovieScheduleDTO movieScheduleDTO = (MovieScheduleDTO) httpSession.getAttribute("movieScheduleDTO");
+		System.out.println("@GetMapping(\"/reservationseat\") : " + movieScheduleDTO);
+		
 		
 		ArrayList<SeatDTO> seatListByScreen = null;
 		
@@ -556,6 +559,7 @@ public class MovieController {
 	
 	
 	// 예약 내역 화면에서 받은 정보로 예약 번호를 추출해서 다시 페이 화면으로 보내기.
+
 	
 	@RequestMapping("/payTheBill")
 	@ResponseBody
@@ -719,6 +723,82 @@ public class MovieController {
 	
 	
 	}
+	
+	@GetMapping("/updatemovie")
+	public void updateMovie(@RequestParam("scheduleno") int scheduleNo, Model model, HttpSession httpSession){
+		
+		// 현재 인증된 사용자 정보를 가져옴
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+		
+		// 작성자의 memberNo와 userName을 설정
+		
+		int memberNO = userDetails.getMemberNo();
+		
+		httpSession.setAttribute("deleteSheduleNo", scheduleNo);
+		System.out.println("deleteSheduleNo" + scheduleNo);
+		
+		VWResDataGroupDTO vwResDataGroupDTO = new VWResDataGroupDTO();
+		
+		vwResDataGroupDTO.setScheduleNo(scheduleNo);
+		vwResDataGroupDTO.setMemberNo(memberNO);
+		
+		VWResDataGroupDTO vwResDataGroupDTO2 = null;
+		try {
+			vwResDataGroupDTO2 = movieService.findVWResDataGroupDTO(vwResDataGroupDTO);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+		System.out.println("vwResDataGroupDTO2 : " + vwResDataGroupDTO2);
+		
+		model.addAttribute("vwResDataGroupDTO", vwResDataGroupDTO2);
+		
+	}
+	
+	
+	
+	// 예약 취소 후 변경
+	// 오류 : 삭제한 영화 movieScheduleDTO 내용을 넘기고 있다
+	@RequestMapping("/updateseat")
+	@ResponseBody
+	public void updateseat(@RequestBody MovieScheduleDTO movieScheduleDTO, HttpSession httpSession) {
+		
+		// 현재 인증된 사용자 정보를 가져옴
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+		
+		// 작성자의 memberNo와 userName을 설정
+		
+		int memberNO = userDetails.getMemberNo();
+		
+		int deleteSheduleNo = (int) httpSession.getAttribute("deleteSheduleNo");
+		httpSession.removeAttribute("deleteSheduleNo");
+		System.out.println("deleteSheduleNo : " + deleteSheduleNo);
+		
+		ReservationDTO reservationDTO = new ReservationDTO();
+		reservationDTO.setScheduleNo(deleteSheduleNo);
+		reservationDTO.setMemberNo(memberNO);
+		
+		try {
+			int result = movieService.deleteReservation(reservationDTO);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+		
+		// 삭제 후 보낼 정보 저장에서 문제가?????
+		httpSession.setAttribute("movieScheduleDTO", movieScheduleDTO);
+		System.out.println("@RequestMapping(\"/updateseat\") movieScheduleDTO: " + movieScheduleDTO);
+		
+		
+		
+		
+	}
+	
+	
+	
+	
 	
 	
 	

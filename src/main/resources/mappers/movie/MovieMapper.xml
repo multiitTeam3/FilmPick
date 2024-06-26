@@ -247,6 +247,13 @@
         SELECT * FROM vw_res_data WHERE RSV_NO = #{rsv_no};
     </select>
 
+  <select id="findVWResDataGroupDTO" parameterType="vwResDataGroupDTO" resultType="vwResDataGroupDTO">
+
+        SELECT * FROM vw_res_group_data
+        WHERE member_no = #{memberNo}
+        AND schedule_no = #{scheduleNo};
+  </select>
+
 
     <delete id="deleteReservation" parameterType="reservationDTO">
 

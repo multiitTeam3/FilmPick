@@ -1,4 +1,31 @@
 -- New script in cafe.
+-- Date: 2024. 6. 25.
+-- Time: 오후 8:06:53
+--mini.cxwee6aeygsa.ap-northeast-2.rds.amazonaws.com                - target database host
+--mini.cxwee6aeygsa.ap-northeast-2.rds.amazonaws.com         - tunnel host name
+--3306                - target database port
+--${server}              - target server name
+--cafe            - target database name
+--dkswl                - database user name
+--jdbc:mysql://mini.cxwee6aeygsa.ap-northeast-2.rds.amazonaws.com:3306/cafe                 - connection URL
+--dev     - connection type
+--cafe          - datasource
+--C:\Users\dkswl\OneDrive\Documents\code_upload\Auto_window\multi_it\backend\db\db1\General        - project path
+--General        - project name
+--2024. 6. 25.                - current date
+--C:\Users\dkswl\OneDrive\Documents\code_upload\Auto_window\multi_it\backend\db\db1           - workspace path
+--C:\Users\dkswl                - OS user home path
+--C:\Users\dkswl\AppData\Local\DBeaver        - application install path
+--C:\Users\dkswl\AppData\Local\DBeaver    - application install path
+--DBeaver    - application name
+--24.0.3.202404211624 - application version
+--220.78.96.123            - local IP address
+--2024. 6. 25.                - current date
+--오후 8:06:53                - current time
+--dkswl                - OS user name
+
+
+-- New script in cafe.
 -- Date: 2024. 6. 20.
 -- Time: 오후 7:34:42
 --mini.cxwee6aeygsa.ap-northeast-2.rds.amazonaws.com                - target database host
@@ -287,6 +314,8 @@ SELECT
     , sch.date
     , sch.start_time
     , sch.end_time
+    , c.cinema_no
+    , c.region_no
     , c.cinema_name
     , s.screen_name
     , m.adult
