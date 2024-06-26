@@ -54,7 +54,7 @@
 
     <div class="divbtnwrap">
         <div class="divbtn" id="divbtn"></div>
-        <button class="btnbasket">장바구니</button>
+        <button class="btnbasket" onclick="getbasket()">장바구니</button>
     </div>
 
 
@@ -79,7 +79,10 @@
                     가격
                 </th>
                 <th>
-                    선택
+                    수량
+                </th>
+                <th>
+                    삭제
                 </th>
             </tr>
             </thead>
@@ -192,10 +195,9 @@
                 })
              );
 
-              $('#' + one.productNo + 'tprice' ).append(
-                    '<input type="number" value="' + one.price + '" id = "' + one.productNo + 'price'  + ' "readonly>'
-              );
-
+             $('#' + one.productNo + 'tprice' ).append(
+                    '<input type="number" value="' + one.price + '" id = "' + one.productNo + 'price'  + '"readonly>'
+             );
 
               total = Number($('#totalprice').val()) + one.price;
 
@@ -209,14 +211,33 @@
              );
 
              $('#' + one.productNo + 'tdnum' ).append(
+                    '<button onclick="countminus(' + one.productNo + ')">-</button>'
+              );
+
+             $('#' + one.productNo + 'tdnum' ).append(
                 '<input type="number" class="pcount" value="1" min="1" id = "' + one.productNo + 'count'  + '">'
              );
              $('#' + one.productNo + 'count' ).attr("onChange", "totalchange(" + p + ")");
 
+             $('#' + one.productNo + 'tdnum' ).append(
+                    '<button onclick="countplus(' + one.productNo + ')">+</button>'
+             );
+
+
+             $('#' + one.productNo + 'tbody' ).append(
+                $('<td>').prop({
+                    id: one.productNo + 'tddelete'
+                })
+             );
+             $('#' + one.productNo + 'tddelete' ).append(
+                    '<button onclick="deleteproduct(' + one.productNo + ')">삭제</button>'
+              );
+
+
              count = $('#' + one.productNo + 'count' ).val();
 
              $('#resultform').append(
-                    '<input type="hidden" value="' + one.productNo + '" name = "productnum">'
+                    '<input type="hidden" value="' + one.productNo + '" name = "productnum" id = "' + one.productNo + 'formproduct'  + '">'
              );
              $('#resultform').append(
                     '<input type="hidden" value="' + count + '" name = "productcount" id = "' + one.productNo + 'formcount'  + '">'
@@ -237,6 +258,70 @@
         total = Number($('#totalprice').val()) + pricechange;
 
         $('#totalprice').val(total);
+    }
+
+    function countplus(pnum){
+        //카운트 변경
+        count = Number($('#' + pnum + 'count' ).val());
+
+        count += 1;
+
+        $('#' + pnum + 'formcount' ).val(count);
+        $('#' + pnum + 'count' ).val(count);
+
+        //총 가격 변경
+        price = Number($('#' + pnum + 'price' ).val());
+        total = Number($('#totalprice').val());
+
+        $('#totalprice').val(total + price);
+    }
+
+    function countminus(pnum){
+        //카운트 변경
+        count = Number($('#' + pnum + 'count' ).val());
+
+        count -= 1;
+
+        $('#' + pnum + 'formcount' ).val(count);
+        $('#' + pnum + 'count' ).val(count);
+
+        //총 가격 변경
+        price = Number($('#' + pnum + 'price' ).val());
+        total = Number($('#totalprice').val());
+
+        $('#totalprice').val(total - price);
+    }
+
+    function getbasket(){
+        $.ajax({
+            url:"/product/getbasket",
+            success: function (data){
+                var productList = data.productList;
+                var productQuantityList = data.productQuantityList;
+
+                for(let index in productList){
+                    addtbody(productList[index]);
+
+                    $('#' + productList[index].productNo + 'count' ).val(productQuantityList[index]);
+                    $('#' + productList[index].productNo + 'formcount' ).val(productQuantityList[index]);
+                }
+
+                $('#totalprice').val(data.totalprice);
+
+            },
+            error: function (xhr){
+                console.log(xhr);
+            }
+        })
+    }
+
+    function deleteproduct(pnum){
+        $('#' + pnum + 'tbody' ).remove();
+
+        $('#' + pnum + 'formproduct' ).remove();
+        $('#' + pnum + 'formcount' ).remove();
+
+        $('#' + pnum + 'total' ).remove();
     }
 
 

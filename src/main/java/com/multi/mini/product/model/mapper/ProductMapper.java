@@ -18,6 +18,10 @@ public interface ProductMapper {
 
     public int insertProduct(ProductDTO productDTO) throws Exception;
 
+    public int updateProduct(ProductDTO productDTO) throws Exception;
+
+    public int deleteProduct(int productNo) throws Exception;
+
     @Select("SELECT * FROM prod_product")
     public List<ProductDTO> findAllProduct();
 

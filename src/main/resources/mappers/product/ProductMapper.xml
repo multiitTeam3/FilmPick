@@ -25,6 +25,21 @@
     #{ productImg });
 </insert>
 
+<update id="updateProduct" parameterType="productDTO">
+    UPDATE prod_product
+    SET name=#{ name },
+    content=#{ content },
+    price=#{ price },
+    categorycode=#{ categorycode },
+    product_img=#{ productImg }
+    WHERE product_no=#{ productNo };
+</update>
+
+<delete id="deleteProduct" parameterType="int">
+    DELETE FROM prod_product
+    WHERE product_no=#{ productNo };
+</delete>
+
 <select id="findProductByCategory" parameterType="int">
     SELECT *
     FROM prod_product

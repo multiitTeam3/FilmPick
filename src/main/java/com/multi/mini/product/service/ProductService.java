@@ -10,6 +10,10 @@ public interface ProductService {
 
     public int insertProduct(ProductDTO productDTO) throws Exception;
 
+    public int updateProduct(ProductDTO productDTO) throws Exception;
+
+    public int deleteProduct(int productNo) throws Exception;
+
     public List<ProductDTO> findAllProduct() throws Exception;
 
     public List<ProductDTO> findProductByCategory(int category) throws Exception;

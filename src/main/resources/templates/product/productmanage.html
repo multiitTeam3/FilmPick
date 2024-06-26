@@ -65,7 +65,7 @@
                     </tbody>
                 </table>
             </div>
-            <form id="form1" action="insert" method="post" enctype="multipart/form-data" >
+            <form id="form1" method="post" enctype="multipart/form-data" >
             <div class="divimg">
                 <div id="image_container">
                     <!-- 이미지 들어가는곳 -->
@@ -83,7 +83,11 @@
                     <label>상품 이름 : </label><input type="text" name="name" id="name"><br>
                     <label>상품 상세 : </label><input type="test" name="content" id="content"><br>
                     <label>상품 가격 : </label><input type="number" name="price" id="price"><br>
-                <button type="submit">추가</button>
+                <button type="submit" formaction="insert">추가</button>
+                <button type="submit" formaction="update">수정</button>
+                <button type="submit" formaction="delete">삭제</button>
+
+                <input type="hidden" value="" id = "productImg">
             </div>
             </form>
         </div>
@@ -132,7 +136,11 @@
             $('#content').val(product.content);
             $('#price').val(product.price);
             $('#name').val(product.name);
-
+            $('#productImg').val(product.productImg);
+            $('#image_container').empty()
+            $('#image_container').append(
+                    '<img src="/img/uploadFiles/' + product.productImg + '">'
+                );
         }
 
 
