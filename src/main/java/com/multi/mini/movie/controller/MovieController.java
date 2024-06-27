@@ -367,29 +367,29 @@ public class MovieController {
 		
 	}
 	
-	@GetMapping("/reservationseat/payment")
-	public String payment(@RequestParam("list") String list, Model model) {
-		
-		List<String> rsvNoList = new Gson().fromJson(list, new TypeToken<List<String>>() {
-		}.getType());
-		
-		
-		// 현재 인증된 사용자 정보를 가져옴
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-		
-		// 작성자의 memberNo와 userName을 설정
-		
-		int memberNO = userDetails.getMemberNo();
-		
-		VWResDataGroupDTO vwResDataGroupDTO = new VWResDataGroupDTO();
-		
-		
-		model.addAttribute("rsvNoList", rsvNoList);
-		return "payment/payment";
-		
-		
-	}
+//	@GetMapping("/reservationseat/payment")
+//	public String payment(@RequestParam("list") String list, Model model) {
+//
+//		List<String> rsvNoList = new Gson().fromJson(list, new TypeToken<List<String>>() {
+//		}.getType());
+//
+//
+//		// 현재 인증된 사용자 정보를 가져옴
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+//
+//		// 작성자의 memberNo와 userName을 설정
+//
+//		int memberNO = userDetails.getMemberNo();
+//
+//		VWResDataGroupDTO vwResDataGroupDTO = new VWResDataGroupDTO();
+//
+//
+//		model.addAttribute("rsvNoList", rsvNoList);
+//		return "payment/payment";
+//
+//
+//	}
 	
 	
 	@GetMapping("/reservationlist")

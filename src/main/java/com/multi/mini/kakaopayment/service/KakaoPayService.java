@@ -4,6 +4,7 @@ package com.multi.mini.kakaopayment.service;
 import com.multi.mini.kakaopayment.model.ApproveRequest;
 import com.multi.mini.kakaopayment.model.ReadyRequest;
 import com.multi.mini.kakaopayment.model.ReadyResponse;
+import com.multi.mini.payment.model.dto.VwGetResDataDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -12,8 +13,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +42,8 @@ public class KakaoPayService {
 
     private String tid; // 결제 고유 번호(TID)를 저장하는 변수
 
-    public String kakaoPayReady() {
+
+    public String kakaoPayReady(List<VwGetResDataDTO> reservations) {
         RestTemplate restTemplate = new RestTemplate();
 
         // Server Request Header : 서버 요청 헤더
@@ -45,14 +52,22 @@ public class KakaoPayService {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
 
+        String itemNames = reservations.stream()
+                .map(VwGetResDataDTO::getMovieTitle)
+                .collect(Collectors.joining(", "));
+
+        int totalAmount = reservations.stream()
+                .mapToInt(VwGetResDataDTO::getRsvMoviePrice)
+                .sum();
+
         ReadyRequest readyRequest = ReadyRequest.builder()
                 .cid("TC0ONETIME")
                 .partnerOrderId("1001")
                 .partnerUserId("goguma")
-                .itemName("비둘기")
-                .quantity(1)
-                .totalAmount(20000000)
-                .taxFreeAmount(100)
+                .itemName(itemNames)
+                .quantity(reservations.size())
+                .totalAmount(totalAmount)
+                .taxFreeAmount(0)
                 .approvalUrl("http://localhost:8099/payment/kakaoPaySuccess")
                 .cancelUrl("http://localhost:8099/payment/kakaoPayCancel")
                 .failUrl("http://localhost:8099/payment/kakaoPayFail")
@@ -105,6 +120,7 @@ public class KakaoPayService {
             return ex.getResponseBodyAsString();
         }
     }
+
 
 
 }

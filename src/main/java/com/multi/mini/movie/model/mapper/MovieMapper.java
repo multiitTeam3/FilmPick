@@ -1,9 +1,7 @@
 package com.multi.mini.movie.model.mapper;
 
 import com.multi.mini.movie.model.dto.*;
-import com.multi.mini.payment.model.dto.VwResDataDTO;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -62,10 +60,9 @@ public interface MovieMapper {
 
 	ArrayList<CinemaDTO> findCinemaList() throws Exception;
 
-	
-	ArrayList<VwResDataDTO> reservationPayment(int rsvNo) throws Exception;
 
-    VwResDataDTO vwResDataNo(int rsvNo) throws Exception;
+
+
 
 
 }

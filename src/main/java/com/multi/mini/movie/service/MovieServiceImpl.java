@@ -2,7 +2,6 @@ package com.multi.mini.movie.service;
 
 import com.multi.mini.movie.model.dto.*;
 import com.multi.mini.movie.model.mapper.MovieMapper;
-import com.multi.mini.payment.model.dto.VwResDataDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -166,10 +165,7 @@ public class MovieServiceImpl implements MovieService {
 
     }
 
-	@Override
-	public VwResDataDTO getResNo(int rsvNo) throws Exception {
-		return movieMapper.vwResDataNo(rsvNo);
-	}
+
 
 }
 

@@ -1,10 +1,16 @@
 package com.multi.mini.kakaopayment.controller;
 
 import com.multi.mini.kakaopayment.service.KakaoPayService;
+import com.multi.mini.payment.model.dto.VwGetResDataDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/payment")
@@ -13,15 +19,21 @@ public class KakaoController {
     @Autowired
     private KakaoPayService kakaoPayService;
 
-    @GetMapping("/kakaoPay")
-    public String kakaopayp(){
-        return "payment/kakaoPay";
-    }
-
     @PostMapping("/kakaoPay")
-    public String kakaoPay() {
-        String redirectUrl = kakaoPayService.kakaoPayReady();
-        return "redirect:" + redirectUrl;
+    public ResponseEntity<String> kakaoPay(@RequestBody List<VwGetResDataDTO> reservations, Model model) {
+        try {
+            String redirectUrl = kakaoPayService.kakaoPayReady(reservations);
+            return ResponseEntity.ok().body("{\"next_redirect_pc_url\": \"" + redirectUrl + "\"}");
+
+        }catch (Exception e){
+
+            model.addAttribute("error","결제 준비 중 오류가 발생했습니다.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"error\": \"결제 준비 중 오류가 발생했습니다.\"}");
+        }
+
+
+
+
     }
 
     @GetMapping("/kakaoPaySuccess")

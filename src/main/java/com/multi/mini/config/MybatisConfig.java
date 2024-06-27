@@ -1,6 +1,7 @@
 package com.multi.mini.config;
 
 import com.multi.mini.movie.model.dto.*;
+import com.multi.mini.payment.model.dto.VwGetResDataDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.JdbcType;
@@ -47,6 +48,7 @@ public class MybatisConfig {
 
 
 
+
 //        configuration.getTypeAliasRegistry().registerAlias("noticeDTO", com.multi.mini.admin.notice.model.dto.NoticeDTO.class);
 
 
@@ -69,10 +71,10 @@ public class MybatisConfig {
         configuration.getTypeAliasRegistry().registerAlias("genreDTO", GenreDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("screenDTO", ScreenDTO.class);
 
-      
 
-        
-        
+
+        configuration.getTypeAliasRegistry().registerAlias("VwGetResDataDTO", VwGetResDataDTO.class);
+
         
 
        

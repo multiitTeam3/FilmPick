@@ -1,7 +1,6 @@
 package com.multi.mini.movie.service;
 
 import com.multi.mini.movie.model.dto.*;
-import com.multi.mini.payment.model.dto.VwResDataDTO;
 
 import java.util.ArrayList;
 
@@ -51,7 +50,7 @@ public interface MovieService {
   
   	ArrayList<CinemaDTO> findCinemaList() throws Exception;
 
-	VwResDataDTO getResNo(int rsvNo) throws Exception;
+
 
 
 }

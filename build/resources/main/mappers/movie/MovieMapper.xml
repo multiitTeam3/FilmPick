@@ -7,6 +7,7 @@
 <mapper namespace="com.multi.mini.movie.model.mapper.MovieMapper">
 
 
+
     <select id="findMovieList">
 
         SELECT * FROM mov_movie;
@@ -235,12 +236,16 @@
 
 
 
-    <select id="findCinemaList">
+
+    <select id="findCinemaList"> 
 
         SELECT * FROM mov_cinema
 
     </select>
 
+  <select id="vwResDataNo" parameterType="int" resultType="vwResDataDTO">
 
+        SELECT * FROM vw_res_data WHERE RSV_NO = #{rsv_no};
+    </select>
 
 </mapper>
