@@ -142,7 +142,7 @@ public class MovieController {
 		
 		MovieScheduleDTO movieScheduleDTO = (MovieScheduleDTO) httpSession.getAttribute("movieScheduleDTO");
 		System.out.println("@GetMapping(\"/reservationseat\") : " + movieScheduleDTO);
-		
+
 		
 		ArrayList<SeatDTO> seatListByScreen = null;
 		
@@ -773,7 +773,7 @@ public class MovieController {
 		int memberNO = userDetails.getMemberNo();
 		
 		int deleteSheduleNo = (int) httpSession.getAttribute("deleteSheduleNo");
-		/*httpSession.removeAttribute("deleteSheduleNo");*/
+		httpSession.removeAttribute("deleteSheduleNo");
 		System.out.println("@PostMapping(updateseat) deleteSheduleNo : " + deleteSheduleNo);
 		
 		ReservationDTO reservationDTO = new ReservationDTO();
@@ -838,7 +838,7 @@ public class MovieController {
 		model.addAttribute("seatNoList", seatNoList);
 		model.addAttribute("seatListByScreen", seatListByScreen);
 		
-		httpSession.removeAttribute("movieScheduleDTO");
+		httpSession.removeAttribute("movieScheduleDTO2");
 		
 	}
 	
