@@ -170,6 +170,16 @@ public class MovieServiceImpl implements MovieService {
 	public VwResDataDTO getResNo(int rsvNo) throws Exception {
 		return movieMapper.vwResDataNo(rsvNo);
 	}
-
+    
+    @Override
+    public int deleteReservation(ReservationDTO reservationDTO) throws Exception {
+        return movieMapper.deleteReservation(reservationDTO);
+    }
+    
+    @Override
+    public VWResDataGroupDTO findVWResDataGroupDTO(VWResDataGroupDTO vwResDataGroupDTO) throws Exception {
+        return movieMapper.findVWResDataGroupDTO(vwResDataGroupDTO);
+    }
+    
 }
 

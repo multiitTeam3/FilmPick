@@ -8,7 +8,7 @@ $(document).ready(
                     url: 'movie/findMovieList',
                     method: 'POST',
                     contentType: 'application/json',
-                    "success": function(list){
+                    success: function(list){
                         console.log(list);
 
                         $.each(list, function(index, movie){
