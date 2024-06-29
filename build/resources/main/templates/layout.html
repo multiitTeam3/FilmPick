@@ -24,6 +24,8 @@
     <!-- css + js 파일 Load-->
     <link rel="stylesheet" th:href="@{/css/menubar.css}">
     <!--<script type="text/javascript" th:src="@{/js/main.js}"></script>-->
+    <link rel="stylesheet" th:href="@{/css/chatBot.css}">
+
 </head>
 <body>
 
@@ -43,6 +45,30 @@
     /*]]>*/
 </script>
 
+<script th:inline="javascript">
+
+    $(document).on('click','#submitQuestion',function(){
+
+        var question = $('#question').val();
+        $('#question').val('');
+        $('#history').append('<p> User : ' + question + '</p>');
+
+        $.ajax({
+
+              url: '/gpt/chatBot',
+              method: 'POST',
+              data: JSON.stringify({ question : question }),
+              contentType: 'application/json',
+              success: function(response){
+                  console.log(response);
+                  $('#history').append('<p> ChatBot : ' + response + '</p>');
+              }
+        })
+    })
+
+
+</script>
+
 <div class="container-fluid">
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
         <div class="col-md-3 mb-2 mb-md-0 logo-container">
@@ -54,7 +80,7 @@
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#chatBotModalLong"
                 id="openChat">
-            영화 추천 챗봇 열기
+            영화추천 챗봇
         </button>
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
@@ -132,17 +158,21 @@
 <!-- CHATBOT Modal -->
 <div class="modal fade" id="chatBotModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
      aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog modal-lg" role="document" id="background1">
+        <div class="modal-content" id="modal-content1">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">챗봇에게 물어보세요</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">ASK ME!!</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body" id="chatBotContent">
-                <p>대화 내용</p>
-                <hr>
+                <div>
+                    <p class="example">질문 예시 1. 코미디 영화 추천해주세요.</p>
+                    <p class="example">질문 예시 2. 장르 뭐뭐 있어요?</p>
+                    <p class="example">질문 예시 3. TMDB 사이트에 있는 영화도 추천해줄 수 있어요?</p>
+
+                </div>
                 <div id="history"></div>
             </div>
             <div class="modal-footer">
@@ -153,35 +183,5 @@
         </div>
     </div>
 </div>
-
-<script th:inline="javascript">
-
-   $(document).on('click','#submitQuestion',function(){
-
-       var question = $('#question').val();
-       $('#history').append('<p> user : ' + question + '</p>');
-
-       $.ajax({
-
-             url: '/gpt/chatBot',
-             method: 'POST',
-             data: JSON.stringify({ question : question }),
-             contentType: 'application/json',
-             success: function(response){
-                 console.log(response);
-                 $('#history').append('<p> chatBot : ' + response + '</p>');
-                 $('#question').val('');
-
-
-             }
-
-       })
-
-   })
-
-
-</script>
-
-
 </body>
 </html>

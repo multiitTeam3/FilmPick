@@ -4,11 +4,11 @@ package com.multi.mini.gpt.controller;
 
 
 import com.multi.mini.gpt.service.Assistance;
+import com.multi.mini.movie.model.dto.MovieDTO;
 import com.multi.mini.movie.model.dto.VWMovieManageDataDTO;
 import com.multi.mini.movie.service.MovieService;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.service.AiServices;
-import dev.langchain4j.service.spring.AiService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -64,8 +64,15 @@ public class GPTController {
 		
 		/*return "whny/?";*/
 		
+		ArrayList<MovieDTO> tmdbList  = null;
+		try {
+			tmdbList = movieService.findAllAPIMovieList();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 		
-		String answer = assistance.chat(question, list);
+		
+		String answer = assistance.chat(question, list, tmdbList);
 		
 		return answer;
 		

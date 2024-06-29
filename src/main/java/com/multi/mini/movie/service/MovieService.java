@@ -59,4 +59,6 @@ public interface MovieService {
 	VWResDataGroupDTO findVWResDataGroupDTO(VWResDataGroupDTO vwResDataGroupDTO) throws Exception;
 	
 	ArrayList<VWMovieManageDataDTO> findAllVWMovieManageDataDTO() throws Exception;
+	
+	ArrayList<MovieDTO> findAllAPIMovieList() throws Exception;
 }
