@@ -4,4 +4,6 @@ import com.multi.mini.member.model.dto.MemberDTO;
 
 public interface AuthService {
     void createMember(MemberDTO dto) throws Exception;
+
+    MemberDTO isMemberByEmail(String memberEmail) throws Exception;
 }

@@ -110,7 +110,7 @@ public class MemberManagementController {
         System.out.println("유저 권한 확인 : " + Arrays.toString(roles));
         System.out.println("유저 DTO 확인 : " + userData);
 
-        memberService.updateMember(userData, roles, null);
+        memberService.updateMember(userData, roles);
 
 
         return "redirect:/admin/membermanage/find?no=" + userData.getMemberNo();

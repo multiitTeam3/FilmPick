@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -69,5 +70,11 @@ public class CouponServiceImpl implements CouponService{
     @Override
     public void deleteCoupon(String couponCode) throws Exception{
         if(couponMapper.deleteCoupon(couponCode) == 0) throw new RuntimeException("쿠폰 삭제 실패");
+    }
+
+    @Override
+    public ArrayList<CouponDTO> findCouponListByMemberNo(int memberNo) throws Exception{
+        ArrayList<CouponDTO> list = (ArrayList<CouponDTO>) couponMapper.findCouponListByMemberNo(memberNo);
+        return list;
     }
 }

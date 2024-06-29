@@ -12,5 +12,5 @@ public interface MemberService {
 
     void deleteMember(int no) throws Exception;
 
-    void updateMember(MemberDTO userData, String[] roles, String userEmail) throws Exception;
+    void updateMember(MemberDTO userData, String[] roles) throws Exception;
 }

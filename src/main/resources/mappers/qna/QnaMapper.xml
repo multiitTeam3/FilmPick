@@ -15,9 +15,12 @@
 		<id property="qna_no" column="qna_no" />
 		<result property="category" column="category" />
 		<result property="member_no" column="member_no" />
+		<result property="memberEmail" column="email" />
 		<result property="title" column="title" />
 		<result property="content" column="content" />
 		<result property="img" column="img" />
+		<result property="writer" column="user_name" />
+		<result property="isAnswer" column="is_answer" />
 		<result property="create_date" column="create_date" />
 		<result property="modify_date" column="modify_date" />
 	</resultMap>
@@ -47,6 +50,7 @@
 			q.*
 			, m.member_no
 			, m.user_name
+			, m.email
 		FROM admin_question q
 		JOIN mem_member m ON q.member_no = m.member_no
 		WHERE q.member_no = #{member_no}
@@ -58,9 +62,21 @@
 		q.*
 		, m.member_no
 		, m.user_name
+		, m.email
 		FROM admin_question q
 		JOIN mem_member m ON q.member_no = m.member_no
 		WHERE q.qna_no = #{no}
+	</select>
+
+	<select id="findQnaListAll" resultMap="QnaResultMap">
+		SELECT
+			  q.*
+			, m.member_no
+			, m.user_name
+			, m.email
+		FROM
+			admin_question q
+		JOIN mem_member m ON q.member_no = m.member_no
 	</select>
 
 
