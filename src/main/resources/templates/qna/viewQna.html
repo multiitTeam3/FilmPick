@@ -34,10 +34,7 @@
                 <div class="mb-3 form-group">
                     <label class="form-control" style="height:auto; padding: 10px;">내용: <br> [[${qna.content}]] <br>
                         <div th:if="${qna.img != null}" >
-                            <img th:src="@{'/uploadFiles/' + ${qna.img}}" width="250" height="250" alt="문의글 이미지" >
-                        </div>
-                        <div th:if="${qna.img == null}" class="form-control">
-                            <p>이미지가 없습니다.</p>
+                            <img th:src="@{'/img/qna/' + ${qna.img}}" width="250" height="250" alt="문의글 이미지" >
                         </div>
                     </label>
                 </div>
