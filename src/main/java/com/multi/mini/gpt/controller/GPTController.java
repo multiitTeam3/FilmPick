@@ -29,6 +29,8 @@ public class GPTController {
 	/*@Autowired*/
 	private MovieService movieService;
 	
+	private static final int MAX_TOKENS = 4000;
+	
 
 	public GPTController(/*Assistance assistance, */MovieService movieService) {
 		/*this.assistance = assistance;*/
