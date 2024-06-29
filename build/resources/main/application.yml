@@ -16,6 +16,10 @@ spring:
       max-file-size: 1MB
     mvc:
       static-path-pattern: /webapp/**
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 
 server:
   port: 8099
@@ -46,3 +50,6 @@ kakaopay:
 
 sample:
   host: http://localhost:8099
+
+
+

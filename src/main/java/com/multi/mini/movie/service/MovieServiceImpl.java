@@ -5,6 +5,7 @@ import com.multi.mini.movie.model.mapper.MovieMapper;
 import com.multi.mini.payment.model.dto.VwResDataDTO;
 import org.springframework.stereotype.Service;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -179,6 +180,11 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public VWResDataGroupDTO findVWResDataGroupDTO(VWResDataGroupDTO vwResDataGroupDTO) throws Exception {
         return movieMapper.findVWResDataGroupDTO(vwResDataGroupDTO);
+    }
+    
+    @Override
+    public ArrayList<VWMovieManageDataDTO> findAllVWMovieManageDataDTO() throws Exception {
+        return movieMapper.findAllVWMovieManageDataDTO();
     }
     
 }

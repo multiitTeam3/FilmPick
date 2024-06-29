@@ -57,4 +57,6 @@ public interface MovieService {
 	int deleteReservation(ReservationDTO reservationDTO) throws Exception;
 	
 	VWResDataGroupDTO findVWResDataGroupDTO(VWResDataGroupDTO vwResDataGroupDTO) throws Exception;
+	
+	ArrayList<VWMovieManageDataDTO> findAllVWMovieManageDataDTO() throws Exception;
 }
