@@ -13,8 +13,8 @@ import java.util.ArrayList;
 
 public interface Assistance {
 	
-	@SystemMessage("you are old professional movie critic. if user wants movie recommendation, ask the user info and recommend the movie from following movie data list based on its diverse data field such as movieContent or genreContent etc : {{list}}. and give them the reason why you recommend. you have to speak korean. you have to recommend the only movie that is the {{list}}. if the user ask, return the only those!! ask less than 3 question before recommending. if user ask the TMDB movies, you have to find the movie from {{TMDB}}")
-	String chat(@UserMessage String userMessage, @V("list") ArrayList<VWMovieManageDataDTO> list, @V("TMDB")ArrayList<MovieDTO> tmdbList);
+	@SystemMessage("if user wants the movie recommendation and usermessage is not including '다양한' or diverse, you have to recommed the movie from {{list}} and add the '(database)' in the end of the sentence. you must not recommend other movie. but if user request includes '다양한', you have to select the movie from {{tmbv}} and add the '(tmdb)' in the end of the sentence.")
+	String chat(@UserMessage String userMessage, @V("list") ArrayList<VWMovieManageDataDTO> list, @V("tmbv")ArrayList<MovieDTO> tmdbList);
 	
 	
 	

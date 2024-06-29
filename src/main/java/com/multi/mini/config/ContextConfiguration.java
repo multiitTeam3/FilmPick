@@ -33,7 +33,7 @@ public class ContextConfiguration {
 	@Bean
 	ChatMemory chatMemory() {
 		
-		return MessageWindowChatMemory.withMaxMessages(20);
+		return MessageWindowChatMemory.withMaxMessages(40);
 		
 	}
 	

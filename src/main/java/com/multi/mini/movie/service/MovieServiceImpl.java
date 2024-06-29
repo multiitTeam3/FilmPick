@@ -205,8 +205,13 @@ public class MovieServiceImpl implements MovieService {
     
     @Override
     public ArrayList<MovieDTO> findAllAPIMovieList() throws Exception {
+        
+        Random random = new Random();
+        int page = random.nextInt(1,20);
+        
+        
         Request request = new Request.Builder()
-                .url("https://api.themoviedb.org/3/movie/popular?api_key=df334807a5a12460d7c3e764b1b510d6&language=ko-KR")
+                .url("https://api.themoviedb.org/3/movie/popular?api_key=df334807a5a12460d7c3e764b1b510d6&language=ko-KR&page=" + page)
                 .get()
                 .addHeader("accept", "application/json")
                 .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2ODgwMjJmOTRmZmJlMDlkNzczZGQwYTk4MDhhMGQ2MyIsIm5iZiI6MTcxOTI0NzcxMi4xMDU5NjYsInN1YiI6IjY2NmNjYTcyYWEwODdmOWFlNjk5N2QyMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.WHyQGfhSMzkFXRk3ixPoWU4NLeaoFApgKOXxUSMVBm0")
@@ -243,8 +248,8 @@ public class MovieServiceImpl implements MovieService {
                 
             }
             
-            Random random = new Random();
-            int randNum = random.nextBoolean()? 1:2;
+            Random random2 = new Random();
+            int randNum = random2.nextBoolean()? 1:2;
             
             
             movieDTO.setAdult(adult);

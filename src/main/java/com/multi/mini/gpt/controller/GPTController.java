@@ -7,6 +7,7 @@ import com.multi.mini.gpt.service.Assistance;
 import com.multi.mini.movie.model.dto.MovieDTO;
 import com.multi.mini.movie.model.dto.VWMovieManageDataDTO;
 import com.multi.mini.movie.service.MovieService;
+import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.service.AiServices;
 import lombok.AllArgsConstructor;
@@ -34,9 +35,15 @@ public class GPTController {
 		this.movieService = movieService;
 	}
 	
-	ChatLanguageModel model = OpenAiChatModel.withApiKey("sk-proj-TYaUQGWfZaStsphKrV4sT3BlbkFJbJYWDn4q0uXiG1pWWw0C");
+	/*ChatLanguageModel model = OpenAiChatModel.withApiKey("sk-proj-TYaUQGWfZaStsphKrV4sT3BlbkFJbJYWDn4q0uXiG1pWWw0C");
 	
-	Assistance assistance = AiServices.create(Assistance.class, model);
+	Assistance assistance = AiServices.create(Assistance.class, model);*/
+	
+	
+	Assistance assistance = AiServices.builder(Assistance.class)
+			.chatLanguageModel(OpenAiChatModel.withApiKey("sk-proj-TYaUQGWfZaStsphKrV4sT3BlbkFJbJYWDn4q0uXiG1pWWw0C"))
+			.chatMemoryProvider(memoryId -> MessageWindowChatMemory.withMaxMessages(20))
+			.build();
 	
 	@PostMapping("/chatBot")
 	@ResponseBody
@@ -70,6 +77,8 @@ public class GPTController {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+		
+		System.out.println("tmdbList : " + tmdbList);
 		
 		
 		String answer = assistance.chat(question, list, tmdbList);
