@@ -28,4 +28,6 @@ public interface ProductMapper {
     List<ProductDTO> findProductByCategory(int category);
 
     ProductDTO findProductByProductNo(int productNo);
+
+    List<ProductDTO> findProductBySearch(String searchword);
 }

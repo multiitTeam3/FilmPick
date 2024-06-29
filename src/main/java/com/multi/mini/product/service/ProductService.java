@@ -19,4 +19,6 @@ public interface ProductService {
     public List<ProductDTO> findProductByCategory(int category) throws Exception;
 
     public  ProductDTO findProductByProductNo(int productNo) throws Exception;
+
+    public List<ProductDTO> findProductBySearch(String searchword);
 }

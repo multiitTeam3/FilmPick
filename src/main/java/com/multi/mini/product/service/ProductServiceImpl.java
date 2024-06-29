@@ -52,4 +52,9 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO findProductByProductNo(int productNo) throws Exception {
         return productMapper.findProductByProductNo(productNo);
     }
+
+    @Override
+    public List<ProductDTO> findProductBySearch(String searchword) {
+        return productMapper.findProductBySearch(searchword);
+    }
 }

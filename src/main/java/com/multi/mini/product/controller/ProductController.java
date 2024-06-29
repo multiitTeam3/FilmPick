@@ -1,11 +1,14 @@
 package com.multi.mini.product.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.multi.mini.member.model.dto.CustomUserDetails;
 import com.multi.mini.product.model.dto.CategoryDTO;
 import com.multi.mini.product.model.dto.ProductDTO;
 import com.multi.mini.product.model.dto.ProductListDTO;
 import com.multi.mini.product.service.ProductService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -14,6 +17,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.List;
 
 @Controller
@@ -60,7 +66,7 @@ public class ProductController {
     }
 
     @PostMapping("basket")
-    public String basketMake(HttpServletRequest request, @RequestParam("totalprice") int totalprice) throws Exception {
+    public String basketMake(HttpServletRequest request, HttpServletResponse response, @RequestParam("totalprice") int totalprice) throws Exception {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -85,22 +91,44 @@ public class ProductController {
 
         session.setAttribute( productListDTO.getMemberNo() + "basket" , productListDTO);
 
-        return "/home";
+        //객체를 json으로
+        ObjectMapper objectMapper = new ObjectMapper();
+        String basketJson = objectMapper.writeValueAsString(productListDTO);
+
+        System.out.println(" 장바구니 json >> " + basketJson);
+
+        Cookie basketCookie = new Cookie(userDetails.getMemberNo() + "basket" , URLEncoder.encode(basketJson,"UTF-8"));
+        basketCookie.setPath("/");
+        response.addCookie(basketCookie);
+        
+
+        return "/productselect";
     }
 
     @GetMapping(value="getbasket", produces = "application/json; charset=UTF-8")
     @ResponseBody
-    public ProductListDTO getbasket(HttpSession session){
+    public String getbasket(HttpServletRequest request) throws UnsupportedEncodingException {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
+        String basketJson = "";
 
-        ProductListDTO basket = (ProductListDTO)session.getAttribute(userDetails.getMemberNo()+"basket");
 
-        System.out.println("basket>> " + basket);
+        Cookie[] cookies=request.getCookies(); // 모든 쿠키 가져오기
+        if(cookies!=null){
+            for (Cookie c : cookies) {
+                String name = c.getName(); // 쿠키 이름 가져오기
+                String value = c.getValue(); // 쿠키 값 가져오기
+                if (name.equals(userDetails.getMemberNo() + "basket")) {
+                    System.out.println( "받아온 쿠키값 >> " + value);
+                    basketJson = URLDecoder.decode(value , "UTF-8");
+                    System.out.println( "넘어온 json >> " + basketJson);
+                }
+            }
+        }
 
-        return basket;
+        return basketJson;
     }
 
 }

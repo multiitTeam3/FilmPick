@@ -144,4 +144,12 @@ public class AdminProductController {
         model.addAttribute("productList", list);
         return "product/productmanage::#productTbody";
     }
+
+    @GetMapping("productbysearch")
+    public String findProductBySearch(@RequestParam("searchword") String searchword , Model model) throws Exception {
+
+        List<ProductDTO> list = productService.findProductBySearch( "%"+searchword+"%");
+        model.addAttribute("productList", list);
+        return "product/productmanage::#productTbody";
+    }
 }

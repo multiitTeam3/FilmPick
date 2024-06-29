@@ -52,6 +52,12 @@
     WHERE product_no= #{ productNo };
 </select>
 
+<select id="findProductBySearch" parameterType="string">
+    SELECT *
+    FROM prod_product
+    WHERE name LIKE #{ searchword };
+</select>
+
 
 
 

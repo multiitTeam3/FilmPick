@@ -52,6 +52,8 @@
     <div>
         <div class="divbtnwrap">
             <div class="divbtn" id="divbtn"></div>
+            <input type="text" id="searchinput">
+            <button id="searchbtn" onclick="search()">검색</button>
         </div>
         <div class="row">
             <div class="divtable">
@@ -192,6 +194,25 @@
             $.ajax({
                 url:"product/productbycategory",
                 data: {category : category},
+                success: function (productList){
+
+
+                $('#productTbody').replaceWith(productList);
+                console.log(productList);
+
+                },
+                error: function (xhr){
+                    console.log(xhr);
+                }
+            })
+        }
+
+        function search(){
+            var searchword = $('#searchinput').val();
+
+            $.ajax({
+                url:"product/productbysearch",
+                data: {searchword : searchword},
                 success: function (productList){
 
 
