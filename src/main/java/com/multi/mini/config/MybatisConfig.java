@@ -49,6 +49,7 @@ public class MybatisConfig {
 
 
 
+        configuration.getTypeAliasRegistry().registerAlias("productDTO", com.multi.mini.product.model.dto.ProductDTO.class);
 
 //        configuration.getTypeAliasRegistry().registerAlias("noticeDTO", com.multi.mini.admin.notice.model.dto.NoticeDTO.class);
 
