@@ -16,6 +16,18 @@
 
 
 
+    <update id="updateReservationIsPaid" parameterType="int">
+        UPDATE mov_reservation
+        SET rsv_is_paid = 'Y'
+        WHERE rsv_no = #{rsvNo}
+    </update>
+
+    
+    <insert id="insertPayment" parameterType="paymentsDTO">
+        INSERT INTO pay_payments (member_no, pay_method, ord_code, amount, discount, total_price) VALUES (#{memberNo}, #{payMethod}, #{ordCode}, #{amount}, #{discount}, #{totalPrice})
+    </insert>
+
+
 
 
 

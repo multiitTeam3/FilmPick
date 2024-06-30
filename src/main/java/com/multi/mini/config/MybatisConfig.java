@@ -1,6 +1,7 @@
 package com.multi.mini.config;
 
 import com.multi.mini.movie.model.dto.*;
+import com.multi.mini.payment.model.dto.PaymentsDTO;
 import com.multi.mini.payment.model.dto.VwGetResDataDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -75,7 +76,8 @@ public class MybatisConfig {
 
         configuration.getTypeAliasRegistry().registerAlias("VwGetResDataDTO", VwGetResDataDTO.class);
 
-        
+
+        configuration.getTypeAliasRegistry().registerAlias("paymentsDTO", PaymentsDTO.class);
 
        
 

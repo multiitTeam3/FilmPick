@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>결제 페이지</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -19,6 +17,8 @@
                         </div>
                         <div class="col-md-4">
                             <h2 class="font-weight-bold mb-4">영화정보</h2>
+                            <p><strong>사용자:</strong> <span th:text="${username}"></span></p>
+                            <p><strong>예약번호:</strong> <span th:text="${rsvNoList}"></span></p>
                             <p><strong>영화명:</strong> <span th:text="${reservations[0].movieTitle}"></span></p>
                             <p><strong>일시:</strong> <span th:text="${reservations[0].date}"></span></p>
                             <p><strong>상영 시간:</strong> <span th:text="${reservations[0].startTime} + ' - ' + ${reservations[0].endTime}"></span></p>
@@ -41,46 +41,23 @@
                     </div>
                     <div th:if="${reservations != null && !reservations.isEmpty()}">
                         <span th:text="${totalPrice}"></span> 원
+
+                        <form id="kakaopay" th:object="${kakaoReadyDTO}" method="post" th:action="@{/payment/kakaoPay}">
+                            <input type="hidden" name="memberNo" th:field="*{memberNo}" />
+                            <input type="hidden" name="username" th:field="*{username}" />
+                            <input type="hidden" name="rsvNoList" th:field="*{rsvNoList}" />
+                            <input type="hidden" name="movieTitle" th:field="*{movieTitle}" />
+                            <input type="hidden" name="totalPrice" th:field="*{totalPrice}" />
+                            <input type="hidden" name="adultCount" th:field="*{adultCount}" />
+                            <input type="hidden" name="teenCount" th:field="*{teenCount}" />
+                            <input type="hidden" name="partnerOrderId" th:field="*{partnerOrderId}" />
+                            <button type="submit" class="btn btn-primary">결제하기</button>
+                        </form>
                     </div>
-                    <form method="post" th:action="@{/payment/kakaoPay}">
-                        <input type="hidden" id="reservations" th:value="${reservationsJson}" />
-                        <input type="hidden" id="totalPrice" th:value="${totalPrice}" />
-                        <input type="hidden" id="adultCount" th:value="${adultCount}" />
-                        <input type="hidden" id="teenCount" th:value="${teenCount}" />
-                        <button type="submit">결제하기</button>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function() {
-        // '결제하기' 버튼을 클릭했을 때
-        $('#kakao').click(function(e) {
-            e.preventDefault();
-
-            // 숨겨진 필드에서 데이터 가져오기
-            var reservationsData = $('#reservations').val();
-            var parsedReservations = JSON.parse(reservationsData);
-
-            $.ajax({
-                url: '/payment/kakaoPay',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(parsedReservations),
-                success: function(response) { // 요청 성공 시 수행할 함수
-                    console.log('Payment successful:', response);
-                    alert(response.next_redirect_pc_url);
-                    window.location.href= response.next_redirect_pc_url;
-                },
-                error: function(xhr, status, error) { // 요청 실패 시 수행할 함수
-                    console.error('Payment failed:', error);
-                    alert('결제에 실패했습니다.');
-                }
-            });
-        });
-    });
-</script>
 </body>
 </html>

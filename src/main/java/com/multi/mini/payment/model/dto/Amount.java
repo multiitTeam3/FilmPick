@@ -1,4 +1,4 @@
-package com.multi.mini.kakaopayment.model;
+package com.multi.mini.payment.model.dto;
 
 import lombok.Data;
 

@@ -2,21 +2,25 @@ package com.multi.mini.payment.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.multi.mini.member.model.dto.CustomUserDetails;
+import com.multi.mini.member.model.dto.MemberDTO;
 import com.multi.mini.movie.model.dto.ReservationDataDTO;
 import com.multi.mini.movie.model.dto.VWResDataDTO;
+import com.multi.mini.movie.model.dto.VWRewDataDTO;
+import com.multi.mini.payment.model.dto.KakaoReadyDTO;
 import com.multi.mini.payment.model.dto.VwGetResDataDTO;
 import com.multi.mini.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class PayMovieController {
@@ -29,16 +33,32 @@ public class PayMovieController {
     public String payment(@RequestParam("list") String list, Model model,
                           @RequestParam("adult") int adult,
                           @RequestParam("teen") int teen ) {
+
+
+        //역직렬화 GSON JSON ob > java ob 로 변경
         List<Integer> rsvNoList = new Gson().fromJson(list, new TypeToken<List<Integer>>() {
         }.getType());
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-
+//        // 단일 예약 번호를 리스트로 변환
+//        List<Integer> rsvNoList = Arrays.asList(rsvNos);
+        //VwGetResDataDTO 객체생성
         List<VwGetResDataDTO> reservations = new ArrayList<>();
-        //시트이름 배열로담기
-        List<String> seatNames  = new ArrayList<>();
-
+        //seatNames 배열담기
+        List<String> seatNames = new ArrayList<>();
+        //가격을 담기위한 리스트 생성
         ArrayList<Integer> priceList = new ArrayList<>();
+        //로그인된 아이디가져오기
+        String username = userDetails.getUsername();
+        int memberNo = userDetails.getMemberNo();
+
+
+        //로그인된 이메일 가져오기 (partnerOrderId)로 사용
+        String partnerOrderId = userDetails.getTel();
+
+
 
         if (adult > 0) {
 
@@ -84,17 +104,32 @@ public class PayMovieController {
             System.out.println("adult: "+ adult);
             System.out.println("teen: "+ teen);
             System.out.println("priceList: "+ priceList);
+            System.out.println("rsvNos: "+ list);
 
             System.out.println("================================================");
 
+            KakaoReadyDTO kakaoReadyDTO = new KakaoReadyDTO();
+            kakaoReadyDTO.setRsvNoList(new ArrayList<>(rsvNoList));//예약번호 리스트
+            kakaoReadyDTO.setRsv(reservations.get(0)); //
+            kakaoReadyDTO.setMovieTitle(reservations.get(0).getMovieTitle());
+            kakaoReadyDTO.setUsername(username);
+            kakaoReadyDTO.setTotalPrice(totalPrice);
+            kakaoReadyDTO.setAdultCount(adult);
+            kakaoReadyDTO.setTeenCount(teen);
+            kakaoReadyDTO.setPartnerOrderId(partnerOrderId);
+            kakaoReadyDTO.setMemberNo(memberNo);
 
 
-
+            model.addAttribute("memberNo",memberNo);
+            model.addAttribute("username",username);
             model.addAttribute("seatNames", seatNames);
-            model.addAttribute("reservations", reservations);
-            model.addAttribute("adultCount", adult);
-            model.addAttribute("teenCount", teen);
-            model.addAttribute("totalPrice", totalPrice);
+            model.addAttribute("reservations", reservations); //
+            model.addAttribute("adultCount", adult); //성인 수
+            model.addAttribute("teenCount", teen); //청소년 수
+            model.addAttribute("totalPrice", totalPrice); //총합가격
+            model.addAttribute("rsvNoList", list); //예약번호
+            model.addAttribute("kakaoReadyDTO", kakaoReadyDTO);
+            model.addAttribute("partnerOrderId",partnerOrderId);
 
         }
         return "payment/payment";
