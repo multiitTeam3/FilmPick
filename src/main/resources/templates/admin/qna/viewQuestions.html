@@ -19,7 +19,7 @@
         <form id="search" th:action="@{/admin/question}" method="get">
             <div class="search-box">
                 <select class="form-select" aria-label="search list" name="type" id="type">
-                    <option value="category" selected>문의 종류</option>
+                    <option value="category" selected>구분</option>
                     <option value="email">이메일</option>
                 </select>
                 <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword" id="keyword">
@@ -31,11 +31,11 @@
             <table class="table table-hover table-bordered table-striped">
                 <thead class="table-dark">
                 <tr>
-                    <th scope="col">NO.</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">CREATE_DATE</th>
+                    <th scope="col">번호</th>
+                    <th scope="col">구분</th>
+                    <th scope="col">이메일</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">작성일</th>
                 </tr>
                 </thead>
                 <tbody>

@@ -38,6 +38,21 @@
 			mem_member_and_role mar ON m.member_no = mar.member_no
 		LEFT JOIN
 			mem_role r ON mar.role_no = r.role_no
+		WHERE
+		<choose>
+			<when test="type == 'email'">
+				m.email LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
+			</when>
+			<when test="type == 'name'">
+				m.user_name LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
+			</when>
+			<when test="type == 'role'">
+				r.name LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
+			</when>
+			<otherwise>
+				1 = 1
+			</otherwise>
+		</choose>
 		LIMIT #{start}, #{end}
 	</select>
 

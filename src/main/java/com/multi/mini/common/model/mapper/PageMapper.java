@@ -6,8 +6,7 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface PageMapper {
-    @Select("SELECT COUNT(*) FROM mem_member")
-    int selectMemberCount() throws Exception;
+    int selectMemberCount(@Param("type") String type, @Param("keyword") String keyword) throws Exception;
 
     @Select("SELECT COUNT(*) FROM comm_board")
     int selectBoardCount() throws Exception;
