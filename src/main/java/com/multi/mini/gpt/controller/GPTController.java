@@ -52,7 +52,7 @@ public class GPTController {
 	OpenAiChatModel model = OpenAiChatModel.builder()
 			.apiKey("sk-proj-TYaUQGWfZaStsphKrV4sT3BlbkFJbJYWDn4q0uXiG1pWWw0C")
 			.modelName("gpt-3.5-turbo")
-			.temperature(0.2)
+			.temperature(0.7)
 			.build();
 	
 	Assistance assistance = AiServices.create(Assistance.class, model);
