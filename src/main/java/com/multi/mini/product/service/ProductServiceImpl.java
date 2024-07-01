@@ -29,6 +29,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public int updateProduct(ProductDTO productDTO) throws Exception {
+        return productMapper.updateProduct(productDTO);
+    }
+
+    @Override
+    public int deleteProduct(int productNo) throws Exception {
+        return productMapper.deleteProduct(productNo);
+    }
+
+    @Override
     public List<ProductDTO> findAllProduct() throws Exception {
         return productMapper.findAllProduct();
     }
@@ -36,5 +46,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDTO> findProductByCategory(int category) throws Exception {
         return productMapper.findProductByCategory(category);
+    }
+
+    @Override
+    public ProductDTO findProductByProductNo(int productNo) throws Exception {
+        return productMapper.findProductByProductNo(productNo);
+    }
+
+    @Override
+    public List<ProductDTO> findProductBySearch(String searchword) {
+        return productMapper.findProductBySearch(searchword);
     }
 }

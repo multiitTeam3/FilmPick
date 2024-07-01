@@ -49,6 +49,8 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-mail' // smtp
 	implementation 'org.springframework.boot:spring-boot-starter-aop' // aop
+	implementation 'dev.langchain4j:langchain4j-open-ai-spring-boot-starter:0.31.0'
+	implementation 'dev.langchain4j:langchain4j:0.31.0'
 }
 
 tasks.named('test') {
