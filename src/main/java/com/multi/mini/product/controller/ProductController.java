@@ -102,7 +102,7 @@ public class ProductController {
         response.addCookie(basketCookie);
         
 
-        return "/productselect";
+        return "product/productselect";
     }
 
     @GetMapping(value="getbasket", produces = "application/json; charset=UTF-8")
