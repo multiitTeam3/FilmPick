@@ -19,4 +19,9 @@ public class CinemaServiceImpl implements CinemaService{
     public void deleteCinema(int cinemaNo) throws Exception{
         if(cinemaMapper.deleteCinema(cinemaNo) == 0) throw new RuntimeException("영화관 삭제 실패");
     }
+
+    @Override
+    public void updateCinema(CinemaDTO cinemaDTO) {
+        if(cinemaMapper.updateCinema(cinemaDTO) == 0) throw new RuntimeException("영화관 수정 실패");
+    }
 }

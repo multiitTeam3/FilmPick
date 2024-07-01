@@ -66,6 +66,7 @@
 		FROM admin_question q
 		JOIN mem_member m ON q.member_no = m.member_no
 		WHERE q.qna_no = #{no}
+		ORDER BY q.is_answer
 	</select>
 
 	<select id="findQnaListAll" resultMap="QnaResultMap">

@@ -74,7 +74,7 @@ public class MemberController {
             model.addAttribute("user", userData);
             model.addAttribute("coupons", coupons);
         } catch (Exception e) {
-            log.error("error log = {}", e);
+            log.error("error log = ", e);
         }
 
         return "member/tab/couponsPoints";
@@ -101,7 +101,18 @@ public class MemberController {
     }
 
     @GetMapping("/profile/purchaseHistory")
-    public String showPurchaseHistory() {
+    public String showPurchaseHistory(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        try {
+            ArrayList<CouponDTO> coupons = couponService.findCouponListByMemberNo(userDetails.getMemberNo());
+            model.addAttribute("coupons", coupons);
+        } catch (Exception e) {
+            model.addAttribute("msg", "조회에 실패했습니다");
+            log.error("error log = ", e);
+        }
+
         return "member/tab/purchaseHistory";
     }
 
@@ -111,10 +122,18 @@ public class MemberController {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
         try {
-            List<QnaDTO> qnas = qnaService.selectQnaAll(userDetails.getMemberNo());
-            model.addAttribute("qnas", qnas);
+            int member_no = userDetails.getMemberNo();
+
+            List<QnaDTO> qna = qnaService.selectQnaAll(member_no);
+
+            model.addAttribute("qna", qna);
+
+            for (QnaDTO qnaDTO : qna) {
+                System.out.println(qnaDTO);
+            }
         } catch (Exception e) {
-            model.addAttribute("msg", "문의글 조회 실패");
+            e.printStackTrace();
+            System.out.println("qna list error : " + e);
         }
 
         return "member/tab/questionHistory";

@@ -5,10 +5,17 @@
 <head>
     <meta charset="UTF-8">
     <title>문의글 조회</title>
+    <link rel="stylesheet" th:href="@{/css/container-box.css}">
 </head>
 <body>
 <div layout:fragment="content" >
-    <div class="container">
+    <div class="container-box text-center">
+        <h1>관리자 페이지</h1>
+    </div>
+
+    <div class="container-box">
+        <h2>문의 관리</h2>
+
         <div class="card">
             <div class="card-header">
                 <h2 class="text-center mb-4" th:text="${question.title}">게시글 제목</h2>
@@ -47,10 +54,7 @@
             <br>
             <hr>
         </div>
-
-
     </div>
-
 </div>
 
 </body>

@@ -55,9 +55,13 @@
 
 	<select id="findCouponListByMemberNo" resultMap="couponResultMap">
 		SELECT
-			*
+			  c.*
+			, m.member_no
+			, m.email
 		FROM
-			mem_coupon
+			mem_coupon c
+		LEFT JOIN
+			mem_member m ON m.member_no = c.member_no
 		WHERE
 			member_no = #{ memberNo }
 	</select>
