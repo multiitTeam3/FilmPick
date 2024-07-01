@@ -100,7 +100,7 @@ public class MemberController {
         return "member/tab/updateMemberInfo";
     }
 
-    @GetMapping("/profile/purchaseHistory")
+    @GetMapping("/profile/purchase")
     public String showPurchaseHistory(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -116,7 +116,7 @@ public class MemberController {
         return "member/tab/purchaseHistory";
     }
 
-    @GetMapping("/profile/questionHistory")
+    @GetMapping("/profile/question")
     public String showQuestionHistory(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();

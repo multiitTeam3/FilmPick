@@ -22,4 +22,16 @@ public class PageServiceImpl implements PageService{
         return count;
     }
 
+    @Override // 영화관 카운트
+    public int selectCinemaCount(String type, String keyword) {
+        int count = pageMapper.selectCinemaCount(type, keyword);
+        return count;
+    }
+
+    @Override
+    public int selectQuestionCount(String type, String keyword) {
+        int count = pageMapper.selectQuestionCount(type, keyword);
+        return count;
+    }
+
 }

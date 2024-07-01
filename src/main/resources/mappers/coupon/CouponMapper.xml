@@ -63,7 +63,7 @@
 		LEFT JOIN
 			mem_member m ON m.member_no = c.member_no
 		WHERE
-			member_no = #{ memberNo }
+			c.member_no = #{ memberNo }
 	</select>
 
 </mapper>

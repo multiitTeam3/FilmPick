@@ -7,4 +7,7 @@ public interface PageService {
 
     int selectBoardCount(PageDTO page) throws Exception;
 
+    int selectCinemaCount(String type, String keyword);
+
+    int selectQuestionCount(String type, String keyword);
 }

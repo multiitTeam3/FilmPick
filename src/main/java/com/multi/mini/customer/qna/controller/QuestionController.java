@@ -23,7 +23,6 @@ public class QuestionController {
     private final QnaService qnaService;
     private final PageService pageService;
 
-
     @GetMapping("/questionInfo")
     public String showInsertForm(Model model) {
         QnaDTO qnaDTO = new QnaDTO();

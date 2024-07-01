@@ -1,7 +1,8 @@
 <br>
-<div class="form-floating mb-3">
-    <label readonlybel for="point">나의 포인트</label>
-    <textarea class="form-control" th:text="${user.point}" placeholder="포인트 정보" id="point" style="height: 40px" disabled>10000 포인트</textarea>
+
+<div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">나의 포인트</label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" th:text="${user.point}" placeholder="">
 </div>
 
 <p>쿠폰 정보 출력</p>

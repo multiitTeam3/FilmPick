@@ -18,9 +18,9 @@
   <div class="form-group">
     <label for="phone">핸드폰 번호</label>
     <input type="text" class="form-control" id="phone" th:field="*{tel}" placeholder="- 을 제외한 숫자로 입력해주세요." pattern="[0-9]{11}" title="- 을 제외한 숫자로 입력해주세요." required>
-  </div>
+  </div> <br>
 
-  <button type="button" class="btn btn-danger" onclick="">취소</button>
+  <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/member/profile}'|">취소</button>
   <button type="submit" class="btn btn-success btn-block">변경 내용 저장</button>
 </form>
 </body>
