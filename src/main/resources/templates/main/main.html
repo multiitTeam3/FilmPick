@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <html layout:decorate="~{layout}">
 <head>
     <title>Home Page</title>
 </head>
-<body>
 
+
+
+
+
+<body>
 <div layout:fragment="content">
+
+    <link rel="stylesheet" th:href="@{/css/main.css}">
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
 
     <div class="container">

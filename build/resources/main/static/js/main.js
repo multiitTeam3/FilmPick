@@ -8,7 +8,7 @@ $(document).ready(
                     url: 'movie/findMovieList',
                     method: 'POST',
                     contentType: 'application/json',
-                    "success": function(list){
+                    success: function(list){
                         console.log(list);
 
                         $.each(list, function(index, movie){
@@ -16,10 +16,8 @@ $(document).ready(
                             console.log(movie.posterPath)
 
                             $("#posterImg").append(
-                                '<img src="' + movie.posterPath + '" alt="no img"><br><br>')
-
-                            $("#posterImg").append(
-                            '<button onclick="location.href=\'/movie/reservationtime\'">예매하기</button><br>')
+                                '<div class="oneMovie"><img width=600px src="' + movie.posterPath +
+                                '" alt="no img"><button class="mainBtn" onclick="location.href=\'/movie/reservationtime\'">예매하기</button></div>')
                         })
                     }
                 })

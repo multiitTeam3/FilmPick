@@ -1,19 +1,24 @@
 html, body {
-            height: 100%;
-            margin: 0;
+    height: 100%;
+    margin: 0;
+}
+
+        ul {
+          list-style: none;
+          padding-left:0px
         }
-        .container-fluid {
-            height: 100%;
+
+        #adminLogo {
+            width: 80px;
+            height: 80px;
+        }
+
+        .d-flex {
             display: flex;
-            flex-direction: row;
-            padding: 0;
         }
         .sidebar {
-            height: 100vh;
             width: 280px;
-            position: fixed;
-            background-color: #343a40;
-            padding-top: 20px;
+            box-sizing: border-box;
         }
         .sidebar a {
             color: white;
@@ -36,12 +41,7 @@ html, body {
             margin: 0;
             color: white;
         }
-        ul {
-          list-style: none;
-          padding-left:0px
-        }
-
-        #adminLogo {
-            width: 80px;
-            height: 80px;
+        .content {
+            flex-grow: 1;
+            padding: 20px;
         }

@@ -1,0 +1,34 @@
+#exampleModalLongTitle{
+            font-family: "Lucida Handwriting";
+            font-size: 50px;
+            color: #20B2AA;
+            font-weight: bold;
+            text-align : center;
+
+        }
+
+
+        #chatBotContent{
+            font-size: 15px;
+            color: cornflowerblue;
+            font-weight: bold;
+
+        }
+
+        #modal-content1{
+
+            background-color: papayawhip;
+
+        }
+
+        #openChat{
+
+            color: darkslategray;
+            background-color: snow;
+        }
+
+        .example{
+
+            color: 	tomato;
+            opacity: 0.6;
+        }

@@ -11,6 +11,16 @@ spring:
     restart:
       enabled: true
 
+  servlet:
+    multipart:
+      max-file-size: 1MB
+    mvc:
+      static-path-pattern: /webapp/**
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
 server:
   port: 8099
   servlet:
@@ -30,3 +40,16 @@ logging:
     com:
       .zaxxer: TRACE
     sql: TRACE
+
+cid: TC0ONETIME
+
+kakaopay:
+  api:
+    secret:
+      key: DEV24D1E9D44D9145F851EEEC95AAFE08F533B86
+
+sample:
+  host: http://localhost:8099
+
+
+

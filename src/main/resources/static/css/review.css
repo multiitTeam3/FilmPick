@@ -1,0 +1,74 @@
+    .above{
+
+            display: flex;
+            flex-flow: row;
+            align-items: center;
+            justify-content: center
+            margin: 15%;
+
+
+        }
+
+
+        .left{
+
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            justify-content: center
+            margin: 5%;
+            width: 40%;
+            padding: 10%;
+
+        }
+
+
+        .right{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-flow: column;
+            align-items: space-between;
+            justify-content: space-between;
+            margin: 5%;
+
+        }
+
+        textarea{
+
+            background-color: white;
+            width: 500px;
+            height: 40px;
+
+        }
+
+        button:hover{
+            background-color: #6482B9;
+            color: white;
+
+        }
+
+
+        .right div .list{
+
+            margin-bottom: 10%;
+
+        }
+
+        table, th, td{
+            border: 1px solid black;
+        }
+
+
+        th, td{
+            width: 300px;
+
+        }
+
+        td #content{
+            width: 800px;
+        }
+
+        img{
+            margin: 10%;
+        }

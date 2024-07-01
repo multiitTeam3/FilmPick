@@ -2,7 +2,7 @@ package com.multi.mini.member.model.dto;
 
 import lombok.Data;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -14,10 +14,11 @@ public class MemberDTO {
     private String password;
     private String userName;
     private String tel;
-    private String img;
     private List<RoleDTO> roles;
     private int point;
     private String address;
-    private Date createDate;
-    private Date modfiyDate;
+    private LocalDate createDate;
+    private LocalDate modfiyDate;
+
+
 }

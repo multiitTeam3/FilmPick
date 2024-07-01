@@ -21,4 +21,5 @@ public class PageServiceImpl implements PageService{
         int count = pageMapper.selectBoardCount();
         return count;
     }
+
 }
