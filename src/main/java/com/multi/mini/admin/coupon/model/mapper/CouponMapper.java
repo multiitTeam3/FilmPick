@@ -19,4 +19,6 @@ public interface CouponMapper {
 
     @Delete("DELETE FROM mem_coupon WHERE coupon_code = #{ couponCode }")
     int deleteCoupon(String couponCode);
+
+    List<CouponDTO> findCouponListByMemberNo(int memberNo);
 }

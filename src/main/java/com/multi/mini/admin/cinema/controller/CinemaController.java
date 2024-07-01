@@ -47,6 +47,18 @@ public class CinemaController {
         return "redirect:/admin/cinemamanage";
     }
 
+    @PostMapping("/update")
+    public String updateCinema(CinemaDTO cinemaDTO, RedirectAttributes redirectAttributes) {
+        try {
+            cinemaService.updateCinema(cinemaDTO);
+            redirectAttributes.addFlashAttribute("msg",  "영화관 수정에 성공했습니다.");
+        } catch (Exception e) {
+            redirectAttributes.addAttribute("msg", "영화관 수정에 실패했습니다." + e);
+        }
+
+        return "redirect:/admin/cinemamanage";
+    }
+
     @GetMapping("/delete")
     public String deleteCinema(@RequestParam("code") int cinemaNo, RedirectAttributes redirectAttributes) {
         try {

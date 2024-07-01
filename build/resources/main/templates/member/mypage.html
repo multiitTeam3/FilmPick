@@ -1,42 +1,34 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <html layout:decorate="~{layout}">
 <head>
   <title>My Page</title>
-  <!-- 부트스트랩 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-  <!-- DatePicker -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet" integrity="sha384-1Xf3cu/DJ64KH64IxFqkDgUfx5aD5fyH1uUQzL1UyxH5o/T2VABFFf2O9vvOC6zz" crossorigin="anonymous">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha384-YX1bFz8D4QKbl5ARcB2fFjlDqzy/C0C6eZeRQ/wvRgQdaU4O1cKg7iw1hS9tnkIp" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha384-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous"></script>
-
-  <!-- fontawesom -->
-  <script src="https://kit.fontawesome.com/8e3f0717f9.js" crossorigin="anonymous"></script>
-  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-
+  <script type="text/javascript" th:src="@{/js/profile.js}"></script>
 </head>
 
 <body>
 <div layout:fragment="content">
   <div class="container">
-    <ul class="nav justify-content-center">
+    <h1 class="text-center my-4">마이페이지</h1>
+    <ul class="nav nav-tabs" id="tab" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">내 정보</a>
+        <a class="nav-link active" id="memberInfo-tab" data-bs-toggle="tab" href="memberInfo" role="tab" aria-controls="memberInfo" aria-selected="true">회원 정보</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">쿠폰 및 포인트</a>
+        <a class="nav-link" id="couponsPoints-tab" data-bs-toggle="tab" href="couponsPoints" role="tab" aria-controls="couponsPoints" aria-selected="false">나의 쿠폰 및 포인트</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">구매 내역</a>
+        <a class="nav-link" id="purchaseHistory-tab" data-bs-toggle="tab" href="purchaseHistory" role="tab" aria-controls="purchaseHistory" aria-selected="false">구매 목록</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="question-tab" data-bs-toggle="tab" href="questionHistory" role="tab" aria-controls="questionHistory" aria-selected="false">문의 내역</a>
       </li>
     </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="memberInfo" role="tabpanel" aria-labelledby="memberInfo-tab"></div>
+      <div class="tab-pane fade" id="couponsPoints" role="tabpanel" aria-labelledby="couponsPoints-tab"></div>
+      <div class="tab-pane fade" id="purchaseHistory" role="tabpanel" aria-labelledby="purchaseHistory-tab"></div>
+      <div class="tab-pane fade" id="questionHistory" role="tabpanel" aria-labelledby="question-tab"></div>
+    </div>
   </div>
 </div>
 </body>

@@ -46,9 +46,11 @@ dependencies {
 	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.9.0'
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.2'
 
+
+	implementation 'org.springframework.boot:spring-boot-starter-mail' // smtp
+	implementation 'org.springframework.boot:spring-boot-starter-aop' // aop
 	implementation 'dev.langchain4j:langchain4j-open-ai-spring-boot-starter:0.31.0'
 	implementation 'dev.langchain4j:langchain4j:0.31.0'
-
 }
 
 tasks.named('test') {
