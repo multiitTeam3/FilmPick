@@ -77,8 +77,27 @@
 			, m.email
 		FROM
 			admin_question q
-		JOIN mem_member m ON q.member_no = m.member_no
+		JOIN
+			mem_member m ON q.member_no = m.member_no
+		JOIN
+			admin_question_category c ON q.category = c.category_no
+		WHERE
+		<choose>
+			<when test="type == 'category'">
+				c.description LIKE CONCAT('%', #{ keyword }, '%')
+			</when>
+			<when test="type == 'email'">
+				m.email LIKE CONCAT('%', #{keyword}, '%')
+			</when>
+			<otherwise>
+				1 = 1
+			</otherwise>
+		</choose>
+		ORDER BY q.qna_no
+		LIMIT #{start}, #{end}
 	</select>
+
+
 
 
 </mapper>

@@ -35,7 +35,7 @@
 		JOIN
 			mem_member m ON q.member_no = m.member_no
 		JOIN
-			admin_question_category c ON q.category = c.category
+			admin_question_category c ON q.category = c.category_no
 		WHERE
 		<choose>
 			<when test="type == 'category'">

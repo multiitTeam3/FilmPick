@@ -15,6 +15,18 @@
     <div class="container-box">
         <h2>문의 관리</h2>
 
+        <!--/* 문의 검색 폼 */-->
+        <form id="search" th:action="@{/admin/question}" method="get">
+            <div class="search-box">
+                <select class="form-select" aria-label="search list" name="type" id="type">
+                    <option value="category" selected>문의 종류</option>
+                    <option value="email">이메일</option>
+                </select>
+                <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword" id="keyword">
+                <button class="btn btn-primary" type="submit" id="button-addon2">검색</button>
+            </div>
+        </form>
+
         <div id="d1">
             <table class="table table-hover table-bordered table-striped">
                 <thead class="table-dark">
