@@ -18,8 +18,8 @@ public class MemberServiceImpl implements MemberService{
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public List<MemberDTO> findMemberAll(PageDTO page) throws Exception{
-        List<MemberDTO> list = memberMapper.findMemberAll(page);
+    public List<MemberDTO> findMemberAll(String type, String keyword, PageDTO page) throws Exception{
+        List<MemberDTO> list = memberMapper.findMemberAll(type, keyword, page.getStart(), page.getEnd());
         if (list != null) new Exception("회원 리스트 조회에 실패했습니다.");
         return list;
     }

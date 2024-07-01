@@ -11,8 +11,8 @@ public class PageServiceImpl implements PageService{
     private final PageMapper pageMapper;
 
     @Override
-    public int selectMemberCount() throws Exception {
-        int count = pageMapper.selectMemberCount();
+    public int selectMemberCount(String type, String keyword) throws Exception {
+        int count = pageMapper.selectMemberCount(type, keyword);
         return count;
     }
 
