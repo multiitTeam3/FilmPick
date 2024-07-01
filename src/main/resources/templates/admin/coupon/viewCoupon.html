@@ -17,12 +17,11 @@
             <h2>쿠폰 관리</h2>
 
         <!--/* 쿠폰 검색 폼 */-->
-        <form id="search" th:action="@{/admin/coupon/search}" method="get">
+        <form id="search" th:action="@{/admin/coupon}" method="get">
             <div class="search-box">
                 <select class="form-select" aria-label="search list" name="type">
-                    <option value="email" selected>All</option>
-                    <option value="name">쿠폰 코드</option>
-                    <option value="role">회원 이메일</option>
+                    <option value="email" selected>이메일</option>
+                    <option value="couponCode">쿠폰 코드</option>
                 </select>
                 <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword" id="keyword">
                 <button class="btn btn-primary" type="submit" id="button-addon2">검색</button>
@@ -36,7 +35,7 @@
                 <tr>
                     <th scope="col">No</th>
                     <th scope="col">쿠폰 코드</th>
-                    <th scope="col">회원 이메일</th>
+                    <th scope="col">이메일</th>
                     <th scope="col">설명</th>
                     <th scope="col">사용 여부</th>
                     <th scope="col">사용일</th>

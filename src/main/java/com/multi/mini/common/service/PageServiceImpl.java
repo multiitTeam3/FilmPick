@@ -34,4 +34,10 @@ public class PageServiceImpl implements PageService{
         return count;
     }
 
+    @Override
+    public int selectCouponCount(String type, String keyword) {
+        int count = pageMapper.selectCouponCount(type, keyword);
+        return count;
+    }
+
 }

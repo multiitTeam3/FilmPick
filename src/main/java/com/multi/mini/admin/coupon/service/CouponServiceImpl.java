@@ -2,6 +2,7 @@ package com.multi.mini.admin.coupon.service;
 
 import com.multi.mini.admin.coupon.model.dto.CouponDTO;
 import com.multi.mini.admin.coupon.model.mapper.CouponMapper;
+import com.multi.mini.common.model.dto.PageDTO;
 import com.multi.mini.member.model.dto.MemberDTO;
 import com.multi.mini.member.model.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
@@ -62,8 +63,8 @@ public class CouponServiceImpl implements CouponService{
     }
 
     @Override
-    public List<CouponDTO> findCouponAll() throws Exception{
-        List<CouponDTO> list = couponMapper.findCouponAll();
+    public List<CouponDTO> findCouponAll(String type, String keyword, PageDTO pageDTO) throws Exception{
+        List<CouponDTO> list = couponMapper.findCouponAll(type, keyword, pageDTO.getStart(), pageDTO.getEnd());
         return list;
     }
 

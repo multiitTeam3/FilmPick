@@ -18,4 +18,6 @@ public interface PageMapper {
     int selectCinemaCount(@Param("type") String type, @Param("keyword") String keyword);
 
     int selectQuestionCount(@Param("type") String type, @Param("keyword") String keyword);
+
+    int selectCouponCount(@Param("type") String type, @Param("keyword") String keyword);
 }
