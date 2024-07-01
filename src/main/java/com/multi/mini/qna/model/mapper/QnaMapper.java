@@ -18,7 +18,7 @@ public interface QnaMapper {
 
     QnaDTO selectQna(int no);
 
-    ArrayList<QnaDTO> findQnaListAll();
+    ArrayList<QnaDTO> findQnaListAll(@Param("type") String type, @Param("keyword") String keyword, @Param("start") int start, @Param("end") int end);
 
     @Update("UPDATE admin_question SET is_answer = #{ isAnswer } WHERE qna_no = #{ questionNo }")
     int updateQnaStatus(@Param("questionNo") int questionNo, @Param("isAnswer") boolean isAnswer);

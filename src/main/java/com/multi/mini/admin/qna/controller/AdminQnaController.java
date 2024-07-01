@@ -37,8 +37,11 @@ public class AdminQnaController {
             int questionCount = pageService.selectQuestionCount(type, keyword);
             int pages = (int) Math.ceil((double) questionCount / 10);
 
-            ArrayList<QnaDTO> questions = qnaService.getQuestionsListAll();
+            ArrayList<QnaDTO> questions = qnaService.getQuestionsListAll(type, keyword, pageDTO);
+
             model.addAttribute("questions", questions);
+            model.addAttribute("pages", pages);
+            model.addAttribute("count", questionCount);
         } catch (Exception e) {
             model.addAttribute("msg", "문의 리스트 조회 실패");
         }
