@@ -42,10 +42,21 @@ public class GPTController {
 	Assistance assistance = AiServices.create(Assistance.class, model);*/
 	
 	
-	Assistance assistance = AiServices.builder(Assistance.class)
+	
+/*	Assistance assistance = AiServices.builder(Assistance.class)
 			.chatLanguageModel(OpenAiChatModel.withApiKey("sk-proj-TYaUQGWfZaStsphKrV4sT3BlbkFJbJYWDn4q0uXiG1pWWw0C"))
 			.chatMemoryProvider(memoryId -> MessageWindowChatMemory.withMaxMessages(20))
+			.build();*/
+	
+	
+	OpenAiChatModel model = OpenAiChatModel.builder()
+			.apiKey("sk-proj-TYaUQGWfZaStsphKrV4sT3BlbkFJbJYWDn4q0uXiG1pWWw0C")
+			.modelName("gpt-3.5-turbo")
+			.temperature(0.7)
 			.build();
+	
+	Assistance assistance = AiServices.create(Assistance.class, model);
+	
 	
 	@PostMapping("/chatBot")
 	@ResponseBody
