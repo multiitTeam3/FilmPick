@@ -266,7 +266,7 @@
   <select id="vwResDataNo" parameterType="int" resultType="vwResDataDTO">
 
         SELECT * FROM vw_res_data WHERE RSV_NO = #{rsv_no};
-    </select>
+</select>
 
   <select id="findVWResDataGroupDTO" parameterType="vwResDataGroupDTO" resultType="vwResDataGroupDTO">
 

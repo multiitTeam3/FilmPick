@@ -55,23 +55,4 @@ public class QnaServiceImpl implements QnaService {
         int result = qnaMapper.updateQnaStatus(questionNo, true);
         if(result == 0 ) throw new RuntimeException("답변 여부 업데이트에 실패했습니다.");
     }
-
-//    @Override
-//    public void sendQuestion(EmailDTO emailDTO) throws Exception {
-//        // 이메일 존재 검증
-//        MemberDTO userData = authService.isMemberByEmail(emailDTO.getReceiveAddress());
-//
-//        emailDTO.setMailTitle("FilmPick " + );
-//        emailDTO.setMailContent("임시 비밀번호 : " + );
-//
-//        emailService.sendEmail(emailDTO);
-//
-//        tempPasswordDTO.setMemberNo(userData.getMemberNo());
-//        tempPasswordDTO.setTempPw(tempPassword);
-//        tempPasswordDTO.setExpDate(LocalDateTime.now().plusHours(3));
-//
-//        tempPasswordMapper.insertTempPassword(tempPasswordDTO);
-//    }
-
-
 }

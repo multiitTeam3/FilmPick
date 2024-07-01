@@ -10,4 +10,6 @@ public interface PageService {
     int selectCinemaCount(String type, String keyword);
 
     int selectQuestionCount(String type, String keyword);
+
+    int selectCouponCount(String type, String keyword);
 }
