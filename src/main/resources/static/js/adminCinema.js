@@ -1,19 +1,28 @@
+$(document).ready(function() {
 
+    $('#cinemaUpdateModal').on('show.bs.modal', function(event) {
+        let button = $(event.relatedTarget);
 
+        let cinemaNo = button.data('no');
+        let cinemaName = button.data('name');
+        let cinemaRegion = button.data('regionno');
+        let cinemaAddr = button.data('cinemaaddr');
+        let openTime = button.data('opentime');
+        let closeTime = button.data('closetime');
 
-// KaKao Map 주소 API
-function findAddr() {
-    new daum.Postcode({
-        oncomplete: function(data) {
-            var roadAddr = data.roadAddress; // 도로명 주소 변수
-            var jibunAddr = data.jibunAddress; // 지번 주소 변수
+        console.log("cinemaNo:", cinemaNo);
+        console.log("cinemaName:", cinemaName);
+        console.log("cinemaRegion:", cinemaRegion);
+        console.log("cinemaAddr:", cinemaAddr);
+        console.log("openTime:", openTime);
+        console.log("closeTime:", closeTime);
 
-            // jQuery를 사용하여 요소 값 설정
-            if (roadAddr !== '') {
-                $('#address').val(roadAddr);
-            } else if (jibunAddr !== '') {
-                $('#address').val(jibunAddr);
-            }
-        }
-    }).open();
-}
+        let modal = $(this);
+        modal.find('#updateCinemaNo').val(cinemaNo);
+        modal.find('#updateCinemaName').val(cinemaName);
+        modal.find('#updateRegion').val(cinemaRegion);
+        modal.find('#updateAddress').val(cinemaAddr);
+        modal.find('#updateOpenTime').val(openTime);
+        modal.find('#updateCloseTime').val(closeTime);
+    });
+});

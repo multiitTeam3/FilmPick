@@ -4,39 +4,6 @@
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <script th:src="@{/js/paging.js}"></script>
-
-    <script>
-        $(document).ready(function() {
-            console.log("제이쿼리 실행 확인");
-
-            $('#cinemaUpdateModal').on('show.bs.modal', function(event) {
-                let button = $(event.relatedTarget); // 클릭한 버튼
-                console.log("버튼 데이터 속성들:", button.data());
-
-                let cinemaNo = button.data('no');
-                let cinemaName = button.data('name');
-                let cinemaRegion = button.data('regionno');
-                let cinemaAddr = button.data('cinemaaddr');
-                let openTime = button.data('opentime');
-                let closeTime = button.data('closetime');
-
-                console.log("cinemaNo:", cinemaNo);
-                console.log("cinemaName:", cinemaName);
-                console.log("cinemaRegion:", cinemaRegion);
-                console.log("cinemaAddr:", cinemaAddr);
-                console.log("openTime:", openTime);
-                console.log("closeTime:", closeTime);
-
-                let modal = $(this);
-                modal.find('#updateCinemaNo').val(cinemaNo);
-                modal.find('#updateCinemaName').val(cinemaName);
-                modal.find('#updateRegion').val(cinemaRegion);
-                modal.find('#updateAddress').val(cinemaAddr);
-                modal.find('#updateOpenTime').val(openTime);
-                modal.find('#updateCloseTime').val(closeTime);
-            });
-        });
-    </script>
     <link rel="stylesheet" th:href="@{/css/container-box.css}">
 </head>
 <body>
@@ -49,11 +16,11 @@
         <h2>영화관 관리</h2>
 
         <!--/* 영화관 검색 폼 */-->
-        <form id="search" th:action="@{/admin/coupon/search}" method="get">
+        <form id="search" th:action="@{/admin/cinemamanage}" method="get">
             <div class="search-box">
                 <select class="form-select" aria-label="search list" name="type" id="type">
                     <option value="cinema" selected>영화관 이름</option>
-                    <option value="region">지역명</option>
+                    <option value="region">지역 명</option>
                 </select>
                 <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword" id="keyword">
                 <button class="btn btn-primary" type="submit" id="button-addon2">검색</button>
@@ -66,7 +33,7 @@
                 <thead class="table-dark">
                 <tr>
                     <th scope="col">No</th>
-                    <th scope="col">영화관 명</th>
+                    <th scope="col">영화관 이름</th>
                     <th scope="col">지역 명</th>
                     <th scope="col">주소</th>
                     <th scope="col">개장 시간</th>
@@ -78,7 +45,6 @@
                 </thead>
                 <tbody>
                     <tr th:each="cinema : ${cinemas}">
-<!--                        <th scope="row" th:text="${coupon.rowNum}"></th>-->
                         <th scope="row" th:text="${cinema.cinemaNo}"></th>
                         <td th:text="${cinema.cinemaName}"></a></td>
                         <th:block th:switch="${cinema.regionNo}">
@@ -210,6 +176,7 @@
             </div>
         </div>
 
+        <script th:src="@{/js/adminCinema.js}"></script>
         <script th:src="@{/js/kakakoAddr.js}"></script>
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     </div>

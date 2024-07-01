@@ -1,6 +1,8 @@
 package com.multi.mini.admin.qna.controller;
 
 import com.multi.mini.common.model.dto.EmailDTO;
+import com.multi.mini.common.model.dto.PageDTO;
+import com.multi.mini.common.service.PageService;
 import com.multi.mini.qna.model.dto.QnaDTO;
 import com.multi.mini.qna.service.QnaService;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +22,21 @@ import java.util.ArrayList;
 @RequestMapping("/admin/question")
 public class AdminQnaController {
     private final QnaService qnaService;
+    private final PageService pageService;
 
     @GetMapping
-    public String showAQuestionList(Model model) {
+    public String showAQuestionList(@RequestParam(required = false, name = "type") String type,
+                                    @RequestParam(required = false, name = "keyword") String keyword,
+                                    @RequestParam(required = false, defaultValue = "1", name = "page") int page,
+                                    Model model) {
+        PageDTO pageDTO = new PageDTO();
+        pageDTO.setStartEnd(page);
+
         try {
+            // 페이지 수 계산
+            int questionCount = pageService.selectQuestionCount(type, keyword);
+            int pages = (int) Math.ceil((double) questionCount / 10);
+
             ArrayList<QnaDTO> questions = qnaService.getQuestionsListAll();
             model.addAttribute("questions", questions);
         } catch (Exception e) {

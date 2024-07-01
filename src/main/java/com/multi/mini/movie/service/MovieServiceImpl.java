@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.multi.mini.common.model.dto.PageDTO;
 import com.multi.mini.movie.model.dto.*;
 import com.multi.mini.movie.model.mapper.MovieMapper;
 import com.multi.mini.payment.model.dto.VwResDataDTO;
@@ -12,7 +13,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.springframework.stereotype.Service;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
@@ -175,8 +175,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public ArrayList<CinemaDTO> findCinemaList() throws Exception {
-        ArrayList<CinemaDTO> list = movieMapper.findCinemaList();
+    public ArrayList<CinemaDTO> findCinemaList(String type, String keyword, PageDTO pageDTO) throws Exception {
+        ArrayList<CinemaDTO> list = movieMapper.findCinemaList(type, keyword, pageDTO.getStart(), pageDTO.getEnd());
 
         return list;
 
