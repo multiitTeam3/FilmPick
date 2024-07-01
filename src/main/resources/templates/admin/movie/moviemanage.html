@@ -40,10 +40,12 @@
                                 movie.movieContent.substring(0,30) + "....."
                                 : movie.movieContent;
 
+                                var index1 = (index +1) + (page-1)*3;
+
                                 var htmlContent = `
 
                                     <tr>
-
+                                        <th scope="row">${index1}</th>
                                         <td id="movieNo">${movie.movieNo}</td>
                                         <td id="movieTitle">${movie.movieTitle}</td>
                                         <td id="genreContent">${movie.genreContent}</td>
@@ -107,11 +109,14 @@
                                 movie.movieContent.substring(0,30) + "....."
                                 : movie.movieContent;
                                 console.log("movieId : " + movie.id)
+
+                                var index1 = (index +1) + (page-1)*20;
+
                                 var htmlContent = `
 
                                     <tr>
 
-
+                                        <th scope="row">${index1}</th>
                                         <td id="movieTitle">${movie.movieTitle}</td>
                                         <td id="genreNo">${movie.genreNo}</td>
                                         <td id="popularity">${movie.popularity}</td>
@@ -213,31 +218,31 @@
     <h2 class="text-center mb-4">영화 관리</h2>
     <hr color="grey">
 
-    <div class="container">
+    <div class="container1">
 
         <div class="top">
 
             <div class="content" id="enrolled-Movie-List">
 
                 <br><br><br><br>
-                <h1>등록된 영화 리스트</h1>
+                <h1>등록된 영화 리스트</h1><br>
 
-                <table>
+                <table class="table">
 
-                    <thead>
+                    <thead class="thead-dark">
 
                     <tr>
-
-                        <th>영화번호</th>
-                        <th>영화제목</th>
-                        <th>장르이름</th>
-                        <th>유명도</th>
-                        <th>상영시간(시)</th>
-                        <th>영화내용</th>
-                        <th>성인영화</th>
-                        <th>포스터보기</th>
-                        <th>평균평점</th>
-                        <th>티켓판매량(수량)</th>
+                        <th scope="col">#</th>
+                        <th scope="col">영화번호</th>
+                        <th scope="col">영화제목</th>
+                        <th scope="col">장르이름</th>
+                        <th scope="col">유명도</th>
+                        <th scope="col">상영시간(시)</th>
+                        <th scope="col">영화내용</th>
+                        <th scope="col">성인영화</th>
+                        <th scope="col">포스터보기</th>
+                        <th scope="col">평균평점</th>
+                        <th scope="col">티켓판매량(수량)</th>
 
 
                     </tr>
@@ -264,24 +269,24 @@
             <div class="content" id="add-Movie">
 
                 <h1>DB에 영화 추가
-                    <button id="insertGenre">장르추가</button>
-                </h1>
+                    <button id="insertGenre" class="none">장르추가</button>
+                </h1><br>
 
-                <table>
+                <table class="table">
 
-                    <thead>
+                    <thead class="thead-dark">
 
                     <tr>
 
-
-                        <th>영화제목</th>
-                        <th>장르이름</th>
-                        <th>유명도</th>
-                        <th>상영시간(시)</th>
-                        <th>영화내용</th>
-                        <th>성인영화</th>
-                        <th>포스터</th>
-                        <th>영화추가</th>
+                        <th scope="col">#</th>
+                        <th scope="col">영화제목</th>
+                        <th scope="col">장르이름</th>
+                        <th scope="col">유명도</th>
+                        <th scope="col">상영시간(시)</th>
+                        <th scope="col">영화내용</th>
+                        <th scope="col">성인영화</th>
+                        <th scope="col">포스터</th>
+                        <th scope="col">영화추가</th>
 
 
                     </tr>
@@ -290,25 +295,6 @@
                     </thead>
 
                     <tbody id="list2">
-
-                    <tr>
-
-                        <td id="movieNo2">1</td>
-                        <td id="movieTitle2">영화1</td>
-                        <td id="genreContent2">코미디</td>
-                        <td id="popularity2">90.0</td>
-                        <td id="duration2">2</td>
-                        <td id="movieContent2">웃긴 내용</td>
-                        <td id="adult2">해당없음</td>
-                        <td id="image2"><img src="http://image.tmdb.org/t/p/w500//pmemGuhr450DK8GiTT44mgwWCP7.jpg"
-                                             width="40px"></td>
-                        <td id="insertBtn">
-                            <button id="insertMovie">추가</button>
-                        </td>
-
-
-                    </tr>
-
 
                     </tbody>
                 </table>

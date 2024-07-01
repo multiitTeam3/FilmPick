@@ -1,13 +1,4 @@
-.container{
 
-                width: 100%;
-                display: flex;
-                flex-flow: column;
-                align-items: center;
-                justify-content: center;
-
-
-        }
 
         .top{
 
@@ -39,7 +30,7 @@
 
         th, td{
             text-align : center;
-            width: 100px;
+            width: 150px;
         }
 
         th{
@@ -54,11 +45,11 @@
         }
 
         #movieContent, #movieContent2{
-            width: 300px;
+            width: 400px;
         }
 
         #ticketSold, #duration, #duration2{
-            width: 120px;
+            width: 150px;
 
         }
 
@@ -68,3 +59,43 @@
             background-color: #eddedd;
 
         }
+
+
+        .none{
+
+            display: none;
+
+        }
+
+
+        table{
+
+            width: 80%;
+
+        }
+
+        .container1{
+
+            width: 80%;
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            justify-content: center;
+            margin: 5%;
+            margin-top: 1%;
+
+        }
+
+        .top, .bottom{
+
+            margin: 1%;
+
+
+        }
+
+
+
+
+
+
+
