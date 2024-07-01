@@ -1,0 +1,90 @@
+.container{
+            display: flex;
+            background-color: #FFF0F5;
+            border: 1px solid black;
+            margin: 10%;
+
+        }
+
+
+        .sidebar{
+            height: 100%;
+            width: 30%;
+            background-color: #A0DFE1;
+
+        }
+
+        .sidebar a{
+            padding: 15px;
+            text-decoration: none;
+            color: #E6FFE6;
+            display: block;
+            font-size: 25px;
+            font-color: #000069	;
+            padding : 40px
+        }
+
+        .sidebar a:hover{
+            background-color: #FFB6C1;
+
+        }
+
+        #content1{
+            padding: 40px;
+            display: flex;
+            flex-flow: column;
+
+
+        }
+
+        #seats{
+            display: flex;
+            flex-wrap: wrap;
+            width: 600px;
+            background-color:  #defcf9;
+            border: 1px solid black;
+            margin: 5px;
+            padding: 10px;
+
+        }
+
+        .seat{
+
+           width: 40px;
+           height: 40px;
+           margin: 5px;
+           border: 1px solid black;
+           text-align: center;
+           background-color: white;
+
+        }
+
+        .seat:hover, .reset:hover{
+
+            background-color: #6482B9;
+            color: white;
+
+        }
+
+
+
+
+        .unclickable{
+
+            pointer-events: none;
+            background-color: #eddedd;
+
+        }
+
+        .selected{
+            pointer-events: none;
+            background-color: pink !important;
+            color: white;
+        }
+
+        .neverClickable{
+
+            pointer-events: none !important;
+            background-color: #C7B5B5 !important;
+
+        }
