@@ -1,30 +1,13 @@
-.container{
+.containerBox{
             display: flex;
             background-color: #FFF0F5;
             border: 1px solid black;
             margin: 10%;
+            justify-content: space-between;
 
         }
 
-
-        .sidebar{
-            height: 100%;
-            width: 30%;
-            background-color: #A0DFE1;
-
-        }
-
-        .sidebar a{
-            padding: 15px;
-            text-decoration: none;
-            color: #E6FFE6;
-            display: block;
-            font-size: 25px;
-            font-color: #000069	;
-            padding : 40px
-        }
-
-        .sidebar a:hover{
+        a:hover{
             background-color: #FFB6C1;
 
         }
@@ -70,15 +53,12 @@
 
         }
 
-
-
         .selected{
              pointer-events: auto;
              background-color: pink !important;
              color : red;
              font : bold;
         }
-
 
         #month-year{
 
@@ -118,9 +98,9 @@
         #time-btn{
 
             display: flex;
-
             justify-content: center;
-            padding: 10px;
+            flex-wrap: wrap;
+            padding: 5px;
             background-color: #F0FFF0;
             color: white;
 
@@ -151,3 +131,20 @@
         .gray{
             background-color: gray;
         }
+
+
+        .containerRow{
+
+            display: flex;
+            flex-direction: row;
+        }
+
+       .nav-pills{
+
+            display: flex;
+            flex-direction: column;
+            width: 100px;
+            font-weight: bold;
+            text-align:center;
+
+       }
