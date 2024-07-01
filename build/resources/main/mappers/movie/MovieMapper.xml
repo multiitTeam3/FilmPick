@@ -87,7 +87,14 @@
     </select>
 
 
+    <select id="findAllVWMovieManageDataDTO">
 
+
+        SELECT *
+        FROM vw_movie_manage_data;
+
+
+    </select>
 
     <select id="findRsvNoListByVWGroupDTO">
 

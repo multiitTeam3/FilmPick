@@ -1,0 +1,70 @@
+.container{
+
+                width: 100%;
+                display: flex;
+                flex-flow: column;
+                align-items: center;
+                justify-content: center;
+
+
+        }
+
+        .top{
+
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+
+
+        }
+
+        .bottom{
+
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 14%;
+
+
+        }
+
+        table, th, td{
+
+            border: 1px solid black;
+
+
+
+        }
+
+        th, td{
+            text-align : center;
+            width: 100px;
+        }
+
+        th{
+
+            background-color: #C6D6EF;
+
+        }
+
+        td{
+            background-color: #E7EEF9;
+
+        }
+
+        #movieContent, #movieContent2{
+            width: 300px;
+        }
+
+        #ticketSold, #duration, #duration2{
+            width: 120px;
+
+        }
+
+        .unclickable{
+
+            pointer-events: none;
+            background-color: #eddedd;
+
+        }
