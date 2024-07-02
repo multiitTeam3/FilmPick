@@ -5,23 +5,27 @@
     <title>Insert title here</title>
     <script th:src="@{/js/paging.js}"></script>
     <script>
-    $(document).ready(function(){
-        $('#movieScheduleModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var screenCode = button.data('screen-code');
-            var cinemaNo = button.data('cinema-no');
-            var modal = $(this);
-            modal.find('#screenCode').val(screenCode);
-            modal.find('#cinemaNo').val(cinemaNo);
+        $(document).ready(function(){
+            $('#movieScheduleModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var screenCode = button.data('screen-code');
+                var cinemaNo = button.data('cinema-no');
+                var modal = $(this);
+                modal.find('#screenCode').val(screenCode);
+                modal.find('#cinemaNo').val(cinemaNo);
+            });
         });
-    });
-</script>
+    </script>
+    <link rel="stylesheet" th:href="@{/css/container-box.css}">
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="container">
-        <h2 class="text-center mb-4">상영관 관리</h2>
-        <hr color="grey">
+    <div class="container-box text-center">
+        <h1>관리자 페이지</h1>
+    </div>
+
+    <div class="container-box">
+        <h2>상영관 관리</h2>
 
         <!--/* 상영관 목록 테이블 */-->
         <div id="d1">

@@ -4,64 +4,70 @@
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <script th:src="@{/js/paging.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/container-box.css}">
 </head>
 <body>
 <div layout:fragment="content">
     <div class="container">
-        <h2 class="text-center mb-4">회원 관리</h2>
-        <hr color="grey">
-
-        <!--/* 회원 검색 폼 */-->
-        <form th:action="@{/admin/membermanage/search}" method="get">
-            <div class="btn-group">
-                <select class="form-select" aria-label="search list" name="type">
-                    <option value="email" selected>이메일</option>
-                    <option value="name">닉네임</option>
-                    <option value="role">권한</option>
-                </select>
-                <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword">
-                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">검색</button>
-            </div>
-        </form>
-
-        <!--/* 회원 목록 테이블 */-->
-        <div id="d1">
-            <table class="table table-hover table-bordered" w-80>
-                <thead class="table-dark">
-                <tr>
-                    <th scope="col">row_num</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">UserName</th>
-                    <th scope="col">CREATE_DATE</th>
-                    <th scope="col">ROLE</th>
-                    <th scope="col">DELETE</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="user : ${users}">
-                    <th scope="row" th:text="${user.rowNum}"></th>
-                    <td><a th:href="@{/admin/membermanage/find(no=${user.memberNo})}" th:text="${user.email}"></a></td>
-                    <td th:text="${user.userName}"></td>
-                    <td th:text="${user.createDate}"></td>
-                    <td th:each="role : ${user.roles}" th:text="${role.roleName}"></td>
-                    <td><a th:href="@{/admin/membermanage/delete(no=${user.memberNo})}"><button type="button" class="btn btn-primary">DELETE</button></a></td>
-                </tr>
-                </tbody>
-            </table>
+        <div class="container-box text-center">
+            <h1>관리자 페이지</h1>
         </div>
 
-        <th:block th:if="${pages != null}">
-            <div class="d-flex justify-content-center">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-secondary btn-sm previous">이전</button>
-                    <th:block th:each="p : ${#numbers.sequence(1, pages)}">
-                        <button type="button" class="btn btn btn-outline-dark btn-sm me-2 pages"
-                                th:text="${p}"></button>
-                    </th:block>
-                    <button type="button" class="btn btn-secondary btn-sm  next">다음</button>
+        <div class="container-box">
+            <h2>회원 관리</h2>
+
+            <!--/* 회원 검색 폼 */-->
+            <form id="search" th:action="@{/admin/membermanage}" method="get">
+                <div class="search-box">
+                    <select class="form-select" aria-label="search list" name="type">
+                        <option value="email" selected>이메일</option>
+                        <option value="name">닉네임</option>
+                        <option value="role">권한</option>
+                    </select>
+                    <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword" id="keyword">
+                    <button class="btn btn-primary" type="submit" id="button-addon2">검색</button>
                 </div>
+            </form>
+
+            <!--/* 회원 목록 테이블 */-->
+            <div id="d1">
+                <table class="table table-hover table-bordered table-striped" w-80>
+                    <thead class="table-dark">
+                    <tr>
+                        <th scope="col">번호</th>
+                        <th scope="col">이메일</th>
+                        <th scope="col">닉네임</th>
+                        <th scope="col">생성일</th>
+                        <th scope="col">권한</th>
+                        <th scope="col">삭제</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user : ${users}">
+                        <th scope="row" th:text="${user.rowNum}"></th>
+                        <td><a th:href="@{/admin/membermanage/find(no=${user.memberNo})}" th:text="${user.email}"></a></td>
+                        <td th:text="${user.userName}"></td>
+                        <td th:text="${user.createDate}"></td>
+                        <td th:each="role : ${user.roles}" th:text="${role.roleName}"></td>
+                        <td><a th:href="@{/admin/membermanage/delete(no=${user.memberNo})}"><button type="button" class="btn btn-primary">DELETE</button></a></td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-        </th:block>
+
+            <th:block th:if="${pages != null}">
+                <div class="d-flex justify-content-center">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary btn-sm previous">이전</button>
+                        <th:block th:each="p : ${#numbers.sequence(1, pages)}">
+                            <button type="button" class="btn btn btn-outline-dark btn-sm me-2 pages"
+                                    th:text="${p}"></button>
+                        </th:block>
+                        <button type="button" class="btn btn-secondary btn-sm  next">다음</button>
+                    </div>
+                </div>
+            </th:block>
+        </div>
     </div>
 </div>
 

@@ -1,0 +1,43 @@
+<form id="search">
+    <div class="search-box">
+        <select class="form-select" aria-label="search list" name="type" id="type">
+            <option value="title" selected>제목</option>
+            <option value="content">내용</option>
+            <option value="titleAndContent">제목 + 내용</option>
+        </select>
+        <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword" id="keyword">
+        <button class="btn btn-primary" type="submit" id="button-addon2">검색</button>
+    </div>
+</form>
+
+<!--/* 공지사항 목록 테이블 */-->
+<div id="notice-container"></div>
+
+<script>
+        $(document).on('submit', '#search', function(event) {
+            event.preventDefault();
+            loadNotices(1);
+        });
+
+        function loadNotices(page) {
+            $.ajax({
+                url: '/Customer/loadNotice',
+                type: 'GET',
+                data: {
+                    type: $('#type').val(),
+                    keyword: $('#keyword').val(),
+                    page: page
+                },
+                success: function (data) {
+                    $('#notice-container').html(data);
+                },
+                error: function () {
+                    alert('조회 실패');
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            loadNotices(1);
+        });
+</script>

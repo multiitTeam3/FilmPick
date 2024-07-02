@@ -1,11 +1,11 @@
 $(function() {
-    $('#nav-tab .nav-link').click(function(e) {
+    $('.nav-link').click(function(e) {
         e.preventDefault();
-        let tab = $(this).data('bs-target');
+        let tab = $(this).attr('href');
         let tabContent = tab.replace('#', '');
 
         $.ajax({
-            url: "/member/profile/" + tabContent,
+            url: "/Customer/" + tab,
             type: 'GET',
             success: function(data) {
                 $('#' + tabContent).html(data);
@@ -13,8 +13,9 @@ $(function() {
                 $('.nav-link').removeClass('active');
                 $('.tab-pane').removeClass('show active');
 
-                $(this).addClass('active');
+                $('#' + tabContent + '-tab').addClass('active');
                 $('#' + tabContent).addClass('show active');
+
             },
             error: function() {
                 alert('서버 오류 실패');
@@ -23,26 +24,28 @@ $(function() {
     });
 
     $.ajax({
-        url: "/member/profile/memberInfo",
+        url: "/Customer/noticeInfo",
         type: 'GET',
         success: function(data) {
-            $("#memberInfo").html(data); // id 수정
+            $("#noticeInfo").html(data);
         },
         error: function() {
             alert('서버 오류 실패');
         }
     });
+
+
 });
 
 function showUpdateMember() {
-    $.ajax({
-        url: "/member/profile/memberInfo/update",
-        type: 'GET',
-        success: function(data) {
-            $("#memberInfo").html(data);
-        },
-        error: function() {
-            alert('서버 오류 실패');
-        }
-    });
-}
+        $.ajax({
+            url: "/member/profile/memberInfo/update",
+            type: 'GET',
+            success: function(data) {
+                $("#memberInfo").html(data);
+            },
+            error: function() {
+                alert('서버 오류 실패');
+            }
+        });
+    }

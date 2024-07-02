@@ -240,19 +240,33 @@
 
     </insert>
 
-
-
-
-    <select id="findCinemaList"> 
-
-        SELECT * FROM mov_cinema
-
+    <select id="findCinemaList" parameterType="map">
+        SELECT
+            c.*
+        FROM
+            mov_cinema c
+        JOIN
+            mov_region r ON c.region_no = r.region_no
+        WHERE
+        <choose>
+            <when test="type == 'cinema'">
+                c.cinema_name LIKE CONCAT('%', #{keyword}, '%')
+            </when>
+            <when test="type == 'region'">
+                r.region_name LIKE CONCAT('%', #{keyword}, '%')
+            </when>
+            <otherwise>
+                1 = 1
+            </otherwise>
+        </choose>
+        ORDER BY c.cinema_no
+        LIMIT #{start}, #{end}
     </select>
 
   <select id="vwResDataNo" parameterType="int" resultType="vwResDataDTO">
 
         SELECT * FROM vw_res_data WHERE RSV_NO = #{rsv_no};
-    </select>
+</select>
 
   <select id="findVWResDataGroupDTO" parameterType="vwResDataGroupDTO" resultType="vwResDataGroupDTO">
 

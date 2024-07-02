@@ -49,17 +49,35 @@
 			, m.email
 		FROM
 			mem_coupon c
-		LEFT JOIN
-			mem_member m ON m.member_no = c.member_no
+		JOIN
+			mem_member m ON c.member_no = m.member_no
+		WHERE
+		<choose>
+			<when test="type == 'couponCode'">
+				c.coupon_code LIKE CONCAT('%', #{ keyword }, '%')
+			</when>
+			<when test="type == 'email'">
+				m.email LIKE CONCAT('%', #{keyword}, '%')
+			</when>
+			<otherwise>
+				1 = 1
+			</otherwise>
+		</choose>
+		ORDER BY c.coupon_no
+		LIMIT #{start}, #{end}
 	</select>
 
 	<select id="findCouponListByMemberNo" resultMap="couponResultMap">
 		SELECT
-			*
+			  c.*
+			, m.member_no
+			, m.email
 		FROM
-			mem_coupon
+			mem_coupon c
+		LEFT JOIN
+			mem_member m ON m.member_no = c.member_no
 		WHERE
-			member_no = #{ memberNo }
+			c.member_no = #{ memberNo }
 	</select>
 
 </mapper>
