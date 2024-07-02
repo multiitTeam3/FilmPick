@@ -179,3 +179,7 @@ $RECYCLE.BIN/
 .gradle/8.8/checksums/md5-checksums.bin
 .gradle/8.8/checksums/sha1-checksums.bin
 .gradle/8.8/fileHashes/fileHashes.lock
+.idea/misc.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/modules/mini.main.iml
