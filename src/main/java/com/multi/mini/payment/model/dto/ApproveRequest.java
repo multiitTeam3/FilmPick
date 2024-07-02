@@ -19,5 +19,4 @@ public class ApproveRequest {
     private String partnerUserId; //가맹점 회원 id
     private String pgToken;  // 결제 승인 요청 시 발급되는 토큰 (사용자 인증 완료 후 결제승인 요청에 필요한 토큰)
 
-    private Amount amount;
 }

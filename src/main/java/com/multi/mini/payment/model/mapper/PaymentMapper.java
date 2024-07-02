@@ -1,10 +1,8 @@
 package com.multi.mini.payment.model.mapper;
 
-import com.multi.mini.movie.model.dto.VWResDataDTO;
 import com.multi.mini.payment.model.dto.PaymentsDTO;
 import com.multi.mini.payment.model.dto.VwGetResDataDTO;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface PaymentMapper {
