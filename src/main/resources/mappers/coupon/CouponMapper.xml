@@ -80,4 +80,17 @@
 			c.member_no = #{ memberNo }
 	</select>
 
+<<<<<<< HEAD
+=======
+	<select id="findCouponsByMemberNo" parameterType="int" resultType="couponDTO">
+		SELECT * FROM mem_coupon
+		WHERE member_no = #{memberNo}
+	</select>
+
+	<!-- 쿠폰 삭제 쿼리 -->
+	<delete id="deleteCouponByMemberAndCode" parameterType="map">
+		DELETE FROM mem_coupon
+		WHERE member_no = #{memberNo} AND coupon_code = #{couponCode}
+	</delete>
+>>>>>>> feature/payment
 </mapper>
