@@ -47,8 +47,9 @@ public class QnaController {
         qnaDTO.setWriter(userDetails.getUsername());
 
         /* 파일을 저장할 경로 설정 */
-        String root = request.getSession().getServletContext().getRealPath("/");
-        String filePath = root + "\\uploadFiles";
+        String path = request.getSession().getServletContext().getRealPath("");
+        String root = path.substring(0,path.length() - 7);
+        String filePath = root + "resources/static/img/qna";
 
         File mkdir = new File(filePath);
         if (!mkdir.exists()) {
@@ -57,21 +58,31 @@ public class QnaController {
 
         /* 파일명 변경 처리 */
         String originFileName = singleFile.getOriginalFilename();
-        String ext = originFileName.substring(originFileName.lastIndexOf("."));
-        String savedName = UUID.randomUUID().toString().replace("-", "") + ext;
+        if(originFileName != null && !originFileName.isEmpty()){
+            String ext = originFileName.substring(originFileName.lastIndexOf("."));
+            String savedName = UUID.randomUUID().toString().replace("-", "") + ext;
 
-        /* 파일을 저장한다. */
-        try {
-            singleFile.transferTo(new File(filePath + "\\" + savedName));
-            model.addAttribute("savedName", savedName);
-            qnaDTO.setImg(savedName);
-            qnaService.insertQna(qnaDTO);
-        } catch (Exception e) {
-            System.out.println("qna insert error : " + e);
-            /* 실패시 파일 삭제 */
-            new File(filePath + "\\" + savedName).delete();
-            model.addAttribute("message", "파일 업로드 실패!!");
+            /* 파일을 저장한다. */
+            try {
+                singleFile.transferTo(new File(filePath + "\\" + savedName));
+                model.addAttribute("savedName", savedName);
+                qnaDTO.setImg(savedName);
+                qnaService.insertQna(qnaDTO);
+            } catch (Exception e) {
+                System.out.println("qna insert error : " + e);
+                /* 실패시 파일 삭제 */
+                new File(filePath + "\\" + savedName).delete();
+                model.addAttribute("message", "파일 업로드 실패!!");
+            }
         }
+        else{
+            try {
+                qnaService.insertQna(qnaDTO);
+            } catch (Exception e) {
+                System.out.println("qna insert error : " + e);
+            }
+        }
+
 
         // 서비스 계층에 게시글 저장 요청
         return "redirect:/home";

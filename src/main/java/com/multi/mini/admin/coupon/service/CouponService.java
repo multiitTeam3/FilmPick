@@ -14,5 +14,9 @@ public interface CouponService {
 
     void deleteCoupon(String couponCode) throws Exception;
 
+<<<<<<< HEAD
     ArrayList<CouponDTO> findCouponListByMemberNo(int memberNo) throws Exception;
+=======
+
+>>>>>>> feature/payment
 }

@@ -39,7 +39,7 @@
                     })
 
                     $('#seats').append('<br><button class="seatBtn" id="reset">좌석리셋</button><br>');
-                    $('#seats').append('<br><button class="seatBtn" id="notpay">예약하기</button><br>');
+                    // $('#seats').append('<br><button class="seatBtn" id="notpay">예약하기</button><br>');
                     $('#seats').append('<br><button class="seatBtn" id="pay">결제하기</button><br>');
 
 
@@ -198,7 +198,7 @@
 
 
 
-
+                 // 사라진 기능
                  $(document).on('click','#pay',function(){
 
                         var scheduleNo = movieScheduleDTO.scheduleNo;
@@ -246,12 +246,12 @@
 
                                     $.each(list, function(index, rsvNo){
                                         console.log(rsvNo);
+                                        console.log(list);
                                     })
 
                                     var encodedList = encodeURIComponent(JSON.stringify(list));
 
-                                    window.location.href='/movie/reservationseat/payment?list=' + encodedList;
-
+                                    window.location.href='/movie/reservationseat/payment?list=' + encodedList + '&adult=' + adult + '&teen=' + teen;
                                 }
 
                          })

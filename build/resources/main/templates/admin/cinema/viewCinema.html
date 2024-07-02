@@ -4,22 +4,26 @@
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <script th:src="@{/js/paging.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/container-box.css}">
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="container">
-        <h2 class="text-center mb-4">영화관 관리</h2>
-        <hr color="grey">
+    <div class="container-box text-center">
+        <h1>관리자 페이지</h1>
+    </div>
+
+    <div class="container-box">
+        <h2>영화관 관리</h2>
 
         <!--/* 영화관 검색 폼 */-->
-        <form th:action="@{/admin/coupon/search}" method="get">
-            <div class="btn-group">
-                <select class="form-select" aria-label="search list" name="type">
+        <form id="search" th:action="@{/admin/cinemamanage}" method="get">
+            <div class="search-box">
+                <select class="form-select" aria-label="search list" name="type" id="type">
                     <option value="cinema" selected>영화관 이름</option>
-                    <option value="region">지역명</option>
+                    <option value="region">지역 명</option>
                 </select>
-                <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword">
-                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">검색</button>
+                <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword" id="keyword">
+                <button class="btn btn-primary" type="submit" id="button-addon2">검색</button>
             </div>
         </form>
 
@@ -29,7 +33,7 @@
                 <thead class="table-dark">
                 <tr>
                     <th scope="col">No</th>
-                    <th scope="col">영화관 명</th>
+                    <th scope="col">영화관 이름</th>
                     <th scope="col">지역 명</th>
                     <th scope="col">주소</th>
                     <th scope="col">개장 시간</th>
@@ -41,7 +45,6 @@
                 </thead>
                 <tbody>
                     <tr th:each="cinema : ${cinemas}">
-<!--                        <th scope="row" th:text="${coupon.rowNum}"></th>-->
                         <th scope="row" th:text="${cinema.cinemaNo}"></th>
                         <td th:text="${cinema.cinemaName}"></a></td>
                         <th:block th:switch="${cinema.regionNo}">
@@ -54,8 +57,16 @@
                         <td th:text="${cinema.openTime}"></td>
                         <td th:text="${cinema.closeTime}"></td>
                         <td><a th:href="@{/admin/cinemamanage/screen(no=${cinema.cinemaNo})}"><button type="button" class="btn btn-primary">상영관</button></a></td>
-                        <td><a th:href="@{/admin/cinemamanage/update(code=${cinema.cinemaNo})}"><button type="button" class="btn btn-primary">수정(미구현)</button></a></td>
-                        <td><a th:href="@{/admin/cinemamanage/delete(code=${cinema.cinemaNo})}"><button type="button" class="btn btn-primary">삭제</button></a></td>
+                        <td>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cinemaUpdateModal"
+                                    th:attr="data-no=${cinema.cinemaNo},
+                                             data-name=${cinema.cinemaName},
+                                             data-regionno=${cinema.regionNo},
+                                             data-cinemaaddr=${cinema.cinemaAddr},
+                                             data-opentime=${cinema.openTime},
+                                             data-closetime=${cinema.closeTime}">수정</button>
+                        </td>
+                        <td><a th:href="@{/admin/cinemamanage/delete(no=${cinema.cinemaNo})}"><button type="button" class="btn btn-primary">삭제</button></a></td>
                     </tr>
                 </tbody>
             </table>
@@ -80,7 +91,7 @@
             </div>
         </th:block>
 
-        <!-- 영화관 등록 모달 -->
+        <!--/* 영화관 등록 모달 */-->
         <div class="modal fade" id="cinemaModal" tabindex="-1" aria-labelledby="couponModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
@@ -118,18 +129,57 @@
             </div>
         </div>
 
+        <!--/* 영화관 수정 모달 */-->
+        <div class="modal fade" id="cinemaUpdateModal" tabindex="-1" aria-labelledby="cinemaUpdateModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cinemaUpdateModalLabel">영화관 정보 수정</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form th:action="@{/admin/cinemamanage/update}" method="post">
+                        <div class="modal-body">
+
+                            <input type="hidden" id="updateCinemaNo" name="cinemaNo">
+                            <div class="form-group">
+                                <label for="updateCinemaName">영화관 명</label>
+                                <input type="text" class="form-control" id="updateCinemaName" name="cinemaName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="updateRegion">지역명</label>
+                                <select class="form-control" id="updateRegion" name="regionNo" required>
+                                    <option value="1">서울</option>
+                                    <option value="2">경기</option>
+                                    <option value="3">강원</option>
+                                    <option value="4">제주</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="updateAddress">주소</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2" id="updateAddress" name="cinemaAddr" readonly onclick="findAddr()" required> <br>
+                            </div>
+                            <label class="mr-sm-2">개장 시간 :</label>
+                            <input type="text" class="form-control mb-2 mr-sm-2" id="updateOpenTime" placeholder="00:00" pattern="^(0\d|1\d|2[0-3]):[0-5]\d$" title="시간 형식은 00:00부터 23:59까지 입력 가능 합니다." name="openTime" required> <br>
+                            <label class="mr-sm-2">폐장 시간 :</label>
+                            <input type="text" class="form-control mb-2 mr-sm-2" id="updateCloseTime" placeholder="00:00" pattern="^(0\d|1\d|2[0-3]):[0-5]\d$" title="시간 형식은 00:00부터 23:59까지 입력 가능 합니다." name="closeTime" required> <br>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">등록</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <script th:src="@{/js/adminCinema.js}"></script>
         <script th:src="@{/js/kakakoAddr.js}"></script>
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     </div>
 </div>
-
-<script th:inline="javascript">
-		/*<![CDATA[*/
-		let pages = /*[[${pages}]]*/;
-		/*]]>*/
-
-</script>
-
-
 </body>
 </html>

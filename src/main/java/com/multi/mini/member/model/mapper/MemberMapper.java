@@ -26,4 +26,9 @@ public interface MemberMapper {
     MemberDTO findMemberByEmail(String userEmail);
 
 
+<<<<<<< HEAD
+=======
+    @Select("SELECT point FROM mem_member WHERE member_no = #{memberNo}")
+    int getPointByMemberNo(int memberNo);
+>>>>>>> feature/payment
 }
