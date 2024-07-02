@@ -1,24 +1,26 @@
-#posterImg{
-
-            display: flex;
-            flex-flow: row;
-            flex-wrap: wrap;
-
-        }
-
-        .oneMovie{
-
-            display: flex;
-            flex-flow: column;
-            margin: 1%;
-            justify-content: center;
-            align-items: center;
-
-        }
-
-        .mainBtn{
+       .mainBtn{
 
             width: 80px;
             height:30px;
             margin: 1%;
+        }
+
+        .wrap{
+
+            overflow-x: scroll;
+            margin: 3%;
+            text-align: center;
+
+            display: flex;
+            
+
+        }
+
+        .card{
+
+            margin: 2%;
+            flex-direction: column;
+
+            min-width: 300px;
+            max-width: 300px;
         }
