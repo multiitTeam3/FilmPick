@@ -246,12 +246,12 @@
 
                                     $.each(list, function(index, rsvNo){
                                         console.log(rsvNo);
+                                        console.log(list);
                                     })
 
                                     var encodedList = encodeURIComponent(JSON.stringify(list));
 
-                                    window.location.href='/movie/reservationseat/payment?list=' + encodedList;
-
+                                    window.location.href='/movie/reservationseat/payment?list=' + encodedList + '&adult=' + adult + '&teen=' + teen;
                                 }
 
                          })

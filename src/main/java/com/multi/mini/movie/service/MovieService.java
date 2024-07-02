@@ -2,7 +2,6 @@ package com.multi.mini.movie.service;
 
 import com.multi.mini.common.model.dto.PageDTO;
 import com.multi.mini.movie.model.dto.*;
-import com.multi.mini.payment.model.dto.VwResDataDTO;
 
 import java.util.ArrayList;
 
@@ -52,6 +51,7 @@ public interface MovieService {
   
   	ArrayList<CinemaDTO> findCinemaList(String type, String keyword, PageDTO pageDTO) throws Exception;
 
+<<<<<<< HEAD
 	VwResDataDTO getResNo(int rsvNo) throws Exception;
 	
 	
@@ -62,4 +62,9 @@ public interface MovieService {
 	ArrayList<VWMovieManageDataDTO> findAllVWMovieManageDataDTO() throws Exception;
 	
 	ArrayList<MovieDTO> findAllAPIMovieList() throws Exception;
+=======
+
+
+
+>>>>>>> feature/payment
 }

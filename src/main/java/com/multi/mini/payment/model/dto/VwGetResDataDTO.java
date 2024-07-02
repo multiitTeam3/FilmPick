@@ -2,8 +2,11 @@ package com.multi.mini.payment.model.dto;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
-public class VwResDataDTO {
+public class VwGetResDataDTO {
     private int rsvNo;
     private int scheduleNo;
     private int seatNo;
@@ -19,4 +22,7 @@ public class VwResDataDTO {
     private boolean adult;
     private String seatName;
     private int rsvMoviePrice;
+
+
+
 }

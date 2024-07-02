@@ -183,3 +183,8 @@ $RECYCLE.BIN/
 .idea/misc.xml
 .idea/modules.xml
 .idea/modules/mini.main.iml
+.gradle/8.8/executionHistory/executionHistory.lock
+.gradle/8.8/fileHashes/fileHashes.lock
+.gradle/8.8/executionHistory/executionHistory.lock
+.gradle/8.8/fileHashes/fileHashes.lock
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
