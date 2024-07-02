@@ -10,9 +10,9 @@
             overflow-x: scroll;
             margin: 3%;
             text-align: center;
-
+            background-color: #e1e8e3;
             display: flex;
-            
+
 
         }
 
@@ -23,4 +23,12 @@
 
             min-width: 300px;
             max-width: 300px;
+        }
+
+
+        .container1{
+
+            background-color: #e1e8e3;
+            height: 60%;
+
         }
