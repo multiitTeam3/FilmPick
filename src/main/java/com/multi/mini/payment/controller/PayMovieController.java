@@ -5,7 +5,6 @@ import com.google.gson.reflect.TypeToken;
 import com.multi.mini.admin.coupon.model.dto.CouponDTO;
 import com.multi.mini.admin.coupon.service.CouponService;
 import com.multi.mini.member.model.dto.CustomUserDetails;
-import com.multi.mini.member.model.dto.MemberDTO;
 import com.multi.mini.payment.model.dto.KakaoReadyDTO;
 import com.multi.mini.payment.model.dto.VwGetResDataDTO;
 import com.multi.mini.payment.service.PaymentService;
@@ -109,7 +108,6 @@ public class PayMovieController {
 
             List<CouponDTO> coupons = paymentService.getCouponsByMemberNo(memberNo);
 
-            int memberPoints = paymentService.getPointByMemberNo(memberNo);
 
 
             System.out.println("coupons: "+ coupons);
@@ -125,7 +123,6 @@ public class PayMovieController {
 
 
             System.out.println(kakaoReadyDTO);
-            System.out.println(memberPoints);
 
 
 
@@ -140,7 +137,6 @@ public class PayMovieController {
             model.addAttribute("rsvNoList", list); //예약번호
             model.addAttribute("kakaoReadyDTO", kakaoReadyDTO);
             model.addAttribute("coupons", coupons);
-            model.addAttribute("memberPoints",memberPoints);
 
             session.setAttribute("reservations", reservations);
 

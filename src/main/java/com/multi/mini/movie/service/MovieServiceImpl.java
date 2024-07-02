@@ -7,13 +7,9 @@ import com.google.gson.JsonObject;
 import com.multi.mini.common.model.dto.PageDTO;
 import com.multi.mini.movie.model.dto.*;
 import com.multi.mini.movie.model.mapper.MovieMapper;
-<<<<<<< HEAD
-import com.multi.mini.payment.model.dto.VwResDataDTO;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-=======
->>>>>>> feature/payment
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -186,9 +182,8 @@ public class MovieServiceImpl implements MovieService {
 
     }
 
-<<<<<<< HEAD
 	@Override
-	public VwResDataDTO getResNo(int rsvNo) throws Exception {
+	public VWResDataDTO getResNo(int rsvNo) throws Exception {
 		return movieMapper.vwResDataNo(rsvNo);
 	}
     
@@ -275,11 +270,6 @@ public class MovieServiceImpl implements MovieService {
         
         return list;
     }
-    
-    
-=======
 
-
->>>>>>> feature/payment
 }
 

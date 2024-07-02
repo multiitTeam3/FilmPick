@@ -80,8 +80,6 @@
 			c.member_no = #{ memberNo }
 	</select>
 
-<<<<<<< HEAD
-=======
 	<select id="findCouponsByMemberNo" parameterType="int" resultType="couponDTO">
 		SELECT * FROM mem_coupon
 		WHERE member_no = #{memberNo}
@@ -92,5 +90,4 @@
 		DELETE FROM mem_coupon
 		WHERE member_no = #{memberNo} AND coupon_code = #{couponCode}
 	</delete>
->>>>>>> feature/payment
 </mapper>

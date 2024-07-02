@@ -64,10 +64,6 @@ public class PaymentServiceImpl implements PaymentService {
 		couponMapper.deleteCouponByMemberAndCode(memberNo, couponCode);
 	}
 
-	@Override
-	public int getPointByMemberNo(int memberNo) {
-		return memberMapper.getPointByMemberNo(memberNo);
-	}
 
 	@Override
 	public int deletePaymentByReservation(int rsvNO) throws Exception {
