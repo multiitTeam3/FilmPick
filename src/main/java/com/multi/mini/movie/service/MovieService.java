@@ -51,9 +51,7 @@ public interface MovieService {
   
   	ArrayList<CinemaDTO> findCinemaList(String type, String keyword, PageDTO pageDTO) throws Exception;
 
-<<<<<<< HEAD
-	VwResDataDTO getResNo(int rsvNo) throws Exception;
-	
+	VWResDataDTO getResNo(int rsvNo) throws Exception;
 	
 	int deleteReservation(ReservationDTO reservationDTO) throws Exception;
 	
@@ -62,9 +60,5 @@ public interface MovieService {
 	ArrayList<VWMovieManageDataDTO> findAllVWMovieManageDataDTO() throws Exception;
 	
 	ArrayList<MovieDTO> findAllAPIMovieList() throws Exception;
-=======
 
-
-
->>>>>>> feature/payment
 }

@@ -21,13 +21,13 @@ public interface CouponMapper {
     @Delete("DELETE FROM mem_coupon WHERE coupon_code = #{ couponCode }")
     int deleteCoupon(String couponCode);
 
-<<<<<<< HEAD
-    List<CouponDTO> findCouponListByMemberNo(int memberNo);
-=======
 
     List<CouponDTO> findCouponsByMemberNo(int memberNo);
 
+    List<CouponDTO> findCouponListByMemberNo(int memberNo);
+
     // 회원의 특정 쿠폰을 삭제하는 메서드
     void deleteCouponByMemberAndCode(@Param("memberNo") int memberNo, @Param("couponCode") String couponCode);
->>>>>>> feature/payment
+
+
 }
