@@ -1,6 +1,8 @@
 package com.multi.mini.admin.notice.controller;
 
 import com.multi.mini.admin.notice.service.AdminNoticeService;
+import com.multi.mini.common.model.dto.PageDTO;
+import com.multi.mini.common.service.PageService;
 import com.multi.mini.customer.notice.model.dto.NoticeCategoryDTO;
 import com.multi.mini.customer.notice.model.dto.NoticeDTO;
 import com.multi.mini.customer.notice.service.NoticeService;
@@ -24,11 +26,22 @@ import java.util.ArrayList;
 public class AdminNoticeController {
     private final AdminNoticeService adminNoticeService;
     private final NoticeService noticeService;
+    private final PageService pageService;
 
     @GetMapping
-    public String showAdminNotice(Model model) {
+    public String showAdminNotice(@RequestParam(required = false, name = "type") String type,
+                                  @RequestParam(required = false, name = "keyword") String keyword,
+                                  @RequestParam(required = false, defaultValue = "1", name = "page") int page,
+                                  Model model) {
+        PageDTO pageDTO = new PageDTO();
+        pageDTO.setStartEnd(page);
+
         try {
-            ArrayList<NoticeDTO> notices = adminNoticeService.getNoticeList();
+            // 페이지 수 계산
+            int memberCount = pageService.selectNoticeCount(type, keyword);
+            int pages = (int) Math.ceil((double) memberCount / 10);
+
+            ArrayList<NoticeDTO> notices = adminNoticeService.getNoticeList(type, keyword, pageDTO);
             model.addAttribute("notices", notices);
             System.out.println(notices + "테스트");
         } catch (Exception e) {

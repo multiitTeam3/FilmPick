@@ -22,7 +22,7 @@
 		<association property="category" resultMap="noticeCategoryResultMap"/>
 	</resultMap>
 
-	<select id="findNoticeAll" parameterType="pageDTO" resultMap="noticeResultMap">
+	<select id="findNoticeAll" parameterType="map" resultMap="noticeResultMap">
 		SELECT
 			  ROW_NUMBER() OVER (ORDER BY notice_no DESC) AS row_num
 			, n.notice_no
@@ -39,6 +39,19 @@
 			mem_member m ON n.member_no = m.member_no
 		JOIN
 			admin_notice_type nt ON n.type_no = nt.type_no
+		WHERE
+		<choose>
+			<when test="type == 'category'">
+				nt.description LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
+			</when>
+			<when test="type == 'title'">
+				n.title LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
+			</when>
+			<otherwise>
+				1 = 1
+			</otherwise>
+		</choose>
+		LIMIT #{start}, #{end}
 	</select>
 
 
