@@ -16,10 +16,10 @@ public interface BoardMapper {
 
     BoardDTO selectBoard(int no);
 
-    @Delete("DELETE FROM BOARD WHERE BOARD_NO = #{no}")
+    @Delete("DELETE FROM comm_board WHERE board_no = #{no}")
     int deleteBoard(int no) throws Exception;
 
-    @Update("UPDATE MEMBER SET TITLE = #{title}, CONTENT = #{content} WHERE BOARD_NO = #{boardNo}")
+    @Update("UPDATE comm_board SET title = #{title}, content = #{content} WHERE board_no = #{boardNo}")
     int updateBoard(BoardDTO boardData) throws Exception;
 
 }

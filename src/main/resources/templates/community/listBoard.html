@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h2 class="text-center mb-4">커뮤니티</h2>
+        <hr color="grey">
+        <div id="d1">
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark">
+                <tr>
+                    <th scope="col">NO.</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Content</th>
+                    <th scope="col">CREATE_DATE</th>
+                    <th scope="col">Writer</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="board : ${boards}">
+                    <th scope="row" th:text="${board.boardNo}"></th>
+                    <td><a th:href="@{/community/view(no=${board.boardNo})}" th:text="${board.title}"></a></td>
+                    <td th:text="${board.content}"></td>
+                    <td th:text="${board.createDate}"></td>
+                    <td th:text="${board.writer.userName}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <p th:if="${boards == null}" style="text-align: center;">게시글이 존재하지 않습니다.</p>
+        </div>
+        <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/community/insert}'|">글쓰기</button>
+        </div>
+
+        <th:block th:if="${pages != null}">
+            <div class="d-flex justify-content-center">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary btn-sm previous" th:onclick="|location.href='@{/community/list(page=${currentPage - 1})}'|" th:disabled="${currentPage == 1}">이전</button>
+                    <th:block th:each="p : ${#numbers.sequence(1, pages)}">
+                        <button type="button" class="btn btn btn-outline-dark btn-sm me-2 pages"
+                                th:text="${p}" th:onclick="|location.href='@{/community/list(page=${p})}'|"></button>
+                    </th:block>
+                    <button type="button" class="btn btn-secondary btn-sm  next" th:onclick="|location.href='@{/community/list(page=${currentPage + 1})}'|" th:disabled="${currentPage == pages}">다음</button>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</div>
+
+<script th:inline="javascript">
+		/*<![CDATA[*/
+<!--		let pages = [[${pages}]];-->
+		/*]]>*/
+
+</script>
+	<script th:src="@{/js/paging.js}"></script>
+
+</body>
+</html>

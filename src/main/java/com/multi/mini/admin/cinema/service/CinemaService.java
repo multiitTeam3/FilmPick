@@ -7,4 +7,6 @@ public interface CinemaService {
     void insertCinema(CinemaDTO cinemaDTO) throws Exception;
 
     void deleteCinema(int cinemaNo) throws Exception;
+
+    void updateCinema(CinemaDTO cinemaDTO);
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 네임스페이스는 풀클래스명을 써야한다 와 DTO 타입을 변경한 후 마이바티스 config 설정파일에 매퍼 부분은 지워주고, spring-context.xml에 매퍼 스캐닝을 추가해야 한다. -->
+<mapper namespace="likeMapper">
+	
+	<resultMap id="likeResultMap" type="likeDTO">
+	    <id property="like_no" column="like_no"/>
+	    <result property="board_no" column="board_no"/>
+	    <result property="member_no" column="member_no"/>
+	</resultMap>
+
+	<insert id="insertLike">
+    INSERT INTO comm_like(like_no, board_no, member_no)
+    VALUES (
+        (SELECT MAX_LIKE_NO + 1 FROM (SELECT IFNULL(MAX(like_no), 0) AS MAX_LIKE_NO FROM comm_like) AS temp_table),
+        #{board_no},
+        #{member_no}
+    )
+	</insert>
+	
+	<select id="likeCheck" resultType="int">
+		SELECT COUNT(*) FROM comm_like WHERE board_no = #{board_no} AND member_no = #{member_no}
+	</select>
+	
+	<update id="updateLike" parameterType="int">
+		UPDATE comm_board set
+		likehit = likehit+1
+		WHERE board_no = #{board_no}
+	</update>
+	
+	<update id="updateLikeCancel" parameterType="int">
+	UPDATE comm_board set
+	likehit = likehit - 1
+	where board_no = #{board_no}
+	</update>
+	
+	<delete id="deleteLike">
+	DELETE FROM comm_like WHERE board_no = #{board_no} AND member_no = #{member_no}
+	</delete>
+	
+	
+
+	
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.multi.mini.reply.model.mapper.ReplyMapper">
+
+	<resultMap id="replyResultMap" type="replyDTO">
+	    <id property="reply_no" column="reply_no"/>
+	    <result property="board_no" column="board_no"/>
+		<result property="member_no" column="member_no"/>
+	    <result property="content" column="content"/>
+	</resultMap>
+
+	<insert id="create"
+			parameterType="replyDTO"
+			useGeneratedKeys="true" 
+			keyProperty="reply_no">
+		insert into comm_reply (
+		  board_no
+		, member_no
+		, content
+		) values (#{board_no},#{member_no},#{content})
+	</insert>
+
+
+	<select id="list" resultMap="replyResultMap" parameterType="int">
+		SELECT * FROM comm_reply
+		WHERE board_no = #{board_no}
+	</select>
+	
+	<select id="selectReply" parameterType="_int" resultMap="replyResultMap">
+		SELECT reply_no, content
+		FROM comm_reply
+		WHERE reply_no=#{reply_no}
+	</select>
+	
+	<update id="updateReply" parameterType="replyDTO">
+		UPDATE comm_reply
+		SET content = #{ content }
+		WHERE reply_no=#{reply_no}
+	</update>
+	
+	<delete id="deleteReply" parameterType="int"> <!-- 전달받은 파라미터 데이터 타입 지정 -->
+		DELETE
+		FROM comm_reply
+		WHERE reply_no=#{reply_no}
+	</delete>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

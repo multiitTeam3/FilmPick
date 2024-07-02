@@ -1,39 +1,30 @@
-.container{
+        .containerBox{
             display: flex;
-            background-color: #FFF0F5;
+            background-color: #feffdf;
             border: 1px solid black;
-            margin: 10%;
+            margin: 2%;
+            justify-content: space-between;
+            width: 80%;
 
         }
 
-
-        .sidebar{
-            height: 100%;
-            width: 30%;
-            background-color: #A0DFE1;
-
-        }
-
-        .sidebar a{
-            padding: 15px;
-            text-decoration: none;
-            color: #E6FFE6;
-            display: block;
-            font-size: 25px;
-            font-color: #000069	;
-            padding : 40px
-        }
-
-        .sidebar a:hover{
+        a:hover{
             background-color: #FFB6C1;
 
         }
 
         #content1{
-            padding: 40px;
+
             display: flex;
             flex-flow: column;
-
+            background-color: #feffdf;
+            border: 1px solid black;
+            margin: 2%;
+            justify-content: space-between;
+            align-items: center;
+            width: 80%;
+            height: 70%;
+            padding:1%;
 
         }
 
@@ -66,9 +57,6 @@
 
         }
 
-
-
-
         .unclickable{
 
             pointer-events: none;
@@ -88,3 +76,45 @@
             background-color: #C7B5B5 !important;
 
         }
+
+        .containerColumn{
+
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 60%;
+            align-items: center;
+        }
+
+        input{
+
+            margin: 1%;
+            width: 40px;
+            height: 30px;
+
+        }
+
+        .ticketNum{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 40%;
+
+        }
+
+        .seatBtn{
+
+            margin: 0.5%;
+            width: 100px;
+
+        }
+
+        #ticketNum1, #ticketNum2{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+
+        }
+

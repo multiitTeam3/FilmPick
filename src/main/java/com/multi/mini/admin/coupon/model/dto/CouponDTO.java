@@ -4,7 +4,6 @@ import com.multi.mini.member.model.dto.MemberDTO;
 import lombok.Data;
 
 import java.sql.Date;
-import java.time.LocalDate;
 
 @Data
 public class CouponDTO {
@@ -15,6 +14,6 @@ public class CouponDTO {
     private String description;
     private int discount;
     private Date useDate;
-    private LocalDate createDate;
+    private Date createDate;
     private Date expDate;
 }

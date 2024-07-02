@@ -1,19 +1,19 @@
 package com.multi.mini.member.model.dto;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CustomUserDetails implements UserDetails {
-    private MemberDTO memberDTO;
-
+    private final MemberDTO memberDTO;
+    private final Boolean tempPassword;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -27,9 +27,26 @@ public class CustomUserDetails implements UserDetails {
         return authorities;
     }
 
+    public CustomUserDetails(MemberDTO memberDTO) {
+        this.memberDTO = memberDTO;
+        this.tempPassword = false;
+    }
+
     @Override
     public String getPassword() {
         return memberDTO.getPassword();
+    }
+
+    public String getTempPassword() {
+        return memberDTO.getTempPassword();
+    }
+
+    public boolean getTempPasswordIsUse() {
+        return memberDTO.getTempPasswordIsUse();
+    }
+
+    public LocalDateTime getTempExpDate() {
+        return memberDTO.getTempExpDate().toLocalDateTime();
     }
 
     @Override
@@ -73,7 +90,18 @@ public class CustomUserDetails implements UserDetails {
         return  memberDTO.getAddress();
     }
 
-    public LocalDate getCreateDate() {
-        return memberDTO.getCreateDate();
+    public LocalDateTime getCreateDate() {
+        return memberDTO.getCreateDate().toLocalDateTime();
+    }
+
+    public int getPoint() {
+        return  memberDTO.getPoint();
+    }
+
+    public void update(MemberDTO updateDTO) {
+        this.memberDTO.setUserName(updateDTO.getUserName());
+        this.memberDTO.setTel(updateDTO.getTel());
+        this.memberDTO.setAddress(updateDTO.getAddress());
+        this.memberDTO.setPoint(updateDTO.getPoint());
     }
 }

@@ -3,7 +3,7 @@ package com.multi.mini.movie.model.mapper;
 import com.multi.mini.movie.model.dto.*;
 import com.multi.mini.payment.model.dto.VwResDataDTO;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -60,12 +60,18 @@ public interface MovieMapper {
 	void insertAPIMovie(MovieDTO movieDTO) throws Exception;
 
 
-	ArrayList<CinemaDTO> findCinemaList() throws Exception;
-
+	ArrayList<CinemaDTO> findCinemaList(@Param("type") String type, @Param("keyword") String keyword, @Param("start") int start, @Param("end") int end) throws Exception;
 	
 	ArrayList<VwResDataDTO> reservationPayment(int rsvNo) throws Exception;
 
     VwResDataDTO vwResDataNo(int rsvNo) throws Exception;
+	
+	
+	int deleteReservation(ReservationDTO reservationDTO) throws Exception;
+	
+	VWResDataGroupDTO findVWResDataGroupDTO(VWResDataGroupDTO vwResDataGroupDTO) throws Exception;
+	
+	ArrayList<VWMovieManageDataDTO> findAllVWMovieManageDataDTO() throws Exception;
 
 
 }
