@@ -11,13 +11,16 @@
 		<result property="memberNo" column="member_no"/>
 		<result property="email" column="email"/>
 		<result property="password" column="password"/>
+		<result property="tempPassword" column="temp_pw"/>
+		<result property="tempPasswordIsUse" column="is_use"/>
+		<result property="tempExpDate" column="exp_date" jdbcType="TIMESTAMP"/>
 		<result property="userName" column="user_name"/>
 		<result property="tel" column="tel"/>
 		<result property="img" column="img"/>
 		<result property="point" column="point"/>
 		<result property="address" column="address"/>
-		<result property="createDate" column="crate_date"/>
-		<result property="modfiyDate" column="modfiy_date"/>
+		<result property="createDate" column="crate_date" jdbcType="TIMESTAMP"/>
+		<result property="modifyDate" column="modify_date" jdbcType="TIMESTAMP"/>
 		<collection property="roles" ofType="roleDTO">
 			<id property="roleNo" column="role_no"/>
 			<result property="roleName" column="name"/>
@@ -36,6 +39,21 @@
 			mem_member_and_role mar ON m.member_no = mar.member_no
 		LEFT JOIN
 			mem_role r ON mar.role_no = r.role_no
+		WHERE
+		<choose>
+			<when test="type == 'email'">
+				m.email LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
+			</when>
+			<when test="type == 'name'">
+				m.user_name LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
+			</when>
+			<when test="type == 'role'">
+				r.name LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
+			</when>
+			<otherwise>
+				1 = 1
+			</otherwise>
+		</choose>
 		LIMIT #{start}, #{end}
 	</select>
 </mapper>

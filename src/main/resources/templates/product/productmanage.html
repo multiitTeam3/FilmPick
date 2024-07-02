@@ -12,6 +12,7 @@
 
     <link rel="stylesheet" th:href="@{/css/product.css}">
     <link rel="stylesheet" th:href="@{/css/adminsidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/container-box.css}">
 
     <title th:text="${title}">Insert title here</title>
 
@@ -49,12 +50,19 @@
 <body>
 
 <main layout:fragment="content">
-    <div>
+    <div class="container-box text-center">
+        <h1>관리자 페이지</h1>
+    </div>
+
+    <div class="container-box">
+        <h2>상품 관리</h2>
+
         <div class="divbtnwrap">
             <div class="divbtn" id="divbtn"></div>
             <input type="text" id="searchinput">
             <button id="searchbtn" onclick="search()">검색</button>
         </div>
+
         <div class="row">
             <div class="divtable">
                 <table class="datatable-table">

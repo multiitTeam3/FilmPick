@@ -70,14 +70,6 @@
                             $('.day').removeClass('selected');
                             $(this).addClass('selected');
 
-
-
-
-
-
-
-
-
                         };
                         daysElement.appendChild(dayCell);
                     }
@@ -330,12 +322,11 @@
 
                     var finalSchedule = JSON.parse($(this).attr('data-schedule'));
 
-                    $('#result').append('<p>스케줄 확인</p>');
-                    $('#result').append($(this).attr('data-schedule'));
+
 
                     console.log(finalSchedule);
 
-                    $('#result').append('<button id="reservationseat">좌석 선택 화면으로 이동하기</button>');
+                    $('#result').append('<br><br><button id="reservationseat">좌석 선택 화면으로 이동하기</button>');
 
 
                     $(document).on('click','#reservationseat',function(){
@@ -368,9 +359,6 @@
         )
 
 
-
-
-
     </script>
 
 
@@ -379,101 +367,91 @@
 
 <div layout:fragment="content">
 
+    <div class="containerColumn">
 
-    <div class="container">
-
-
-        <div class="sidebar">
-
-            <a href="/movie/reservationtime">상영시간</a>
-            <a href="/movie/reservationseat" class="unclickable">인원/좌석 선택</a>
-
-        </div>
-
-
-        <div class="content" id="content1">
-
-            <h5>지역 선택</h5>
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link active" th:href="@{/movie/reservationtime}">상영시간 선택</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled unclikable" th:href="@{/movie/reservationseat}">인원/좌석 선택</a>
+            </li>
+        </ul>
 
 
-        </div>
-
-        <div class="content" id="content4">
-
-            <h5>영화관 선택</h5>
+        <div class="containerBox">
 
 
-        </div>
+            <div class="content" id="content1">
+
+                <h5>지역 선택</h5>
+                <hr>
 
 
-        <div class="content" id="content2">
+            </div>
 
-            <h5>영화 선택</h5>
+            <div class="content" id="content4">
 
-
-        </div>
-
-        <div class="content" id="content3">
-
-            <h5>날짜 / 시간 선택</h5>
+                <h5>영화관 선택</h5>
+                <hr>
 
 
-            <p>달력</p>
+            </div>
 
-            <div class="calendar">
 
-                <div class="month">
-                    <span id="month-year"></span>
+            <div class="content" id="content2">
+
+                <h5>영화 선택</h5>
+                <hr>
+
+            </div>
+
+            <div class="content" id="content3">
+
+                <h5>날짜 / 시간 선택</h5>
+                <hr>
+
+                <p>달력</p>
+
+                <div class="calendar">
+
+                    <div class="month">
+                        <span id="month-year"></span>
+                    </div>
+
+
+                    <div class="weekdays">
+                        <div>일</div>
+                        <div>월</div>
+                        <div>화</div>
+                        <div>수</div>
+                        <div>목</div>
+                        <div>금</div>
+                        <div>토</div>
+
+                    </div>
+                    <div class="days" id="days"></div>
+
                 </div>
 
 
-                <div class="weekdays">
-                    <div>일</div>
-                    <div>월</div>
-                    <div>화</div>
-                    <div>수</div>
-                    <div>목</div>
-                    <div>금</div>
-                    <div>토</div>
+                <div class="button" id="time-btn">
+
+                    <!--            <button>09:00~10:00</button>
+                                <button>11:20~13:00</button>-->
 
                 </div>
-                <div class="days" id="days"></div>
 
-            </div>
+                <div class="result" id="result">
 
 
-            <div class="button" id="time-btn">
-
-                <!--            <button>09:00~10:00</button>
-                            <button>11:20~13:00</button>-->
-
-            </div>
-
-            <div class="result" id="result">
+                </div>
 
 
             </div>
-
-
         </div>
-
-
-
-
     </div>
-
-
 </div>
-
-
-</div>
-
-
-<script>
-
-
-</script>
-
 
 </body>
 </html>

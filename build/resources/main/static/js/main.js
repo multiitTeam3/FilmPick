@@ -14,10 +14,23 @@ $(document).ready(
                         $.each(list, function(index, movie){
 
                             console.log(movie.posterPath)
+                            var poster = movie.posterPath;
+                            var title = movie.movieTitle;
+                            var content = movie.movieContent.substring(0,10)+"..."
 
-                            $("#posterImg").append(
-                                '<div class="oneMovie"><img width=600px src="' + movie.posterPath +
-                                '" alt="no img"><button class="mainBtn" onclick="location.href=\'/movie/reservationtime\'">예매하기</button></div>')
+
+                            $(".wrap").append(
+                                `
+                                    <div class="card" style="width:300px">
+                                      <img class="card-img-top" src="${poster}" alt="Card image cap">
+                                      <div class="card-body">
+                                        <h5 class="card-title">${title}</h5>
+                                        <p class="card-text">${content}</p>
+                                        <a href="/movie/reservationtime" class="btn btn-primary">예매하기</a>
+                                      </div>
+                                    </div>
+                                `
+                            )
                         })
                     }
                 })

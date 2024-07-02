@@ -18,8 +18,8 @@ public class MemberServiceImpl implements MemberService{
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public List<MemberDTO> findMemberAll(PageDTO page) throws Exception{
-        List<MemberDTO> list = memberMapper.findMemberAll(page);
+    public List<MemberDTO> findMemberAll(String type, String keyword, PageDTO page) throws Exception{
+        List<MemberDTO> list = memberMapper.findMemberAll(type, keyword, page.getStart(), page.getEnd());
         if (list != null) new Exception("회원 리스트 조회에 실패했습니다.");
         return list;
     }
@@ -39,7 +39,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public void updateMember(MemberDTO userData, String[] roles, String loginUserEmail) throws Exception{
+    public void updateMember(MemberDTO userData, String[] roles) throws Exception{
         int deleteRoleResult = 0;
         int insertRoleResult = 0;
         int updateMemberResult = 0;
@@ -60,7 +60,7 @@ public class MemberServiceImpl implements MemberService{
             updateMemberResult = memberMapper.updateMember(userData);
             if(deleteRoleResult + insertRoleResult + updateMemberResult != 3) new Exception("회원 수정에 실패했습니다.");
         } else { // 사용자 회원 정보 수정
-            if(!loginUserEmail.equals(userData.getEmail())) throw new Exception("사용자 정보가 다릅니다."); // 로그인한 사용자와 변경할 유저 Email이 동일한지 체크
+//            if(!loginUserEmail.equals(updateUserEmail)) throw new Exception("사용자 정보가 다릅니다."); // 로그인한 사용자와 변경할 유저 Email이 동일한지 체크, 세션에서 가져오므로 불필요
 
             if(userData.getPassword() != null) { // 사용자 패스워드 변경 시
                 String bPw = bCryptPasswordEncoder.encode(userData.getPassword());

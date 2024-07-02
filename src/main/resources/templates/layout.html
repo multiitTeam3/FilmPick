@@ -3,71 +3,110 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-  <title th:text="${title}">Insert title here</title>
+    <title th:text="${title}">Insert title here</title>
 
-  <!-- 부트스트랩 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <!-- 부트스트랩 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 
-  <!-- fontawesom -->
-  <script src="https://kit.fontawesome.com/8e3f0717f9.js" crossorigin="anonymous"></script>
-  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- fontawesom -->
+    <script src="https://kit.fontawesome.com/8e3f0717f9.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+          integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
-  <!-- css + js 파일 Load-->
-  <link rel="stylesheet" th:href="@{/css/menubar.css}">
-  <!--<script type="text/javascript" th:src="@{/js/main.js}"></script>-->
-</head>
-<body>
+    <!-- css + js 파일 Load-->
+    <link rel="stylesheet" th:href="@{/css/menubar.css}">
+    <link rel="stylesheet" th:href="@{/css/chatBot.css}">
 
 <!-- 경고 메시지 -->
 <script th:inline="javascript">
-  /*<![CDATA[*/
-  let msg = [[${msg}]];
-  if (msg != null) {
-      alert(msg);
-      fetch('/clearMessage', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-          }
-      });
-  }
-  /*]]>*/
+    /*<![CDATA[*/
+    let msg = [[${msg}]];
+    if (msg != null) {
+        alert(msg);
+        fetch('/clearMessage', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        });
+    }
+    /*]]>*/
 </script>
 
+<script th:inline="javascript">
+
+    $(document).on('click','#submitQuestion',function(){
+
+        var question = $('#question').val();
+        $('#question').val('');
+        $('#history').append('<p> User : ' + question + '</p>');
+
+        $.ajax({
+
+              url: '/gpt/chatBot',
+              method: 'POST',
+              data: JSON.stringify({ question : question }),
+              contentType: 'application/json',
+              success: function(response){
+                  console.log(response);
+                  $('#history').append('<p> ChatBot : ' + response + '</p>');
+              }
+        })
+    })
+
+
+</script>
+
+
+<body>
+
 <div class="container-fluid">
-  <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-    <div class="col-md-3 mb-2 mb-md-0 logo-container">
-      <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-        <img th:src="@{/img/common/logo.png}"alt="Logo"/>
-      </a>
-    </div>
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <div class="col-md-3 mb-2 mb-md-0 logo-container">
+            <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+                <img th:src="@{/img/common/logo.png}" alt="Logo"/>
+            </a>
+        </div>
 
-    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-      <li><a th:href="@{/home}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-house"></i>홈</a></li>
-      <li><a th:href="@{/mypage}" class="nav-link px-2 link-secondary">마이페이지</a></li>
-      <li><a th:href="@{/product/productselect}" class="nav-link px-2 link-secondary">상점</a></li>
-      <li><a th:href="@{/community/list}" class="nav-link px-2 link-secondary">커뮤니티</a></li>
-      <li><a th:href="@{/movie/reservationtime}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-ticket"></i>예매</a></li>
-      <li><a th:href="@{/movie/reservationlist}" class="nav-link px-2 link-secondary">예매확인</a></li>
-      <li><a th:href="@{/qna/list}" class="nav-link px-2 link-secondary">1:1 문의</a></li>
-    </ul>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#chatBotModalLong"
+                id="openChat">
+            영화추천 챗봇
+        </button>
 
-    <div class="col-md-3 text-end">
-      <th:block sec:authorize="isAnonymous()">
-        <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-        <button type="button" th:onclick="|location.href='@{/sign-up}'|" class="btn btn-primary">Sign-up</button>
-      </th:block>
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a th:href="@{/home}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-house"></i>홈</a></li>
+            <li><a th:href="@{/member/profile}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-user"></i>마이페이지</a></li>
+            <li><a th:href="@{/product/productselect}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-store"></i>스토어</a></li>
+            <li><a th:href="@{/community/list}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-comment"></i>커뮤니티</a></li>
+            <li><a th:href="@{/movie/reservationtime}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-ticket"></i>예매</a></li>
+            <li><a th:href="@{/movie/reservationlist}" class="nav-link px-2 link-secondary"><i class="fa-regular fa-bookmark"></i>예매확인</a></li>
+            <li><a th:href="@{/Customer/Index}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-circle-info"></i>고객센터</a></li>
+        </ul>
 
-      <th:block sec:authorize="hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')">
-        <th:block sec:authorize="hasAuthority('ROLE_ADMIN')">
+        <div class="col-md-3 text-end">
+            <th:block sec:authorize="isAnonymous()">
+                <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal"
+                        data-bs-target="#loginModal">Login
+                </button>
+                <button type="button" th:onclick="|location.href='@{/sign-up}'|" class="btn btn-primary">Sign-up
+                </button>
+            </th:block>
+
+            <th:block sec:authorize="hasAnyAuthority('ROLE_USER', 'ROLE_STAFF', 'ROLE_ADMIN')">
+        <th:block sec:authorize="hasAnyAuthority('ROLE_ADMIN', 'Role_STAFF')">
           <button type="button" th:onclick="|location.href='@{/admin}'|" class="btn btn-outline-primary me-2">Admin</button>
         </th:block>
         <th:block sec:authorize="hasAuthority('ROLE_USER')">
-          <button type="button" th:onclick="|location.href='@{/member/mypage}'|" class="btn btn-outline-primary me-2">MyPage</button>
+          <button type="button" th:onclick="|location.href='@{/member/profile}'|" class="btn btn-outline-primary me-2">MyPage</button>
         </th:block>
         <button type="button" th:onclick="|location.href='@{/logout}'|" class="btn btn-outline-primary me-2">Logout</button>
       </th:block>
@@ -81,29 +120,66 @@
 
 <!-- 로그인 모달 -->
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
 
-      <div class="modal-header">
-        <h4 class="modal-title" id="loginModalLabel">Login</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+            <div class="modal-header">
+                <h4 class="modal-title" id="loginModalLabel">Login</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
 
-      <form th:action="@{/login}" method="post">
-        <div class="modal-body">
-          <label for="userId" class="mr-sm-2">Email :</label>
-          <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter ID" id="userId" name="username"> <br>
-          <label for="userPwd" class="mr-sm-2">Password:</label>
-          <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter password" id="userPwd" name="password">
+            <form th:action="@{/login}" method="post">
+                <div class="modal-body">
+                    <label for="userId" class="mr-sm-2">Email :</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter ID" id="userId"
+                           name="username"> <br>
+                    <label for="userPwd" class="mr-sm-2">Password:</label>
+                    <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter password" id="userPwd"
+                           name="password">
+                </div>
+
+                <div class="modal-footer">
+                    <a href="#" onclick="tempPassword()" class="btn btn-link" >비밀번호 찾기</a>
+                    <hr>
+                    <button type="submit" class="btn btn-primary">로그인</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
+                </div>
+                </form>
+                <script>
+                        function tempPassword() {
+                            window.open("/password","_blank", "width=400,height=300,menubar=no,toolbar=no")
+                        }
+                </script>
         </div>
-
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">로그인</button>
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
-        </div>
-      </form>
     </div>
-  </div>
+</div>
+
+<!-- CHATBOT Modal -->
+<div class="modal fade" id="chatBotModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document" id="background1">
+        <div class="modal-content" id="modal-content1">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">ASK ME!!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="chatBotContent">
+                <div>
+                    <p class="example">질문 예시 1. 영화 추천해줘</p>
+                    <p class="example">질문 예시 2. 외부 영화 알려줘('TMDB 키워드 : 외부')</p>
+
+                </div>
+                <div id="history"></div>
+            </div>
+            <div class="modal-footer">
+                <textarea id="question" rows="2" cols="200" placeholder="질문 내용을 입력하세요"></textarea>
+                <button type="button" class="btn btn-primary" id="submitQuestion">질문하기</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
