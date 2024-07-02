@@ -44,48 +44,6 @@ public class MemberManagementController {
         return "admin/membermanage/listUser";
     }
 
-//    @GetMapping("/paging")
-//    public String showMemberPaging(PageDTO page, Model model) throws Exception{
-//        page.setStartEnd(page.getPage());
-//
-//        try {
-//            int count = pageService.selectMemberCount(type, keyword);
-//            int pages = count / 10 + 1;
-//            List<MemberDTO> list = memberService.findMemberAll(page);
-//
-//            model.addAttribute("count", count);
-//            model.addAttribute("pages", pages);
-//            model.addAttribute("users", list);
-//            System.out.println(list);
-//        } catch (Exception e) {
-//            model.addAttribute("msg", "회원 리스트 조회 실패");
-//        }
-//        return "admin/membermanage/listUser2";
-//    }
-
-//    @GetMapping("/search")
-//    public String findListMember(PageDTO page, Model model) throws Exception{
-//        page.setPage(1);
-//        page.setStartEnd(page.getPage());
-//
-//        try {
-//            int count = pageService.selectMemberCount(type, keyword);
-//            int pages = count / 10 + 1;
-//            List<MemberDTO> list = memberService.findMemberAll(page);
-//
-//            model.addAttribute("count", count);
-//            model.addAttribute("pages", pages);
-//            model.addAttribute("users", list);
-//            System.out.println(list);
-//        } catch (Exception e) {
-//            model.addAttribute("msg", "회원 리스트 조회 실패");
-//        }
-//
-//        return "admin/membermanage/listUser";
-//    }
-
-
-
     @GetMapping("/find")
     public String showFindMember(@RequestParam("no") int no, Model model) throws Exception{
         try {

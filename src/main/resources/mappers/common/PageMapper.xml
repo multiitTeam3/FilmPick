@@ -96,4 +96,28 @@
 			</otherwise>
 		</choose>
 	</select>
+
+	<select id="selectNoticeCount" parameterType="map">
+		SELECT
+			COUNT(*)
+		FROM
+			admin_notice n
+		LEFT JOIN
+			mem_member m ON n.member_no = m.member_no
+		JOIN
+			admin_notice_type nt ON n.type_no = nt.type_no
+		WHERE
+		<choose>
+			<when test="type == 'category'">
+				nt.description LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
+			</when>
+			<when test="type == 'title'">
+				n.title LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
+			</when>
+			<otherwise>
+				1 = 1
+			</otherwise>
+		</choose>
+	</select>
+
 </mapper>

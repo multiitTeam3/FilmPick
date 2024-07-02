@@ -19,4 +19,6 @@ public interface PageMapper {
     int selectQuestionCount(@Param("type") String type, @Param("keyword") String keyword);
 
     int selectCouponCount(@Param("type") String type, @Param("keyword") String keyword);
+
+    int selectNoticeCount(@Param("type") String type, @Param("keyword") String keyword);
 }

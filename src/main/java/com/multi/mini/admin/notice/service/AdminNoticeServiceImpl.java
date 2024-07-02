@@ -1,6 +1,7 @@
 package com.multi.mini.admin.notice.service;
 
 import com.multi.mini.admin.notice.mapper.AdminNoticeMapper;
+import com.multi.mini.common.model.dto.PageDTO;
 import com.multi.mini.customer.notice.model.dto.NoticeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,8 +13,8 @@ public class AdminNoticeServiceImpl implements AdminNoticeService{
     private final AdminNoticeMapper adminNoticeMapper;
 
     @Override
-    public ArrayList<NoticeDTO> getNoticeList() throws Exception{
-        ArrayList<NoticeDTO> notices = adminNoticeMapper.findNoticeAll();
+    public ArrayList<NoticeDTO> getNoticeList(String type, String keyword, PageDTO pageDTO) throws Exception{
+        ArrayList<NoticeDTO> notices = adminNoticeMapper.findNoticeAll(type, keyword, pageDTO.getStart(), pageDTO.getEnd());
         if(notices == null) throw new RuntimeException("공지사항 DB 조회에 실패했습니다");
 
         return notices;

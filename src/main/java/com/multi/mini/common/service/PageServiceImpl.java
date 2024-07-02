@@ -40,4 +40,10 @@ public class PageServiceImpl implements PageService{
         return count;
     }
 
+    @Override
+    public int selectNoticeCount(String type, String keyword) {
+        int count = pageMapper.selectNoticeCount(type, keyword);
+        return count;
+    }
+
 }
