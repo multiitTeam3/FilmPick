@@ -5,7 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -69,12 +69,15 @@ public class CustomUserDetails implements UserDetails {
         return memberDTO.getTel();
     }
 
+    public String getImg() {
+        return memberDTO.getImg();
+    }
+
     public String getAddress() {
         return  memberDTO.getAddress();
     }
 
-    public LocalDate getCreateDate() {
+    public Date getCreateDate() {
         return memberDTO.getCreateDate();
     }
-
 }
