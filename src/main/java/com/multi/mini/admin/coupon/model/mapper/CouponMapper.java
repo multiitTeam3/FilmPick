@@ -3,6 +3,7 @@ package com.multi.mini.admin.coupon.model.mapper;
 import com.multi.mini.admin.coupon.model.dto.CouponDTO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -19,4 +20,10 @@ public interface CouponMapper {
 
     @Delete("DELETE FROM mem_coupon WHERE coupon_code = #{ couponCode }")
     int deleteCoupon(String couponCode);
+
+
+    List<CouponDTO> findCouponsByMemberNo(int memberNo);
+
+    // 회원의 특정 쿠폰을 삭제하는 메서드
+    void deleteCouponByMemberAndCode(@Param("memberNo") int memberNo, @Param("couponCode") String couponCode);
 }

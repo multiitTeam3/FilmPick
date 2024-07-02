@@ -2,14 +2,14 @@ package com.multi.mini.payment.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.multi.mini.admin.coupon.model.dto.CouponDTO;
+import com.multi.mini.admin.coupon.service.CouponService;
 import com.multi.mini.member.model.dto.CustomUserDetails;
 import com.multi.mini.member.model.dto.MemberDTO;
-import com.multi.mini.movie.model.dto.ReservationDataDTO;
-import com.multi.mini.movie.model.dto.VWResDataDTO;
-import com.multi.mini.movie.model.dto.VWRewDataDTO;
 import com.multi.mini.payment.model.dto.KakaoReadyDTO;
 import com.multi.mini.payment.model.dto.VwGetResDataDTO;
 import com.multi.mini.payment.service.PaymentService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,11 +28,14 @@ public class PayMovieController {
     @Autowired
     private PaymentService paymentService;
 
+    private CouponService couponService;
+
+
 
     @GetMapping("/movie/reservationseat/payment")
     public String payment(@RequestParam("list") String list, Model model,
                           @RequestParam("adult") int adult,
-                          @RequestParam("teen") int teen ) {
+                          @RequestParam("teen") int teen, HttpSession session) throws Exception {
 
 
         //역직렬화 GSON JSON ob > java ob 로 변경
@@ -53,10 +56,6 @@ public class PayMovieController {
         //로그인된 아이디가져오기
         String username = userDetails.getUsername();
         int memberNo = userDetails.getMemberNo();
-
-
-        //로그인된 이메일 가져오기 (partnerOrderId)로 사용
-        String partnerOrderId = userDetails.getTel();
 
 
 
@@ -108,6 +107,12 @@ public class PayMovieController {
 
             System.out.println("================================================");
 
+            List<CouponDTO> coupons = paymentService.getCouponsByMemberNo(memberNo);
+
+            int memberPoints = paymentService.getPointByMemberNo(memberNo);
+
+
+            System.out.println("coupons: "+ coupons);
             KakaoReadyDTO kakaoReadyDTO = new KakaoReadyDTO();
             kakaoReadyDTO.setRsvNoList(new ArrayList<>(rsvNoList));//예약번호 리스트
             kakaoReadyDTO.setRsv(reservations.get(0)); //
@@ -116,8 +121,13 @@ public class PayMovieController {
             kakaoReadyDTO.setTotalPrice(totalPrice);
             kakaoReadyDTO.setAdultCount(adult);
             kakaoReadyDTO.setTeenCount(teen);
-            kakaoReadyDTO.setPartnerOrderId(partnerOrderId);
             kakaoReadyDTO.setMemberNo(memberNo);
+
+
+            System.out.println(kakaoReadyDTO);
+            System.out.println(memberPoints);
+
+
 
 
             model.addAttribute("memberNo",memberNo);
@@ -129,7 +139,10 @@ public class PayMovieController {
             model.addAttribute("totalPrice", totalPrice); //총합가격
             model.addAttribute("rsvNoList", list); //예약번호
             model.addAttribute("kakaoReadyDTO", kakaoReadyDTO);
-            model.addAttribute("partnerOrderId",partnerOrderId);
+            model.addAttribute("coupons", coupons);
+            model.addAttribute("memberPoints",memberPoints);
+
+            session.setAttribute("reservations", reservations);
 
         }
         return "payment/payment";

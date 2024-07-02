@@ -28,6 +28,8 @@ public class KakaoPayService {
 
     private static final String Host = "https://open-api.kakaopay.com/online/v1/payment/ready";
 
+    private static final String Hostapprove = "https://open-api.kakaopay.com/online/v1/payment/approve";
+
 
     @Value("${kakaopay.api.secret.key}")
     private String kakaopaySecretKey;
@@ -65,7 +67,6 @@ public class KakaoPayService {
         System.out.println("partnerOrderId "+partnerOrderId);
         System.out.println("partnerUserId "+partnerUserId);
 
-
         System.out.println("결제준비 데이터확인2 :"+kakaoReadyDTO.toString());
 
 
@@ -77,7 +78,7 @@ public class KakaoPayService {
                 .quantity(quantity)
                 .totalAmount(totalAmount)
                 .taxFreeAmount(0)
-                .approvalUrl("http://localhost:8099/payment/kakaoPaySuccess")
+                .approvalUrl("http://localhost:8099/payment/kakaoPaySuccess?partnerOrderId=" + partnerOrderId)
                 .cancelUrl("http://localhost:8099/payment/kakaoPayCancel")
                 .failUrl("http://localhost:8099/payment/kakaoPayFail")
                 .build();
@@ -106,6 +107,7 @@ public class KakaoPayService {
 
         System.out.println("approve: "+ kakaoReadyDTO.getPartnerOrderId());
         System.out.println("approve: "+ kakaoReadyDTO.getUsername());
+        System.out.println("approve: "+ tid);
 
         // Request param
         ApproveRequest approveRequest = ApproveRequest.builder()
@@ -120,7 +122,7 @@ public class KakaoPayService {
         HttpEntity<ApproveRequest> entityMap = new HttpEntity<>(approveRequest, headers);
         try {
             ResponseEntity<String> response = new RestTemplate().postForEntity(
-                    Host,
+                    Hostapprove,
                     entityMap,
                     String.class
             );

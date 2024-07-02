@@ -27,7 +27,15 @@
         INSERT INTO pay_payments (member_no, pay_method, ord_code, amount, discount, total_price) VALUES (#{memberNo}, #{payMethod}, #{ordCode}, #{amount}, #{discount}, #{totalPrice})
     </insert>
 
+    <insert id="insertPaymentMovie" parameterType="payMovieDTO">
+        INSERT INTO pay_movie_and_payments (pay_no, rsv_no, ticket_quantity, movie_title)
+        VALUES (#{payNo}, #{payNo}, #{movieTitle}, #{ticketQuantity})
+    </insert>
 
+    <delete id="deletePaymentByReservation" parameterType="int">
+        DELETE FROM mov_reservation
+        WHERE rsv_no = #{rsvNo}
+    </delete>
 
 
 

@@ -25,4 +25,8 @@ public interface MemberMapper {
 
     @Select("SELECT member_no FROM mem_member WHERE email = #{ userEmail }")
     MemberDTO findMemberByEmail(String userEmail);
+
+
+    @Select("SELECT point FROM mem_member WHERE member_no = #{memberNo}")
+    int getPointByMemberNo(int memberNo);
 }

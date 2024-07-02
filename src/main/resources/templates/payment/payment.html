@@ -1,11 +1,72 @@
-<!DOCTYPE html>
-<html layout:decorate="~{layout}">
-<head>
+<!DOCTYPE html><html layout:decorate="~{layout}"><head>
     <meta charset="UTF-8">
     <title>결제 페이지</title>
-</head>
-<body>
-<div layout:fragment="content">
+    <style>
+        .small-text {
+            font-size: 0.8em; /* 폰트 크기 줄이기 */
+            color: rgba(0, 0, 0, 0.6); /* 텍스트 반투명하게 */
+        }
+
+
+        .small-input {
+            width: 150px; /* 포인트 입력 박스 크기 줄이기 */
+        }
+
+        .small-select {
+            width: 200px; /* 쿠폰 선택 박스 크기 줄이기 */
+        }
+    </style></head><body><div layout:fragment="content">
+    <script>
+        window.onload = function () {
+         document.getElementById('payButton').addEventListener('click', function(event) {
+             event.preventDefault();
+
+             const selectedMethod = document.querySelector('input[name="payMethod"]:checked');
+             const pointsToUse = document.querySelector('input[name="pointsToUse"]').value;
+
+             if (pointsToUse < 1000 && pointsToUse > 0) {
+                 alert('1000원이상부터 사용가능합니다.');
+                 return;
+             }
+
+             if (selectedMethod && selectedMethod.value === 'kakao') {
+                 document.getElementById('kakaopay').submit();
+             } else if(!selectedMethod) {
+                 alert('결제방식을선택해주세요.');
+             } else {
+                 alert('미구현상태입니다.');
+             }
+         });
+
+            const pointsInput = document.querySelector('input[name="pointsToUse"]');
+            const couponSelect = document.getElementById('couponSelect');
+            const totalPriceSpan = document.getElementById('totalPrice');
+            const discountAmountSpan = document.getElementById('discountAmount');
+            const finalAmountSpan = document.getElementById('finalAmount');
+
+
+            function calculateFinalAmount() {
+                const totalPrice = parseInt(totalPriceSpan.getAttribute('data-total-price')); // 총 상품 금액
+                const pointsToUse = parseInt(pointsInput.value) || 0;
+                const discountRate = parseInt(couponSelect.selectedOptions[0].getAttribute('data-discount')) || 0;
+
+                // 포인트 할인 적용
+                let discountedPrice = totalPrice - pointsToUse;
+
+                // 쿠폰 할인 적용
+                const discountAmount = discountedPrice * discountRate / 100;
+                discountedPrice -= discountAmount;
+
+                // 할인 금액과 최종 결제 금액 업데이트
+                discountAmountSpan.textContent = `${discountAmount}원`;
+                finalAmountSpan.textContent = `${discountedPrice}원`;
+            }
+
+            calculateFinalAmount(); // 초기 계산
+     };
+
+
+    </script>
     <div class="container">
         <div class="row">
             <div class="col-md-12 p-4">
@@ -31,33 +92,62 @@
                         </div>
                     </div>
                 </div>
-                <span>결제방식 선택</span>
-                <button class="btn btn-secondary btn-block mb-2" id="kakao">카카오 페이</button>
-                <button class="btn btn-secondary btn-block mb-2" id="card">카드 결제</button>
-                <button class="btn btn-secondary btn-block mb-2" id="nobank">무통장 입금</button>
-                <div class="mb-4">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>상품금액</span>
-                    </div>
-                    <div th:if="${reservations != null && !reservations.isEmpty()}">
-                        <span th:text="${totalPrice}"></span> 원
 
-                        <form id="kakaopay" th:object="${kakaoReadyDTO}" method="post" th:action="@{/payment/kakaoPay}">
-                            <input type="hidden" name="memberNo" th:field="*{memberNo}" />
-                            <input type="hidden" name="username" th:field="*{username}" />
-                            <input type="hidden" name="rsvNoList" th:field="*{rsvNoList}" />
-                            <input type="hidden" name="movieTitle" th:field="*{movieTitle}" />
-                            <input type="hidden" name="totalPrice" th:field="*{totalPrice}" />
-                            <input type="hidden" name="adultCount" th:field="*{adultCount}" />
-                            <input type="hidden" name="teenCount" th:field="*{teenCount}" />
-                            <input type="hidden" name="partnerOrderId" th:field="*{partnerOrderId}" />
-                            <button type="submit" class="btn btn-primary">결제하기</button>
-                        </form>
+
+                <form id="kakaopay" th:object="${kakaoReadyDTO}" method="post" th:action="@{/payment/kakaoPay}">
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>보유 포인트:</span>
+                            <span th:text="${memberPoints}"></span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>사용할 포인트:</span>
+                            <input type="number" name="pointsToUse" min="0" max="${userPoints}" class="form-control small-input" step="100">
+                            <p class="small-text">1000원이상부터 사용가능합니다</p>
+                        </div>
+                            <div class="mb-4"></div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <label for="couponSelect">사용할 쿠폰:</label>
+                            <select id="couponSelect" name="couponCode" class="form-control small-select">
+                                <option value="" data-discount="0">쿠폰을 선택하세요</option>
+                                <option value="" th:each="coupon : ${coupons}" th:value="${coupon.couponCode}" th:text="${coupon.description} + ' - ' + ${coupon.discount} + '%'"></option>
+                            </select>
+                        </div>
+                        <span>결제방식 선택</span>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payMethod" id="kakao" value="kakao">
+                            <label class="form-check-label" for="kakao">카카오 페이</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payMethod" id="card" value="card">
+                            <label class="form-check-label" for="card">카드 결제</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payMethod" id="nobank" value="nobank">
+                            <label class="form-check-label" for="nobank">무통장 입금</label>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>상품금액:</span><span id="totalPrice" th:text="${totalPrice} + '원'" th:data-total-price="${totalPrice}"></span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>할인금액:</span><span id="discountAmount">0원</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>결제금액:</span><span id="finalAmount" th:text="${totalPrice} + '원'">0원</span>
+                        </div>
+                        <input type="hidden" name="posterPath" th:field="*{posterPath}">
+                        <input type="hidden" name="memberNo" th:field="*{memberNo}">
+                        <input type="hidden" name="username" th:field="*{username}">
+                        <input type="hidden" name="rsvNoList" th:field="*{rsvNoList}">
+                        <input type="hidden" name="movieTitle" th:field="*{movieTitle}">
+                        <input type="hidden" name="totalPrice" th:field="*{totalPrice}">
+                        <input type="hidden" name="adultCount" th:field="*{adultCount}">
+                        <input type="hidden" name="teenCount" th:field="*{teenCount}">
+                        <button type="button" class="btn btn-primary" id="payButton">결제하기</button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
-</body>
-</html>
+</body></html>
