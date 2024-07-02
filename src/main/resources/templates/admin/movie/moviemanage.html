@@ -6,9 +6,18 @@
 <head>
     <title>Movie Manage Page</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/container-box.css}">
+    <link rel="stylesheet" th:href="@{/css/movieManage.css}">
+
+    <style>
+        .pageNums1, .pageNums2 {
+            text-align: center;
+        }
+
+
+    </style>
     <script type="text/javascript">
 
         $(document).ready(
@@ -21,7 +30,7 @@
 
                    $.ajax({
 
-                       url: '/movie/findAllEnrolledMovie?page=' + page,
+                       url: '/admin/movie/findAllEnrolledMovie?page=' + page,
                        method: 'POST',
                        contentType: 'application/json',
                        success: function(responseDTO){
@@ -95,7 +104,7 @@
 
                    $.ajax({
 
-                       url: '/movie/findAPIMovieList?page=' + page,
+                       url: '/admin/movie/findAPIMovieList?page=' + page,
                        method: 'POST',
                        contentType: 'application/json',
                        success: function(list){
@@ -167,7 +176,7 @@
 
                       $.ajax({
 
-                           url: '/movie/insertAPIMovie?id=' + movieId,
+                           url: '/admin/movie/insertAPIMovie?id=' + movieId,
                            method: 'POST',
                            contentType: 'application/json',
                            success: function(response){
@@ -190,7 +199,7 @@
 
                      $.ajax({
 
-                       url: '/movie/insertGenre',
+                       url: '/admin/movie/insertGenre',
                        method: 'POST',
                        contentType: 'application/json',
                        success: function(response){
@@ -210,106 +219,80 @@
         )
 
 
+
+
+
     </script>
-    <link rel="stylesheet" th:href="@{/css/movieManage.css}">
+
 </head>
 <body>
 <div layout:fragment="content">
-    <h2 class="text-center mb-4">영화 관리</h2>
-    <hr color="grey">
-
-    <div class="container1">
+    <div class="container">
+        <div class="text-center my-4">
+            <h1>관리자 페이지</h1>
+        </div>
 
         <div class="top">
-
-            <div class="content" id="enrolled-Movie-List">
-
-                <br><br><br><br>
-                <h1>등록된 영화 리스트</h1><br>
-
-                <table class="table">
-
-                    <thead class="thead-dark">
-
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">영화번호</th>
-                        <th scope="col">영화제목</th>
-                        <th scope="col">장르이름</th>
-                        <th scope="col">유명도</th>
-                        <th scope="col">상영시간(시)</th>
-                        <th scope="col">영화내용</th>
-                        <th scope="col">성인영화</th>
-                        <th scope="col">포스터보기</th>
-                        <th scope="col">평균평점</th>
-                        <th scope="col">티켓판매량(수량)</th>
-
-
-                    </tr>
-
-
-                    </thead>
-
-                    <tbody id="list">
-
-                    </tbody>
-
-
-                </table>
-
-
+            <div class="container-box">
+                <h2>영화 관리</h2>
+                <div class="content" id="enrolled-Movie-List">
+                    <br>
+                    <h1>등록된 영화 리스트</h1><br>
+                    <table class="table table-striped">
+                        <thead class="table-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">영화번호</th>
+                            <th scope="col">영화제목</th>
+                            <th scope="col">장르이름</th>
+                            <th scope="col">유명도</th>
+                            <th scope="col">상영시간(시)</th>
+                            <th scope="col">영화내용</th>
+                            <th scope="col">성인영화</th>
+                            <th scope="col">포스터보기</th>
+                            <th scope="col">평균평점</th>
+                            <th scope="col">티켓판매량(수량)</th>
+                        </tr>
+                        </thead>
+                        <tbody id="list"></tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <div class="pageNums1"></div>
+                </div>
             </div>
-
-            <div class="pageNums1"></div>
-
         </div>
 
         <div class="bottom">
-
-            <div class="content" id="add-Movie">
-
-                <h1>DB에 영화 추가
-                    <button id="insertGenre" class="none">장르추가</button>
-                </h1><br>
-
-                <table class="table">
-
-                    <thead class="thead-dark">
-
-                    <tr>
-
-                        <th scope="col">#</th>
-                        <th scope="col">영화제목</th>
-                        <th scope="col">장르이름</th>
-                        <th scope="col">유명도</th>
-                        <th scope="col">상영시간(시)</th>
-                        <th scope="col">영화내용</th>
-                        <th scope="col">성인영화</th>
-                        <th scope="col">포스터</th>
-                        <th scope="col">영화추가</th>
-
-
-                    </tr>
-
-
-                    </thead>
-
-                    <tbody id="list2">
-
-                    </tbody>
-                </table>
-
+            <div class="container-box">
+                <div class="content" id="add-Movie">
+                    <h1>DB에 영화 추가
+                        <button id="insertGenre" class="btn btn-link">장르추가</button>
+                    </h1>
+                    <br>
+                    <table class="table table-striped">
+                        <thead class="table-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">영화제목</th>
+                            <th scope="col">장르이름</th>
+                            <th scope="col">유명도</th>
+                            <th scope="col">상영시간(시)</th>
+                            <th scope="col">영화내용</th>
+                            <th scope="col">성인영화</th>
+                            <th scope="col">포스터</th>
+                            <th scope="col">영화추가</th>
+                        </tr>
+                        </thead>
+                        <tbody id="list2"></tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <div class="pageNums2"></div>
+                </div>
             </div>
-
-            <div class="pageNums2"></div>
-
-
         </div>
-
-
     </div>
-
-
 </div>
 </body>
 </html>

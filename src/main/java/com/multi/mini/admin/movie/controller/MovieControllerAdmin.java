@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
 @Controller
-@RequestMapping("/movie")
+@RequestMapping("/admin/movie")
 public class MovieControllerAdmin {
 	
 	private final MovieServiceAdmin movieServiceAdmin;
