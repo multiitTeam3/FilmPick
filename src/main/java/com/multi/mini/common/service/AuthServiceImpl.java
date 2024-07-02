@@ -17,7 +17,9 @@ public class AuthServiceImpl implements AuthService{
     @Override
     public void createMember(MemberDTO dto) throws Exception {
         String email = dto.getEmail();
-        if (authMapper.selectMemberByEmail(email) !=null) throw new Exception("중복된 이메일 입니다.");
+
+        // 이메일 중복 검증
+        checkMemberByEmail(email);
 
         // 비밀번호 암호화
         String bPw = bCryptPasswordEncoder.encode(dto.getPassword());
@@ -27,7 +29,7 @@ public class AuthServiceImpl implements AuthService{
         int result = authMapper.insertMember(dto);
 
         if (result > 0) {
-            // 넣은 회원 정보 불러오기
+            // 회원 정보 불러오기
             MemberDTO userData = authMapper.selectMemberByEmail(email);
 
             // 권한 관련 DTO
@@ -40,7 +42,22 @@ public class AuthServiceImpl implements AuthService{
         } else {
             throw new Exception("회원가입에 실패했습니다.");
         }
+    }
 
-
+    // 이메일 존재 검증
+    public void checkMemberByEmail(String memberEmail) throws Exception {
+        MemberDTO userData = authMapper.selectMemberByEmail(memberEmail);
+        if (userData != null) {
+            throw new RuntimeException("이미 존재하는 이메일 입니다.");
+        }
+    }
+    
+    // 이메일 존재 확인
+    public MemberDTO isMemberByEmail(String memberEmail) throws Exception {
+        MemberDTO userData = authMapper.selectMemberByEmail(memberEmail);
+        if (userData == null) {
+            throw new RuntimeException("존재하지 않는 이메일입니다.");
+        }
+        return userData;
     }
 }

@@ -1,5 +1,6 @@
 package com.multi.mini.movie.service;
 
+import com.multi.mini.common.model.dto.PageDTO;
 import com.multi.mini.movie.model.dto.*;
 import com.multi.mini.payment.model.dto.VwResDataDTO;
 
@@ -49,9 +50,16 @@ public interface MovieService {
 	
 	int insertReview(ReviewDTO reviewDTO) throws Exception;
   
-  	ArrayList<CinemaDTO> findCinemaList() throws Exception;
+  	ArrayList<CinemaDTO> findCinemaList(String type, String keyword, PageDTO pageDTO) throws Exception;
 
 	VwResDataDTO getResNo(int rsvNo) throws Exception;
-
-
+	
+	
+	int deleteReservation(ReservationDTO reservationDTO) throws Exception;
+	
+	VWResDataGroupDTO findVWResDataGroupDTO(VWResDataGroupDTO vwResDataGroupDTO) throws Exception;
+	
+	ArrayList<VWMovieManageDataDTO> findAllVWMovieManageDataDTO() throws Exception;
+	
+	ArrayList<MovieDTO> findAllAPIMovieList() throws Exception;
 }

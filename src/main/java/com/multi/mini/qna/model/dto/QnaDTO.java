@@ -9,9 +9,11 @@ public class QnaDTO {
     private int qna_no;
     private int category;
     private int member_no;
+    private String memberEmail;
     private String title;
     private String content;
     private String img;
+    private String isAnswer;
     private Date create_date;
     private Date modify_date;
     private String writer;

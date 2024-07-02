@@ -1,10 +1,7 @@
 package com.multi.mini.admin.cinema.model.mapper;
 
 import com.multi.mini.movie.model.dto.CinemaDTO;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface CinemaMapper {
@@ -29,4 +26,15 @@ public interface CinemaMapper {
 
     @Delete("DELETE FROM mov_cinema WHERE cinema_no = #{ cinemaNo }")
     int deleteCinema(int cinemaNo) throws Exception;
+
+    @Update("UPDATE mov_cinema " +
+            "SET " +
+                "  cinema_name = #{ cinemaName }" +
+                ", region_no = #{ regionNo }" +
+                ", cinema_addr = #{ cinemaAddr }" +
+                ", open_time = #{ openTime }" +
+                ", close_time = #{ closeTime } " +
+            "WHERE " +
+                "cinema_no = #{ cinemaNo }")
+    int updateCinema(CinemaDTO cinemaDTO);
 }
