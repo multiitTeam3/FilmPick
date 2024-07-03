@@ -16,57 +16,7 @@
             width: 200px; /* 쿠폰 선택 박스 크기 줄이기 */
         }
     </style></head><body><div layout:fragment="content">
-    <script>
-        window.onload = function () {
-         document.getElementById('payButton').addEventListener('click', function(event) {
-             event.preventDefault();
 
-             const selectedMethod = document.querySelector('input[name="payMethod"]:checked');
-             const pointsToUse = document.querySelector('input[name="pointsToUse"]').value;
-
-             if (pointsToUse < 1000 && pointsToUse > 0) {
-                 alert('1000원이상부터 사용가능합니다.');
-                 return;
-             }
-
-             if (selectedMethod && selectedMethod.value === 'kakao') {
-                 document.getElementById('kakaopay').submit();
-             } else if(!selectedMethod) {
-                 alert('결제방식을선택해주세요.');
-             } else {
-                 alert('미구현상태입니다.');
-             }
-         });
-
-            const pointsInput = document.querySelector('input[name="pointsToUse"]');
-            const couponSelect = document.getElementById('couponSelect');
-            const totalPriceSpan = document.getElementById('totalPrice');
-            const discountAmountSpan = document.getElementById('discountAmount');
-            const finalAmountSpan = document.getElementById('finalAmount');
-
-
-            function calculateFinalAmount() {
-                const totalPrice = parseInt(totalPriceSpan.getAttribute('data-total-price')); // 총 상품 금액
-                const pointsToUse = parseInt(pointsInput.value) || 0;
-                const discountRate = parseInt(couponSelect.selectedOptions[0].getAttribute('data-discount')) || 0;
-
-                // 포인트 할인 적용
-                let discountedPrice = totalPrice - pointsToUse;
-
-                // 쿠폰 할인 적용
-                const discountAmount = discountedPrice * discountRate / 100;
-                discountedPrice -= discountAmount;
-
-                // 할인 금액과 최종 결제 금액 업데이트
-                discountAmountSpan.textContent = `${discountAmount}원`;
-                finalAmountSpan.textContent = `${discountedPrice}원`;
-            }
-
-            calculateFinalAmount(); // 초기 계산
-     };
-
-
-    </script>
     <div class="container">
         <div class="row">
             <div class="col-md-12 p-4">
@@ -96,21 +46,21 @@
 
                 <form id="kakaopay" th:object="${kakaoReadyDTO}" method="post" th:action="@{/payment/kakaoPay}">
                     <div class="mb-4">
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>보유 포인트:</span>
-                            <span th:text="${memberPoints}"></span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>사용할 포인트:</span>
-                            <input type="number" name="pointsToUse" min="0" max="${userPoints}" class="form-control small-input" step="100">
-                            <p class="small-text">1000원이상부터 사용가능합니다</p>
-                        </div>
+<!--                        <div class="d-flex justify-content-between mb-2">-->
+<!--                            <span>보유 포인트:</span>-->
+<!--                            <span th:text="${memberPoints}"></span>-->
+<!--                        </div>-->
+<!--                        <div class="d-flex justify-content-between mb-2">-->
+<!--                            <span>사용할 포인트:</span>-->
+<!--                            <input type="number" name="pointsToUse" min="0" max="${userPoints}" class="form-control small-input" step="100">-->
+<!--                            <p class="small-text">1000원이상부터 사용가능합니다</p>-->
+<!--                        </div>-->
                             <div class="mb-4"></div>
                         <div class="d-flex justify-content-between mb-2">
                             <label for="couponSelect">사용할 쿠폰:</label>
                             <select id="couponSelect" name="couponCode" class="form-control small-select">
                                 <option value="" data-discount="0">쿠폰을 선택하세요</option>
-                                <option value="" th:each="coupon : ${coupons}" th:value="${coupon.couponCode}" th:text="${coupon.description} + ' - ' + ${coupon.discount} + '%'"></option>
+                                <option value="" th:each="coupon : ${coupons}" th:value="${coupon.couponCode}" th:text="${coupon.discount} + '%'+ 할인쿠폰"></option>
                             </select>
                         </div>
                         <span>결제방식 선택</span>
@@ -146,6 +96,40 @@
                         <button type="button" class="btn btn-primary" id="payButton">결제하기</button>
                     </div>
                 </form>
+
+                <script>
+                    $('#payButton').on('click', function(event) {
+                    event.preventDefault(); // 기본 폼 제출 동작을 막음
+
+                     var form = $('#kakaopay')[0];
+                     var formData = new FormData(form);
+
+                     // 새로운 폼 생성
+                     var newForm = $('<form>', {
+                         method: 'POST',
+                         action: $(form).attr('action'),
+                         target: 'paymentWindow'
+                     });
+
+                     // formData의 값을 새로운 폼에 추가
+                     formData.forEach(function(value, key) {
+                         $('<input>', {
+                             type: 'hidden',
+                             name: key,
+                             value: value
+                         }).appendTo(newForm);
+                     });
+
+                     // 새 창 열기
+                     window.open("", "paymentWindow", "width=800,height=1000,menubar=no,toolbar=no");
+
+                     // 새로운 폼을 document에 추가하고 제출
+                     newForm.appendTo('body').submit();
+
+                     // 제출 후 폼 제거
+                     newForm.remove();
+                 });
+                </script>
             </div>
         </div>
     </div>
