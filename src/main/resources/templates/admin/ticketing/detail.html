@@ -19,7 +19,7 @@
                 <li class="list-group-item">회원 번호 : [[${ user.memberNo }]]</li>
                 <li class="list-group-item">이메일 : [[${ user.email }]]</li>
                 <li class="list-group-item">닉네임 : [[${ user.userName }]]</li>
-                <li class="list-group-item">포인트 : [[${ user.point }]]</li>
+                <li class="list-group-item">포인트 : [[${ user.pointDTO }]]</li>
                 <li class="list-group-item">전화번호 : [[${ user.tel }]]</li>
                 <li class="list-group-item">주소 : [[${ user.address }]]</li>
                 <li class="list-group-item">생성일자 : [[${ user.createDate }]]</li>
@@ -60,8 +60,8 @@
                     <input type="text" class="form-control mb-2 mr-sm-2" th:field="*{userName}"> <br>
                     <label class="mr-sm-2">tel :</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" th:field="*{tel}"> <br>
-                    <label class="mr-sm-2">point:</label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" th:field="*{point}"> <br>
+                    <label class="mr-sm-2">pointDTO:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" th:field="*{pointDTO}"> <br>
 
                     <label class="mr-sm-2">권한 :</label>
                     <div class="form-check">

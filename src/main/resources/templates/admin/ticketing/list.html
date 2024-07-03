@@ -17,11 +17,13 @@
             <h2>예매 내역 관리</h2>
 
             <!--/* 예매 내역 검색 폼 */-->
-            <form id="search" th:action="@{/admin/bookings}" method="get">
+            <form id="search" th:action="@{/admin/ticketing}" method="get">
                 <div class="search-box">
                     <select class="form-select" aria-label="search list" name="type">
                         <option value="email" selected>이메일</option>
                         <option value="title">영화 제목</option>
+                        <option value="cinema">영화관</option>
+                        <option value="screen">상영관</option>
                     </select>
                     <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword" id="keyword">
                     <button class="btn btn-primary" type="submit" id="button-addon2">검색</button>
@@ -33,22 +35,28 @@
                 <table class="table table-hover table-bordered table-striped" w-80>
                     <thead class="table-dark">
                     <tr>
+                        <th scope="col">번호</th>
                         <th scope="col">예매 번호</th>
                         <th scope="col">이메일</th>
+                        <th scope="col">영화관</th>
+                        <th scope="col">상영관</th>
                         <th scope="col">영화 제목</th>
-                        <th scope="col">좌석 번호</th>
+                        <th scope="col">결제 유무</th>
                         <th scope="col">예매 일자</th>
                         <th scope="col">상세 조회</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="user : ${users}">
-                        <th scope="row" th:text="${user.rowNum}">예매 번호</th>
-                        <td><a th:href="@{/admin/membermanage/find(no=${user.memberNo})}" th:text="${user.email}">이메일</a></td>
-                        <td th:text="${user.userName}">영화 제목</td>
-                        <td th:text="${user.createDate}">좌석 번호</td>
-                        <td th:each="role : ${user.roles}" th:text="${role.roleName}">예매 일자</td>
-                        <td><a th:href="@{/admin/membermanage/delete(no=${user.memberNo})}"><button type="button" class="btn btn-primary">상세 조회</button></a></td>
+                    <tr th:each="ticket : ${tickets}">
+                        <th scope="row" th:text="${ticket.rowNum}">번호</th>
+                        <th scope="row" th:text="${ticket.rsvNo}">예약 번호</th>
+                        <td th:text="${ticket.email}">이메일</td>
+                        <td th:text="${ticket.cinemaName}">영화관</td>
+                        <td th:text="${ticket.screenName}">상영관</td>
+                        <td th:text="${ticket.movieTitle}">영화 제목</td>
+                        <td th:text="${ticket.isPaid}">결제 유무</td>
+                        <td th:text="${ticket.createDate}">예매 일자</td>
+                        <td><a th:href="@{/admin/membermanage/delete(no=${ticket.rsvNo})}"><button type="button" class="btn btn-primary">상세 조회</button></a></td>
                     </tr>
                     </tbody>
                 </table>
@@ -69,14 +77,5 @@
         </div>
     </div>
 </div>
-
-<script th:inline="javascript">
-		/*<![CDATA[*/
-		let pages = /*[[${pages}]]*/;
-		/*]]>*/
-
-</script>
-
-
 </body>
 </html>
