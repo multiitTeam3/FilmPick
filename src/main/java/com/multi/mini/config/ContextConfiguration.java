@@ -53,7 +53,7 @@ public class ContextConfiguration {
 		
 	}
 	
-	@Bean
+	/*@Bean
 	public ObjectMapper objectMapper(){
 		return new ObjectMapper();
 		
@@ -64,7 +64,7 @@ public class ContextConfiguration {
 		
 		return new Gson();
 		
-	}
+	}*/
 	
 	
 	

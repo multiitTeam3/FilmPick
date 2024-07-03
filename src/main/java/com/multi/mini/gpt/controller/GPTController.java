@@ -31,8 +31,6 @@ public class GPTController {
 	
 	/*@Autowired*/
 	private MovieService movieService;
-
-	
 	
 	
 	
@@ -69,9 +67,11 @@ public class GPTController {
 	OkHttpClient client = new OkHttpClient();
 	ObjectMapper objectMapper = new ObjectMapper();
 	Gson gson = new Gson();
-
-
 	
+	
+	GPTToolContainer gptToolContainer = new GPTToolContainer(client, objectMapper, gson);
+	
+	Assistance assistance = AiServices.builder(Assistance.class)
 			.chatLanguageModel(model)
 			.chatMemory(MessageWindowChatMemory.withMaxMessages(30))
 			.tools(gptToolContainer)
@@ -119,5 +119,5 @@ public class GPTController {
 		
 	}
 	
-
+	
 }
