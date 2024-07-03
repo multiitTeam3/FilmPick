@@ -23,11 +23,7 @@
 
     <!-- css + js 파일 Load-->
     <link rel="stylesheet" th:href="@{/css/menubar.css}">
-    <!--<script type="text/javascript" th:src="@{/js/main.js}"></script>-->
     <link rel="stylesheet" th:href="@{/css/chatBot.css}">
-
-</head>
-<body>
 
 <!-- 경고 메시지 -->
 <script th:inline="javascript">
@@ -68,7 +64,8 @@
 
 
 </script>
-</head>
+
+
 <body>
 
 <div class="container-fluid">
@@ -87,12 +84,12 @@
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <li><a th:href="@{/home}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-house"></i>홈</a></li>
-            <li><a th:href="@{/member/profile}" class="nav-link px-2 link-secondary">마이페이지</a></li>
-            <li><a th:href="@{/product/productselect}" class="nav-link px-2 link-secondary">상점</a></li>
-            <li><a th:href="@{/community/list}" class="nav-link px-2 link-secondary">커뮤니티</a></li>
+            <li><a th:href="@{/member/profile}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-user"></i>마이페이지</a></li>
+            <li><a th:href="@{/product/productselect}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-store"></i>스토어</a></li>
+            <li><a th:href="@{/community/list}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-comment"></i>커뮤니티</a></li>
             <li><a th:href="@{/movie/reservationtime}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-ticket"></i>예매</a></li>
-            <li><a th:href="@{/movie/reservationlist}" class="nav-link px-2 link-secondary">예매확인</a></li>
-            <li><a th:href="@{/Customer/Index}" class="nav-link px-2 link-secondary">고객센터</a></li>
+            <li><a th:href="@{/movie/reservationlist}" class="nav-link px-2 link-secondary"><i class="fa-regular fa-bookmark"></i>예매확인</a></li>
+            <li><a th:href="@{/Customer/Index}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-circle-info"></i>고객센터</a></li>
         </ul>
 
         <div class="col-md-3 text-end">
@@ -172,6 +169,7 @@
                 <div>
                     <p class="example">질문 예시 1. 영화 추천해줘</p>
                     <p class="example">질문 예시 2. 외부 영화 알려줘('TMDB 키워드 : 외부')</p>
+                    <p class="example">질문 예시 3. 내가 말하는 주소의 날씨에 따라 영화 추천해줘. 정자동 102.</p>
 
                 </div>
                 <div id="history"></div>

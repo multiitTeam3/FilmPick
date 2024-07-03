@@ -120,4 +120,27 @@
 		</choose>
 	</select>
 
+	<select id="selectTicketingCount" parameterType="map">
+		SELECT
+			COUNT(*)
+		FROM
+			vw_res_data vrd
+		JOIN
+			mem_member m ON vrd.member_no = m.member_no
+		JOIN
+			mov_reservation r ON vrd.rsv_no = r.rsv_no
+		WHERE
+		<choose>
+			<when test="type == 'email'">
+				m.email LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
+			</when>
+			<when test="type == 'title'">
+				vrd.movie_title LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
+			</when>
+			<otherwise>
+				1 = 1
+			</otherwise>
+		</choose>
+	</select>
+
 </mapper>
