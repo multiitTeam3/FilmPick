@@ -1,9 +1,7 @@
 package com.multi.mini.payment.controller;
 
-import com.multi.mini.payment.model.dto.KakaoReadyDTO;
-import com.multi.mini.payment.model.dto.PayMovieDTO;
-import com.multi.mini.payment.model.dto.PaymentsDTO;
-import com.multi.mini.payment.model.dto.VwGetResDataDTO;
+import com.multi.mini.movie.model.dto.SeatDTO;
+import com.multi.mini.payment.model.dto.*;
 import com.multi.mini.payment.service.KakaoPayService;
 import com.multi.mini.payment.service.PaymentService;
 import jakarta.servlet.http.HttpSession;
@@ -15,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
