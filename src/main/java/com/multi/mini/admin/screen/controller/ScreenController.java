@@ -30,6 +30,8 @@ public class ScreenController {
 			
 			ScreenNameList.get(0).setCinemaNo(cinemaNo);
 			
+			System.out.println("howScreenManage : " + ScreenList);
+			
 			
 			model.addAttribute("screens", ScreenList);
 			model.addAttribute("screensNames", ScreenNameList);
@@ -44,7 +46,13 @@ public class ScreenController {
 	
 	@PostMapping("/insert")
 	public String createScreen(ScreenDTO screenDTO, RedirectAttributes redirectAttributes) {
-		System.out.println("DTO 확인 : " + screenDTO);
+		System.out.println("screenDTO : " + screenDTO);
+		
+		try {
+			screenService.insertScreenByCinemaNo(screenDTO);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 		
 		return "redirect:/admin/cinemamanage/screen?no=" + screenDTO.getCinemaNo();
 	}

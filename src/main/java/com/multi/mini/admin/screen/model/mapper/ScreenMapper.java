@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.ArrayList;
+import java.util.TimeZone;
 
 @Mapper
 public interface ScreenMapper {
@@ -22,6 +23,8 @@ public interface ScreenMapper {
     
     
     ArrayList<ScreenDTO> findNotEnrolledScreenByCinemaNo(int cinemaNo) throws Exception;
+	
+	void insertScreenByCinemaNo(ScreenDTO screenDTO) throws Exception;
 
 
 //    @Update("UPDATE mov_screen SET is_avail = #{ isAvail } WHERE #{ cinemaNo }")

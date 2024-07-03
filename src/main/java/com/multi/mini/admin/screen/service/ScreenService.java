@@ -15,4 +15,6 @@ public interface ScreenService {
     ArrayList<ScreenDTO> getScreenList() throws Exception;
     
     ArrayList<ScreenDTO> findNotEnrolledScreenByCinemaNo(int cinemaNo) throws Exception;
+	
+	void insertScreenByCinemaNo(ScreenDTO screenDTO) throws Exception;
 }

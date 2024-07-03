@@ -45,4 +45,9 @@ public class ScreenServiceImpl implements ScreenService{
         
         return list;
     }
+    
+    @Override
+    public void insertScreenByCinemaNo(ScreenDTO screenDTO) throws Exception {
+        screenMapper.insertScreenByCinemaNo(screenDTO);
+    }
 }

@@ -10,13 +10,21 @@
 
     <select id="findNotEnrolledScreenByCinemaNo">
 
-        SELECT ms.*
+        SELECT *
         FROM mov_screen ms
         LEFT JOIN mov_cinema_and_screen mcas
         ON ms.screen_code = mcas.screen_code AND mcas.cinema_no=#{cinemaNo}
         WHERE mcas.screen_code IS NULL;
 
     </select>
+
+
+    <insert id="insertScreenByCinemaNo" parameterType="screenDTO">
+
+        INSERT INTO mov_cinema_and_screen
+        VALUES(#{cinemaNo}, #{screenCode}, "Y")
+
+    </insert>
 
 
 
