@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="~{layoutAdmin}">
+<head>
+    <title>Movie Manage Page</title>
+
+    <link rel="stylesheet" th:href="@{/css/container-box.css}">
+    <link rel="stylesheet" th:href="@{/css/movieManage.css}">
+
+    <style>
+        .pageNums1, .pageNums2 {
+            text-align: center;
+        }
+    </style>
+
+    <script th:src="@{/js/moviemanage.js}"></script>
+
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="container-box text-center">
+            <h1>관리자 페이지</h1>
+        </div>
+
+        <div class="top">
+            <div class="container-box">
+                <h2>영화 관리</h2>
+                <div class="content" id="enrolled-Movie-List">
+                    <br>
+                    <h1>등록된 영화 리스트</h1><br>
+                    <table class="table table-striped">
+                        <thead class="table-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">영화번호</th>
+                            <th scope="col">영화제목</th>
+                            <th scope="col">장르이름</th>
+                            <th scope="col">유명도</th>
+                            <th scope="col">상영시간(시)</th>
+                            <th scope="col">영화내용</th>
+                            <th scope="col">성인영화</th>
+                            <th scope="col">포스터보기</th>
+                            <th scope="col">평균평점</th>
+                            <th scope="col">티켓판매량(수량)</th>
+                        </tr>
+                        </thead>
+                        <tbody id="list"></tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <div class="pageNums1"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom">
+            <div class="container-box">
+                <div class="content" id="add-Movie">
+                    <h1>DB에 영화 추가
+                        <button id="insertGenre" class="btn btn-link">장르추가</button>
+                    </h1>
+                    <br>
+                    <table class="table table-striped">
+                        <thead class="table-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">영화제목</th>
+                            <th scope="col">장르이름</th>
+                            <th scope="col">유명도</th>
+                            <th scope="col">상영시간(시)</th>
+                            <th scope="col">영화내용</th>
+                            <th scope="col">성인영화</th>
+                            <th scope="col">포스터</th>
+                            <th scope="col">영화추가</th>
+                        </tr>
+                        </thead>
+                        <tbody id="list2"></tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <div class="pageNums2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
