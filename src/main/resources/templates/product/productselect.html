@@ -36,16 +36,21 @@
             height: 40vh;
         }
         .datatable-table{
-            width: 70vw;
+            width: 100%;
         }
         .tablediv{
-            display : flex;
             width: 100%;
         }
         .tablewrap{
+            display: inline-block;
             height:400px;
-            overflow-y:scroll
-            width: 70vw;
+            overflow-y:scroll;
+            width: 70%;
+        }
+        .totaldiv{
+            display: inline-block;
+            float: right;
+            width: 15%;
         }
 
         .productdiv{
@@ -117,16 +122,12 @@
             </thead>
         </table>
         </div>
-        <div id="totaldiv">
+        <div id="totaldiv" class="totaldiv">
 
             <form action="basket" method="post" id="resultform">
                 <input type="number" value="0" id="totalprice" name="totalprice" class="datatable-input" readonly>
 
                 <button type="submit" class="btn btn-primary">확인</button>
-            </form>
-
-            <form id="payform" action="#" th:action="@{/submitForm}" th:object="${pay_productDTO}" method="post">
-
             </form>
         </div>
     </div>

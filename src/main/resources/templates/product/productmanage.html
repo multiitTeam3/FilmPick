@@ -107,9 +107,9 @@
                     <select name="categorycode" id="categorycode" class="datatable-selector">
                         <!-- ajax로 조회 -->
                     </select><br><br>
-                    <label>상품 이름 : </label><input type="text" class="datatable-input" name="name" id="name"><br>
-                    <label>상품 상세 : </label><input type="test" class="datatable-input" name="content" id="content"><br>
-                    <label>상품 가격 : </label><input type="number" class="datatable-input" name="price" id="price"><br>
+                    <label>상품 이름 : </label><input type="text" class="datatable-input" name="name" id="name" required><br>
+                    <label>상품 상세 : </label><input type="test" class="datatable-input" name="content" id="content" required><br>
+                    <label>상품 가격 : </label><input type="number" class="datatable-input" name="price" id="price" required><br>
                 <button type="submit" formaction="product/insert" class="btn btn-primary">추가</button>
                 <button type="submit" formaction="product/update" class="btn btn-primary">수정</button>
                 <button type="submit" formaction="product/delete" class="btn btn-primary">삭제</button>

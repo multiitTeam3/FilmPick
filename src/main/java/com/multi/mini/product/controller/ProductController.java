@@ -78,6 +78,20 @@ public class ProductController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
+        Cookie[] cookies=request.getCookies(); // 모든 쿠키 가져오기
+        if(cookies!=null){
+            for (Cookie c : cookies) {
+                String name = c.getName(); // 쿠키 이름 가져오기
+                String value = c.getValue(); // 쿠키 값 가져오기
+                if (name.equals(userDetails.getMemberNo() + "basket")) {
+                    c = new Cookie(userDetails.getMemberNo() + "basket", null);//기존 쿠키 삭제
+                    c.setMaxAge(0);
+                    c.setPath("/");
+                    response.addCookie(c);
+                }
+            }
+        }
+
         ProductListDTO productListDTO = new ProductListDTO();
 
         productListDTO.setMemberNo(userDetails.getMemberNo());
@@ -87,7 +101,8 @@ public class ProductController {
         String[] productNo = request.getParameterValues("productnum");
         String[] quantity = request.getParameterValues("productcount");
 
-
+        productListDTO.setProductList(new ArrayList<>(productNo.length));
+        productListDTO.setProductQuantityList(new ArrayList<>(quantity.length));
 
         for (int i = 0; i < productNo.length; i++) {
             productListDTO.getProductList().add(productService.findProductByProductNo(Integer.parseInt(productNo[i])));
