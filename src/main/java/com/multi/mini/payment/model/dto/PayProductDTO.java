@@ -1,6 +1,5 @@
 package com.multi.mini.payment.model.dto;
 
-
 import lombok.Data;
 
 @Data
@@ -12,3 +11,4 @@ public class PayProductDTO {
     private String productName;
 
 }
+
