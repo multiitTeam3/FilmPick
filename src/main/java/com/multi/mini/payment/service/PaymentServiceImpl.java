@@ -4,6 +4,7 @@ import com.multi.mini.admin.coupon.model.dto.CouponDTO;
 import com.multi.mini.admin.coupon.model.mapper.CouponMapper;
 import com.multi.mini.member.model.mapper.MemberMapper;
 import com.multi.mini.payment.model.dto.PayMovieDTO;
+import com.multi.mini.payment.model.dto.PayProductDTO;
 import com.multi.mini.payment.model.dto.PaymentsDTO;
 import com.multi.mini.payment.model.dto.VwGetResDataDTO;
 import com.multi.mini.payment.model.mapper.PaymentMapper;
@@ -81,6 +82,11 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public Integer selectPaymentNo() throws Exception {
 		return paymentMapper.selectPaymentNo();
+	}
+
+	@Override
+	public PayProductDTO selectProductByPay(int ProductNo) throws Exception {
+		return paymentMapper.selectProductByPay();
 	}
 
 

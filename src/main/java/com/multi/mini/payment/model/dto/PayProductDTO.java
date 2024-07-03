@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class PayProductDTO {
     private int productPaymentNo;
-    private int papProductNo;
+    private int ProductNo;
     private int paymentsNo;
     private int productQuantity;
     private String productName;

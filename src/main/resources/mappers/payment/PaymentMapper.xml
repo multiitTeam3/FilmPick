@@ -41,6 +41,11 @@
        SELECT LAST_INSERT_ID()
     </select>
 
+    <select id="selectProductByPay" parameterType="payProductDTO">
+        SELECT * FROM prod_product WHERE product_no = #{ProductNo};
+
+    </select>
+
 
 
 </mapper>
