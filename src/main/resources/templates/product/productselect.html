@@ -45,6 +45,7 @@
         .tablewrap{
             height:400px;
             overflow-y:scroll
+            width: 70vw;
         }
 
         .productdiv{
@@ -67,6 +68,9 @@
         }
         .btncount{
             width: 5vh;
+        }
+        .btndelete{
+            width: 100%;
         }
     </style>
     <link rel="stylesheet" th:href="@{/css/container-box.css}">
@@ -256,7 +260,7 @@
                     })
                  );
                  $('#' + one.productNo + 'tddelete' ).append(
-                        '<button onclick="deleteproduct(' + one.productNo + ')">삭제</button>'
+                        '<button onclick="deleteproduct(' + one.productNo + ')" class="btndelete">삭제</button>'
                   );
 
 
