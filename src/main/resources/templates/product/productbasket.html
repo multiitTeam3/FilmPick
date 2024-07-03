@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        .selectdiv{
+            display: flex;
+            flex-wrap:wrap;
+            width:100%;
+        }
+        .productdiv{
+            width: 15vh;
+            height: 20vh;
+            border: 3px solid #00A5FF;
+            border-radius: 5px;
+            margin: 1px 1px 1px 1px;
+        }
+        .pimg{
+            display:block;
+	        width:100%;
+	        height:auto;
+        }
+        .quantitytext{
+            float: right ;
+        }
+    </style>
+</head>
+<body>
+
+<main layout:fragment="content">
+
+    <div>
+        <h2>장바구니</h2>
+        <div class="selectdiv" id="selectdiv">
+
+        </div>
+
+
+        <div>
+            <form id="payform" th:action="@{/product/basketpay}" method="post">
+                <label>총 가격 </label><input type="number" value="0" id="totalprice" name="totalprice" class="datatable-input" readonly>
+                <button type="submit" class="btn btn-primary">확인</button>
+            </form>
+        </div>
+
+    </div>
+
+
+    <script>
+
+        $(function (){
+
+
+
+            getbasket();
+
+
+
+
+        })
+
+        function getbasket(){
+            $.ajax({
+                url:"/product/getbasket",
+                success: function (data){
+                    var productList = data.productList;
+                    var productQuantityList = data.productQuantityList;
+
+                    for(let index in productList){
+                        $('#selectdiv').append(
+                            $('<div>').prop({
+                                id: productList[index].productNo,
+                                className: 'productdiv'
+                            })
+                        );
+                        $('#' + productList[index].productNo).append(
+                            '<img src="/img/uploadFiles/' + productList[index].productImg + '" class="pimg">'
+                        );
+                        $('#' + productList[index].productNo).append(
+                            '<b>' + productList[index].name +'</b><br>'
+                        );
+                        $('#' + productList[index].productNo).append(
+                            '<sub>' + productList[index].content + '</sub><br>'
+                        );
+                        $('#' + productList[index].productNo).append(
+                            '<sub class="quantitytext">수량: ' + productQuantityList[index] + ' </sub>'
+                        );
+
+                        $('#payform').append(
+                        '<input type="hidden" value="' + productList[index].productNo + '" name = "productnum">'
+                        );
+                        $('#payform').append(
+                        '<input type="hidden" value="' + productQuantityList[index] + '" name = "productcount">'
+                        );
+                    }
+
+                    $('#totalprice').val(data.totalprice);
+
+                },
+                error: function (xhr){
+                    console.log(xhr);
+                }
+            })
+        }
+    </script>
+</main>
+
+</body>
+</html>

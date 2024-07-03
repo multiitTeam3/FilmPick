@@ -2,6 +2,7 @@ package com.multi.mini.product.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.multi.mini.member.model.dto.CustomUserDetails;
+import com.multi.mini.payment.model.dto.PayProductDTO;
 import com.multi.mini.product.model.dto.CategoryDTO;
 import com.multi.mini.product.model.dto.ProductDTO;
 import com.multi.mini.product.model.dto.ProductListDTO;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -42,6 +44,11 @@ public class ProductController {
 
     @GetMapping("productselect")
     public void productselect(){
+
+    }
+
+    @GetMapping("productbasket")
+    public void productbasket(){
 
     }
 
@@ -71,6 +78,20 @@ public class ProductController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
+        Cookie[] cookies=request.getCookies(); // 모든 쿠키 가져오기
+        if(cookies!=null){
+            for (Cookie c : cookies) {
+                String name = c.getName(); // 쿠키 이름 가져오기
+                String value = c.getValue(); // 쿠키 값 가져오기
+                if (name.equals(userDetails.getMemberNo() + "basket")) {
+                    c = new Cookie(userDetails.getMemberNo() + "basket", null);//기존 쿠키 삭제
+                    c.setMaxAge(0);
+                    c.setPath("/");
+                    response.addCookie(c);
+                }
+            }
+        }
+
         ProductListDTO productListDTO = new ProductListDTO();
 
         productListDTO.setMemberNo(userDetails.getMemberNo());
@@ -80,7 +101,8 @@ public class ProductController {
         String[] productNo = request.getParameterValues("productnum");
         String[] quantity = request.getParameterValues("productcount");
 
-
+        productListDTO.setProductList(new ArrayList<>(productNo.length));
+        productListDTO.setProductQuantityList(new ArrayList<>(quantity.length));
 
         for (int i = 0; i < productNo.length; i++) {
             productListDTO.getProductList().add(productService.findProductByProductNo(Integer.parseInt(productNo[i])));
@@ -102,7 +124,7 @@ public class ProductController {
         response.addCookie(basketCookie);
         
 
-        return "product/productselect";
+        return "product/productbasket";
     }
 
     @GetMapping(value="getbasket", produces = "application/json; charset=UTF-8")
@@ -131,4 +153,28 @@ public class ProductController {
         return basketJson;
     }
 
+    @PostMapping("basketpay")
+    public String basketpay(Model model, @RequestParam("totalprice") int totalprice,HttpServletRequest request) throws Exception {
+
+        String[] productNo = request.getParameterValues("productnum");
+        String[] quantity = request.getParameterValues("productcount");
+
+        ArrayList<PayProductDTO> list = new ArrayList<>();
+
+        for (int i = 0; i < productNo.length; i++) {
+            ProductDTO p =  productService.findProductByProductNo(Integer.parseInt(productNo[i]));
+
+            PayProductDTO productDTO = new PayProductDTO();
+
+            productDTO.setPapProductNo(p.getProductNo());
+            productDTO.setProductName(p.getName());
+            productDTO.setProductQuantity(Integer.parseInt(quantity[i]));
+
+            list.add(productDTO);
+        }
+        model.addAttribute("PayProductDTOList",list);
+        model.addAttribute("totalprice",totalprice);
+
+        return "payment/payment_product";
+    }
 }

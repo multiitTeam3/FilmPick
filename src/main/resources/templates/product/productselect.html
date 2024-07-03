@@ -36,15 +36,21 @@
             height: 40vh;
         }
         .datatable-table{
-            width: 70vw;
+            width: 100%;
         }
         .tablediv{
-            display : flex;
             width: 100%;
         }
         .tablewrap{
+            display: inline-block;
             height:400px;
-            overflow-y:scroll
+            overflow-y:scroll;
+            width: 70%;
+        }
+        .totaldiv{
+            display: inline-block;
+            float: right;
+            width: 15%;
         }
 
         .productdiv{
@@ -67,6 +73,9 @@
         }
         .btncount{
             width: 5vh;
+        }
+        .btndelete{
+            width: 100%;
         }
     </style>
     <link rel="stylesheet" th:href="@{/css/container-box.css}">
@@ -113,7 +122,7 @@
             </thead>
         </table>
         </div>
-        <div id="totaldiv">
+        <div id="totaldiv" class="totaldiv">
 
             <form action="basket" method="post" id="resultform">
                 <input type="number" value="0" id="totalprice" name="totalprice" class="datatable-input" readonly>
@@ -252,7 +261,7 @@
                     })
                  );
                  $('#' + one.productNo + 'tddelete' ).append(
-                        '<button onclick="deleteproduct(' + one.productNo + ')">삭제</button>'
+                        '<button onclick="deleteproduct(' + one.productNo + ')" class="btndelete">삭제</button>'
                   );
 
 
@@ -291,6 +300,11 @@
             $('#' + pnum + 'formcount' ).val(count);
             $('#' + pnum + 'count' ).val(count);
 
+            cprice = Number($('#' + pnum + 'total' ).val());
+            cprice += Number($('#' + pnum + 'price' ).val());
+
+            $('#' + pnum + 'total' ).val(cprice);
+
             //총 가격 변경
             price = Number($('#' + pnum + 'price' ).val());
             total = Number($('#totalprice').val());
@@ -307,11 +321,18 @@
                 $('#' + pnum + 'formcount' ).val(count);
                 $('#' + pnum + 'count' ).val(count);
 
+                cprice = Number($('#' + pnum + 'total' ).val());
+                cprice -= Number($('#' + pnum + 'price' ).val());
+
+                $('#' + pnum + 'total' ).val(cprice);
+
                 //총 가격 변경
                 price = Number($('#' + pnum + 'price' ).val());
                 total = Number($('#totalprice').val());
 
                 $('#totalprice').val(total - price);
+
+
             }
         }
 
@@ -344,7 +365,14 @@
             $('#' + pnum + 'formproduct' ).remove();
             $('#' + pnum + 'formcount' ).remove();
 
+            //총 가격 변경
+            price = Number($('#' + pnum + 'total' ).val());
+            total = Number($('#totalprice').val());
+
+            $('#totalprice').val(total - price);
+
             $('#' + pnum + 'total' ).remove();
+
         }
 
 
