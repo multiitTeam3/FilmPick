@@ -4,11 +4,17 @@ package com.multi.mini.aspect.point;
 import com.multi.mini.common.point.model.dto.PointDTO;
 import com.multi.mini.common.point.service.PointService;
 import com.multi.mini.member.model.dto.CustomUserDetails;
+import com.multi.mini.movie.model.dto.ReviewDTO;
+import com.multi.mini.movie.service.MovieService;
 import com.multi.mini.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Aspect
@@ -17,11 +23,14 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class PointAspect {
     private final PointService pointService;
+    private final MovieService movieService;
 
-    // 영화 예매 시 포인트 적립
-    @AfterReturning("execution(* com.multi.mini.payment.service.paymentService.markReservationAsPaid())")
+    // 영화 예매 시 포인트 적립 추후 수정
+    @AfterReturning("execution(* com.multi.mini.payment.service.paymentServiceImpl.markReservationAsPaid(..))")
     public void addPointByTicketing() {
-        CustomUserDetails userDetails = SecurityUtil.getUserDetails();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
         int userNo = userDetails.getMemberNo();
         int point = ticketingPoint();
         String description = "영화 예매";
@@ -38,13 +47,22 @@ public class PointAspect {
         } catch (Exception e) {
             log.error("log error point insert = ", e);
         }
+
+        // 업데이트 정보가 담긴 세션을 새로 선언하여 교체
+        Authentication updateAuthentication = new UsernamePasswordAuthenticationToken(userDetails, authentication.getCredentials(), authentication.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(updateAuthentication);
+
         System.out.println("영화 예매 포인트 적립 완료");
     }
 
     // 영화 리뷰 시 포인트 적립
-    @AfterReturning("execution(* com.multi.mini.movie.service.MovieService.insertReview())")
-    public void addPointByReview() {
+    @AfterReturning("execution(* com.multi.mini.movie.service.MovieServiceImpl.insertReview(..))")
+    public void addPointByReview(JoinPoint joinPoint) {
+        Object[] args = joinPoint.getArgs();
+        ReviewDTO reviewDTO = (ReviewDTO) args[0];
+
         CustomUserDetails userDetails = SecurityUtil.getUserDetails();
+
         int userNo = userDetails.getMemberNo();
         int point = reviewPoint();
         String description = "영화 리뷰";
@@ -57,11 +75,11 @@ public class PointAspect {
         log.info("log info point insert start = {}", pointDTO);
         try {
             log.debug("log debug point controller = {}", pointDTO);
-            pointService.addPoints(pointDTO);
+            if(movieService.findReviewByMemberNoAndMovieNo(reviewDTO) == null) pointService.addPoints(pointDTO);
+            System.out.println("영화 리뷰 포인트 적립 완료");
         } catch (Exception e) {
             log.error("log error point insert = ", e);
         }
-        System.out.println("영화 리뷰 포인트 적립 완료");
     }
 
     private int ticketingPoint() {
@@ -72,7 +90,4 @@ public class PointAspect {
     private int reviewPoint() {
         return 20;
     }
-
-
-
 }
