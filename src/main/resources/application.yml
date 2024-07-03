@@ -18,7 +18,7 @@ spring:
       static-path-pattern: /webapp/**
 
 server:
-  port: 8099
+  port: 8097
   servlet:
     session:
       timeout: 1800

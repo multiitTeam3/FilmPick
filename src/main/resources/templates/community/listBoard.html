@@ -24,8 +24,8 @@
                 <tbody>
                 <tr th:each="board : ${boards}">
                     <th scope="row" th:text="${board.boardNo}"></th>
-                    <td><a th:href="@{/community/view(no=${board.boardNo})}" th:text="${board.title}"></a></td>
-                    <td th:text="${board.content}"></td>
+                    <td><a th:href="@{/community/view(no=${board.boardNo})}" th:text="${#strings.abbreviate(board.title, 10)}"></a></td>
+                    <td th:text="${#strings.abbreviate(board.content, 10)}"></td>
                     <td th:text="${board.createDate}"></td>
                     <td th:text="${board.writer.userName}"></td>
                 </tr>

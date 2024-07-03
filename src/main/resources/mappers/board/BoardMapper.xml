@@ -32,7 +32,7 @@
 		JOIN mem_member m ON b.member_no = m.member_no
 		<if test="page != null">
 			ORDER BY b.board_no DESC
-			LIMIT #{start}, #{end}
+			LIMIT #{start}, 10
 		</if>
 	</select>
 
