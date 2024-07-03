@@ -54,5 +54,6 @@
 				1 = 1
 			</otherwise>
 		</choose>
+		LIMIT #{start}, #{end}
 	</select>
 </mapper>

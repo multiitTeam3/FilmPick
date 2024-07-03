@@ -33,7 +33,7 @@ public class ScreenController {
 
             ScreenNameList.get(0).setCinemaNo(cinemaNo);
 
-
+            // 페이징을 위한 파라미터
             model.addAttribute("screens", ScreenList);
             model.addAttribute("screensNames", ScreenNameList);
             model.addAttribute("movies", movieList);
