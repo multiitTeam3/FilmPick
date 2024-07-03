@@ -14,10 +14,10 @@ public class PayProductController {
 
 
 
-    @GetMapping()
-    public String productPay(){
-
-
-    }
+//    @GetMapping()
+//    public String productPay(){
+//
+//
+//    }
 
 }
