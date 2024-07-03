@@ -1,6 +1,5 @@
 package com.multi.mini.member.model.mapper;
 
-import com.multi.mini.common.model.dto.PageDTO;
 import com.multi.mini.member.model.dto.MemberDTO;
 import org.apache.ibatis.annotations.*;
 
@@ -8,7 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface MemberMapper {
-    List<MemberDTO> findMemberAll(PageDTO page);
+    List<MemberDTO> findMemberAll(@Param("type") String type, @Param("keyword") String keyword, @Param("start") int start, @Param("end") int end);
 
     MemberDTO findMemberByNo(int no);
 
@@ -25,4 +24,6 @@ public interface MemberMapper {
 
     @Select("SELECT member_no FROM mem_member WHERE email = #{ userEmail }")
     MemberDTO findMemberByEmail(String userEmail);
+
+    
 }

@@ -7,15 +7,19 @@
 <mapper namespace="com.multi.mini.common.model.mapper.AuthMapper">
 
 	<resultMap id="memberResultMap" type="memberDTO">
+		<result property="rowNum" column="row_num"/>
 		<result property="memberNo" column="member_no"/>
 		<result property="email" column="email"/>
 		<result property="password" column="password"/>
+		<result property="tempPassword" column="temp_pw"/>
+		<result property="tempPasswordIsUse" column="is_use"/>
+		<result property="tempExpDate" column="exp_date" jdbcType="TIMESTAMP"/>
 		<result property="userName" column="user_name"/>
 		<result property="tel" column="tel"/>
 		<result property="point" column="point"/>
 		<result property="address" column="address"/>
-		<result property="createDate" column="crate_date"/>
-		<result property="modfiyDate" column="modfiy_date"/>
+		<result property="createDate" column="crate_date" jdbcType="TIMESTAMP"/>
+		<result property="modifyDate" column="modify_date" jdbcType="TIMESTAMP"/>
 		<collection property="roles" ofType="roleDTO">
 			<id property="roleNo" column="role_no"/>
 			<result property="roleName" column="name"/>
@@ -26,20 +30,20 @@
 	<insert id="insertMember" parameterType="memberDTO">
 		INSERT INTO mem_member
 		(
-		email
-		, password
-		, user_name
-		, tel
+			  email
+			, password
+			, user_name
+			, tel
 		<if test="address != null">
 			, address
 		</if>
 		)
 		VALUES
 		(
-		#{ email }
-		, #{ password }
-		, #{ userName}
-		, #{ tel }
+			  #{ email }
+			, #{ password }
+			, #{ userName}
+			, #{ tel }
 		<if test="address != null">
 			, #{ address }
 		</if>
@@ -58,17 +62,12 @@
 		 , #{ roleNo }
 		)
 	</insert>
-	
+
 	<select id="selectMemberByEmail" parameterType="String" resultMap="memberResultMap">
 		SELECT
-			  m.*
-			, r.name
+			*
 		FROM
-			mem_member m
-		LEFT JOIN
-			mem_member_and_role mar ON m.member_no = mar.member_no
-		LEFT JOIN
-			mem_role r ON mar.role_no = r.role_no
+			vw_mem_by_email
 		WHERE
 			email = #{ email }
 	</select>

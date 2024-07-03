@@ -69,11 +69,13 @@
             width: 5vh;
         }
     </style>
+    <link rel="stylesheet" th:href="@{/css/container-box.css}">
 </head>
 <body>
 
 <div layout:fragment="content">
-
+    <div class="container">
+        <div class="container-box">
     <div class="divbtnwrap">
         <div class="divbtn" id="divbtn"></div>
         <button onclick="getbasket()" class="btn btn-primary">장바구니</button>
@@ -118,6 +120,10 @@
 
                 <button type="submit" class="btn btn-primary">확인</button>
             </form>
+
+            <form id="payform" action="#" th:action="@{/submitForm}" th:object="${pay_productDTO}" method="post">
+
+            </form>
         </div>
     </div>
     <script>
@@ -142,7 +148,7 @@
 
             findbycategory(0);
 
-
+            getbasket();
 
 
         })
@@ -346,7 +352,11 @@
         }
 
 
+
+
     </script>
+        </div>
+    </div>
 </div>
 </body>
 </html>

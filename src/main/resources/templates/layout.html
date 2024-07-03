@@ -23,11 +23,7 @@
 
     <!-- css + js 파일 Load-->
     <link rel="stylesheet" th:href="@{/css/menubar.css}">
-    <!--<script type="text/javascript" th:src="@{/js/main.js}"></script>-->
     <link rel="stylesheet" th:href="@{/css/chatBot.css}">
-
-</head>
-<body>
 
 <!-- 경고 메시지 -->
 <script th:inline="javascript">
@@ -69,6 +65,9 @@
 
 </script>
 
+
+<body>
+
 <div class="container-fluid">
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
         <div class="col-md-3 mb-2 mb-md-0 logo-container">
@@ -85,13 +84,12 @@
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <li><a th:href="@{/home}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-house"></i>홈</a></li>
-            <li><a th:href="@{/mypage}" class="nav-link px-2 link-secondary">마이페이지</a></li>
-            <li><a th:href="@{/product/productselect}" class="nav-link px-2 link-secondary">상점</a></li>
-            <li><a th:href="@{/community/list}" class="nav-link px-2 link-secondary">커뮤니티</a></li>
-            <li><a th:href="@{/movie/reservationtime}" class="nav-link px-2 link-secondary"><i
-                    class="fa-solid fa-ticket"></i>예매</a></li>
-            <li><a th:href="@{/movie/reservationlist}" class="nav-link px-2 link-secondary">예매확인</a></li>
-            <li><a th:href="@{/qna/list}" class="nav-link px-2 link-secondary">1:1 문의</a></li>
+            <li><a th:href="@{/member/profile}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-user"></i>마이페이지</a></li>
+            <li><a th:href="@{/product/productselect}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-store"></i>스토어</a></li>
+            <li><a th:href="@{/community/list}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-comment"></i>커뮤니티</a></li>
+            <li><a th:href="@{/movie/reservationtime}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-ticket"></i>예매</a></li>
+            <li><a th:href="@{/movie/reservationlist}" class="nav-link px-2 link-secondary"><i class="fa-regular fa-bookmark"></i>예매확인</a></li>
+            <li><a th:href="@{/Customer/Index}" class="nav-link px-2 link-secondary"><i class="fa-solid fa-circle-info"></i>고객센터</a></li>
         </ul>
 
         <div class="col-md-3 text-end">
@@ -103,23 +101,17 @@
                 </button>
             </th:block>
 
-            <th:block sec:authorize="hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')">
-                <th:block sec:authorize="hasAuthority('ROLE_ADMIN')">
-                    <button type="button" th:onclick="|location.href='@{/admin}'|" class="btn btn-outline-primary me-2">
-                        Admin
-                    </button>
-                </th:block>
-                <th:block sec:authorize="hasAuthority('ROLE_USER')">
-                    <button type="button" th:onclick="|location.href='@{/member/mypage}'|"
-                            class="btn btn-outline-primary me-2">MyPage
-                    </button>
-                </th:block>
-                <button type="button" th:onclick="|location.href='@{/logout}'|" class="btn btn-outline-primary me-2">
-                    Logout
-                </button>
-            </th:block>
-        </div>
-    </header>
+            <th:block sec:authorize="hasAnyAuthority('ROLE_USER', 'ROLE_STAFF', 'ROLE_ADMIN')">
+        <th:block sec:authorize="hasAnyAuthority('ROLE_ADMIN', 'Role_STAFF')">
+          <button type="button" th:onclick="|location.href='@{/admin}'|" class="btn btn-outline-primary me-2">Admin</button>
+        </th:block>
+        <th:block sec:authorize="hasAuthority('ROLE_USER')">
+          <button type="button" th:onclick="|location.href='@{/member/profile}'|" class="btn btn-outline-primary me-2">MyPage</button>
+        </th:block>
+        <button type="button" th:onclick="|location.href='@{/logout}'|" class="btn btn-outline-primary me-2">Logout</button>
+      </th:block>
+    </div>
+  </header>
 </div>
 
 
@@ -147,10 +139,17 @@
                 </div>
 
                 <div class="modal-footer">
+                    <a href="#" onclick="tempPassword()" class="btn btn-link" >비밀번호 찾기</a>
+                    <hr>
                     <button type="submit" class="btn btn-primary">로그인</button>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
                 </div>
-            </form>
+                </form>
+                <script>
+                        function tempPassword() {
+                            window.open("/password","_blank", "width=400,height=300,menubar=no,toolbar=no")
+                        }
+                </script>
         </div>
     </div>
 </div>

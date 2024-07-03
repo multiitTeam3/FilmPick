@@ -10,9 +10,168 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <link rel="stylesheet" th:href="@{/css/reservationtime.css}">
 
-    <script th:inline="javascript">
+    <style>
+
+
+        .container{
+            display: flex;
+            background-color: #FFF0F5;
+            border: 1px solid black;
+            margin: 10%;
+
+        }
+
+
+        .sidebar{
+            height: 100%;
+            width: 30%;
+            background-color: #A0DFE1;
+
+        }
+
+        .sidebar a{
+            padding: 15px;
+            text-decoration: none;
+            color: #E6FFE6;
+            display: block;
+            font-size: 25px;
+            font-color: #000069	;
+            padding : 40px
+        }
+
+        .sidebar a:hover{
+            background-color: #FFB6C1;
+
+        }
+
+        .content{
+            padding: 40px
+
+        }
+
+        #content3{
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calendar{
+            width: 300px;
+            background-color: white;
+            overflow: hidden;
+            margin-bottom: 20px;
+
+        }
+
+        .day{
+            pointer-events: none;
+
+        }
+
+
+        .clickable{
+            pointer-events: auto;
+            background-color: gray !important;
+
+        }
+
+        .unclickable{
+
+            pointer-events: none;
+            background-color: #eddedd;
+
+        }
+
+
+
+        .selected{
+             pointer-events: auto;
+             background-color: pink !important;
+             color : red;
+             font : bold;
+        }
+
+
+        #month-year{
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: #32AAFF;
+            color: white;
+        }
+
+        .weekdays, .days{
+
+            display: flex;
+            flex-wrap: wrap;
+            padding: 10px;
+
+        }
+
+
+        .weekdays div{
+
+            width: 40px;
+            text-align: center;
+
+
+        }
+
+
+        .days div{
+
+            width: 40px;
+            text-align: center;
+        }
+
+
+        #time-btn{
+
+            display: flex;
+
+            justify-content: center;
+            padding: 10px;
+            background-color: #F0FFF0;
+            color: white;
+
+        }
+
+        button{
+
+            padding: 5px;
+            margin: 5px
+
+        }
+
+
+        .days div:hover{
+
+            background-color: #6482B9;
+            color: white;
+        }
+
+
+        .region:hover, .cinema:hover, .movie:hover, .timeBtn:hover{
+
+            background-color: #6482B9;
+            color: white;
+
+        }
+
+        .gray{
+            background-color: gray;
+        }
+
+
+    </style>
+
+    <script type="text/javascript">
 
         $(document).ready(
             function(){
@@ -69,14 +228,6 @@
                             <!--날짜 데이터 저장 로직 넣기. i를 보낼 것-->
                             $('.day').removeClass('selected');
                             $(this).addClass('selected');
-
-
-
-
-
-
-
-
 
                         };
                         daysElement.appendChild(dayCell);
@@ -330,12 +481,11 @@
 
                     var finalSchedule = JSON.parse($(this).attr('data-schedule'));
 
-                    $('#result').append('<p>스케줄 확인</p>');
-                    $('#result').append($(this).attr('data-schedule'));
+
 
                     console.log(finalSchedule);
 
-                    $('#result').append('<button id="reservationseat">좌석 선택 화면으로 이동하기</button>');
+                    $('#result').append('<br><br><button id="reservationseat">좌석 선택 화면으로 이동하기</button>');
 
 
                     $(document).on('click','#reservationseat',function(){
@@ -368,9 +518,6 @@
         )
 
 
-
-
-
     </script>
 
 
@@ -379,101 +526,91 @@
 
 <div layout:fragment="content">
 
+    <div class="containerColumn">
 
-    <div class="container">
-
-
-        <div class="sidebar">
-
-            <a href="/movie/reservationtime">상영시간</a>
-            <a href="/movie/reservationseat" class="unclickable">인원/좌석 선택</a>
-
-        </div>
-
-
-        <div class="content" id="content1">
-
-            <h5>지역 선택</h5>
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link active" th:href="@{/movie/reservationtime}">상영시간 선택</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled unclikable" th:href="@{/movie/reservationseat}">인원/좌석 선택</a>
+            </li>
+        </ul>
 
 
-        </div>
-
-        <div class="content" id="content4">
-
-            <h5>영화관 선택</h5>
+        <div class="containerBox">
 
 
-        </div>
+            <div class="content" id="content1">
+
+                <h5>지역 선택</h5>
+                <hr>
 
 
-        <div class="content" id="content2">
+            </div>
 
-            <h5>영화 선택</h5>
+            <div class="content" id="content4">
 
-
-        </div>
-
-        <div class="content" id="content3">
-
-            <h5>날짜 / 시간 선택</h5>
+                <h5>영화관 선택</h5>
+                <hr>
 
 
-            <p>달력</p>
+            </div>
 
-            <div class="calendar">
 
-                <div class="month">
-                    <span id="month-year"></span>
+            <div class="content" id="content2">
+
+                <h5>영화 선택</h5>
+                <hr>
+
+            </div>
+
+            <div class="content" id="content3">
+
+                <h5>날짜 / 시간 선택</h5>
+                <hr>
+
+                <p>달력</p>
+
+                <div class="calendar">
+
+                    <div class="month">
+                        <span id="month-year"></span>
+                    </div>
+
+
+                    <div class="weekdays">
+                        <div>일</div>
+                        <div>월</div>
+                        <div>화</div>
+                        <div>수</div>
+                        <div>목</div>
+                        <div>금</div>
+                        <div>토</div>
+
+                    </div>
+                    <div class="days" id="days"></div>
+
                 </div>
 
 
-                <div class="weekdays">
-                    <div>일</div>
-                    <div>월</div>
-                    <div>화</div>
-                    <div>수</div>
-                    <div>목</div>
-                    <div>금</div>
-                    <div>토</div>
+                <div class="button" id="time-btn">
+
+                    <!--            <button>09:00~10:00</button>
+                                <button>11:20~13:00</button>-->
 
                 </div>
-                <div class="days" id="days"></div>
 
-            </div>
+                <div class="result" id="result">
 
 
-            <div class="button" id="time-btn">
-
-                <!--            <button>09:00~10:00</button>
-                            <button>11:20~13:00</button>-->
-
-            </div>
-
-            <div class="result" id="result">
+                </div>
 
 
             </div>
-
-
         </div>
-
-
-
-
     </div>
-
-
 </div>
-
-
-</div>
-
-
-<script>
-
-
-</script>
-
 
 </body>
 </html>

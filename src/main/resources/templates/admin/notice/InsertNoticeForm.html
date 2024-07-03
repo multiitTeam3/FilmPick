@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html layout:decorate="~{layoutAdmin}">
+<head>
+    <title>공지사항 작성</title>
+    <style>
+        .container-box {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-5">
+
+        <div class="container-box">
+            <h2>공지사항 작성</h2>
+            <form th:action="@{/admin/notice/insert}" method="post" th:object="${notice}">
+                <div class="form-group">
+                    <label for="category" class="form-label">구분</label>
+                    <select id="category" name="categoryNo" class="form-control" required>
+                        <option th:each="category : ${categories}"
+                                th:value="${category.categoryNo}"
+                                th:text="${category.categoryDesc}">
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="title" class="form-label">제목</label>
+                    <input type="text" id="title" th:field="*{title}" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="content" class="form-label">내용</label>
+                    <textarea id="content" th:field="*{content}" class="form-control" rows="10" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">작성</button>
+                    <button type="button" class="btn btn-secondary" onclick="location.href='/admin/notice'">취소</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

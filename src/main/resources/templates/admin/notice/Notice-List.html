@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html layout:decorate="~{layoutAdmin}">
+<head>
+    <title>공지사항 관리</title>
+    <link rel="stylesheet" th:href="@{/css/container-box.css}">
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-5">
+
+        <div class="container-box text-center">
+            <h1>관리자 페이지</h1>
+        </div>
+
+        <div class="container-box">
+            <h2>공지사항 관리</h2>
+
+            <!--/* 공지사항 검색 폼 */-->
+            <form id="search" th:action="@{/admin/notice}" method="get">
+                <div class="search-box">
+                    <select class="form-select" aria-label="search list" name="type" id="type">
+                        <option value="category">구분</option>
+                        <option value="title">제목</option>
+                    </select>
+                    <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword" id="keyword">
+                    <button class="btn btn-primary" type="submit" id="button-addon2">검색</button>
+                </div>
+            </form>
+
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>번호</th>
+                        <th>구분</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>작성일</th>
+                        <th>수정/삭제</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="notice : ${notices}">
+                        <td th:text="${notice.rowNum}"></td>
+                        <td th:text="${notice.category.categoryDesc}"></td>
+                        <td th:text="${notice.title}"></td>
+                        <td th:text="${notice.memberEmail}"></td>
+                        <td th:text="${#dates.format(notice.createDate, 'yyyy-MM-dd')}"></td>
+                        <td>
+                            <button class="btn btn-sm btn-warning" th:onclick="|location.href='@{/admin/notice/update(no=${notice.noticeNo})}'|">수정</button>
+                            <button class="btn btn-sm btn-danger" th:onclick="|location.href='@{/admin/notice/delete(no=${notice.noticeNo})}'|">삭제</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <ul class="pagination justify-content-center">
+                <!-- Previous Page Link -->
+                <li class="page-item" th:classappend="${page == 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{/admin/notice(type=${type != null ? type : ''}, keyword=${keyword != null ? keyword : ''}, page=${page != null ? page - 1 : 1})}" th:text="'이전'"></a>
+                </li>
+
+                <!-- Page Numbers -->
+                <li class="page-item" th:each="p : ${#numbers.sequence(1, pages)}" th:classappend="${p == page} ? 'active'">
+                    <a class="page-link" th:href="@{/admin/notice(type=${type != null ? type : ''}, keyword=${keyword != null ? keyword : ''}, page=${p})}" th:text="${p}"></a>
+                </li>
+
+                <!-- Next Page Link -->
+                <li class="page-item" th:classappend="${page == pages} ? 'disabled'">
+                    <a class="page-link" th:href="@{/admin/notice(type=${type != null ? type : ''}, keyword=${keyword != null ? keyword : ''}, page=${page != null ? page + 1 : 1})}" th:text="'다음'"></a>
+                </li>
+            </ul>
+
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-outline-primary me-2" onclick="location.href='/admin/notice/insert'">공지사항 작성</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

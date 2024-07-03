@@ -5,325 +5,87 @@
       layout:decorate="~{layoutAdmin}">
 <head>
     <title>Movie Manage Page</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript">
 
-        $(document).ready(
-           function(){
-
-               // 테이블 자료 이용함
-               function findEnrolledList(page){
-
-                   $('#list').html("");
-
-                   $.ajax({
-
-                       url: '/movie/findAllEnrolledMovie?page=' + page,
-                       method: 'POST',
-                       contentType: 'application/json',
-                       success: function(responseDTO){
-
-                           var list = responseDTO.list;
-                           var pages = responseDTO.pages;
-                           var count = responseDTO.count;
-
-                           $('#list').html("");
-
-                           $.each(list, function(index, movie){
-
-                                var adultContent = movie.adult ==0? "해당없음" : "성인영화";
-
-                                var lessContent = movie.movieContent.length > 20?
-                                movie.movieContent.substring(0,30) + "....."
-                                : movie.movieContent;
-
-                                var htmlContent = `
-
-                                    <tr>
-
-                                        <td id="movieNo">${movie.movieNo}</td>
-                                        <td id="movieTitle">${movie.movieTitle}</td>
-                                        <td id="genreContent">${movie.genreContent}</td>
-                                        <td id="popularity">${movie.popularity}</td>
-                                        <td id="duration">${movie.duration}</td>
-                                        <td id="movieContent">${lessContent}</td>
-                                        <td id="adult">${adultContent}</td>
-                                        <td id="image"><img src="${movie.posterPath}"
-                                                            width="40px"></td>
-                                        <td id="avgRate">${movie.avgRate}</td>
-                                        <td id="ticketSold">${movie.ticketSold}</td>
-
-
-                                    </tr>
-
-                                `;
-
-                                $('#list').append(htmlContent);
-
-                           })
-
-                           $('.pageNums1').html("");
-
-                             for(var p=1; p<=pages; p++){
-                                $('.pageNums1').append('<button class="pages1">'+ p  + '</button>');
-                             }
-
-                       }
-
-                   })
-
-               }
-
-
-                findEnrolledList(1);
-
-                $(document).on('click','.pages1',function(){
-                     const page = $(this).text();
-                     findEnrolledList(page);
-                })
-
-
-                // api 이용
-               function findAPIMovieList(page){
-
-                   $('#list2').html("");
-
-                   $.ajax({
-
-                       url: '/movie/findAPIMovieList?page=' + page,
-                       method: 'POST',
-                       contentType: 'application/json',
-                       success: function(list){
-
-
-                           $.each(list, function(index, movie){
-
-                                var adultContent = movie.adult ==0? "해당없음" : "성인영화";
-
-                                var lessContent = movie.movieContent.length > 20?
-                                movie.movieContent.substring(0,30) + "....."
-                                : movie.movieContent;
-                                console.log("movieId : " + movie.id)
-                                var htmlContent = `
-
-                                    <tr>
-
-
-                                        <td id="movieTitle">${movie.movieTitle}</td>
-                                        <td id="genreNo">${movie.genreNo}</td>
-                                        <td id="popularity">${movie.popularity}</td>
-                                        <td id="duration">${movie.duration}</td>
-                                        <td id="movieContent">${lessContent}</td>
-                                        <td id="adult">${adultContent}</td>
-                                        <td id="image"><img src="${movie.posterPath}"
-                                                            width="40px"></td>
-                                        <td id="insertBtn">
-                                         <button id="insertMovie" val="${movie.id}">추가</button>
-                                         </td>
-
-                                    </tr>
-
-                                `;
-
-                                $('#list2').append(htmlContent);
-
-
-                           })
-
-                       }
-
-                   })
-
-               }
-
-
-                findAPIMovieList(1);
-
-
-                 for(var p=1; p<=10; p++){
-                    $('.pageNums2').append('<button class="pages2">'+ p  + '</button>');
-                 }
-
-
-                $(document).on('click','.pages2',function(){
-                     const page = $(this).text();
-                     findAPIMovieList(page);
-
-                })
-
-
-                $(document).on('click','#insertMovie',function(){
-                     var movieId = $(this).attr('val');
-                     console.log("click movieId : "+movieId)
-                     var button = $(this);
-
-                      $.ajax({
-
-                           url: '/movie/insertAPIMovie?id=' + movieId,
-                           method: 'POST',
-                           contentType: 'application/json',
-                           success: function(response){
-                                alert(response);
-                                button.text("영화추가 완료");
-                                button.addClass('unclickable');
-                                button.prop('disabled',true);
-                                findAPIMovieList(1);
-                           }
-
-                      })
-
-                })
-
-
-                // 장르 삽입
-                $(document).on('click','#insertGenre',function(){
-
-                    var button = $(this);
-
-                     $.ajax({
-
-                       url: '/movie/insertGenre',
-                       method: 'POST',
-                       contentType: 'application/json',
-                       success: function(response){
-                            console.log(response);
-                            button.text("장르추가 완료");
-                            button.addClass('unclickable');
-                            button.prop('disabled',true);
-                       }
-
-                     })
-
-
-
-                })
-
-           }
-        )
-
-
-    </script>
+    <link rel="stylesheet" th:href="@{/css/container-box.css}">
     <link rel="stylesheet" th:href="@{/css/movieManage.css}">
+
+    <style>
+        .pageNums1, .pageNums2 {
+            text-align: center;
+        }
+    </style>
+
+    <script th:src="@{/js/moviemanage.js}"></script>
+
 </head>
 <body>
 <div layout:fragment="content">
-    <h2 class="text-center mb-4">영화 관리</h2>
-    <hr color="grey">
-
     <div class="container">
+        <div class="container-box text-center">
+            <h1>관리자 페이지</h1>
+        </div>
 
         <div class="top">
-
-            <div class="content" id="enrolled-Movie-List">
-
-                <br><br><br><br>
-                <h1>등록된 영화 리스트</h1>
-
-                <table>
-
-                    <thead>
-
-                    <tr>
-
-                        <th>영화번호</th>
-                        <th>영화제목</th>
-                        <th>장르이름</th>
-                        <th>유명도</th>
-                        <th>상영시간(시)</th>
-                        <th>영화내용</th>
-                        <th>성인영화</th>
-                        <th>포스터보기</th>
-                        <th>평균평점</th>
-                        <th>티켓판매량(수량)</th>
-
-
-                    </tr>
-
-
-                    </thead>
-
-                    <tbody id="list">
-
-                    </tbody>
-
-
-                </table>
-
-
+            <div class="container-box">
+                <h2>영화 관리</h2>
+                <div class="content" id="enrolled-Movie-List">
+                    <br>
+                    <h1>등록된 영화 리스트</h1><br>
+                    <table class="table table-striped">
+                        <thead class="table-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">영화번호</th>
+                            <th scope="col">영화제목</th>
+                            <th scope="col">장르이름</th>
+                            <th scope="col">유명도</th>
+                            <th scope="col">상영시간(시)</th>
+                            <th scope="col">영화내용</th>
+                            <th scope="col">성인영화</th>
+                            <th scope="col">포스터보기</th>
+                            <th scope="col">평균평점</th>
+                            <th scope="col">티켓판매량(수량)</th>
+                        </tr>
+                        </thead>
+                        <tbody id="list"></tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <div class="pageNums1"></div>
+                </div>
             </div>
-
-            <div class="pageNums1"></div>
-
         </div>
 
         <div class="bottom">
-
-            <div class="content" id="add-Movie">
-
-                <h1>DB에 영화 추가
-                    <button id="insertGenre">장르추가</button>
-                </h1>
-
-                <table>
-
-                    <thead>
-
-                    <tr>
-
-
-                        <th>영화제목</th>
-                        <th>장르이름</th>
-                        <th>유명도</th>
-                        <th>상영시간(시)</th>
-                        <th>영화내용</th>
-                        <th>성인영화</th>
-                        <th>포스터</th>
-                        <th>영화추가</th>
-
-
-                    </tr>
-
-
-                    </thead>
-
-                    <tbody id="list2">
-
-                    <tr>
-
-                        <td id="movieNo2">1</td>
-                        <td id="movieTitle2">영화1</td>
-                        <td id="genreContent2">코미디</td>
-                        <td id="popularity2">90.0</td>
-                        <td id="duration2">2</td>
-                        <td id="movieContent2">웃긴 내용</td>
-                        <td id="adult2">해당없음</td>
-                        <td id="image2"><img src="http://image.tmdb.org/t/p/w500//pmemGuhr450DK8GiTT44mgwWCP7.jpg"
-                                             width="40px"></td>
-                        <td id="insertBtn">
-                            <button id="insertMovie">추가</button>
-                        </td>
-
-
-                    </tr>
-
-
-                    </tbody>
-                </table>
-
+            <div class="container-box">
+                <div class="content" id="add-Movie">
+                    <h1>DB에 영화 추가
+                        <button id="insertGenre" class="btn btn-link">장르추가</button>
+                    </h1>
+                    <br>
+                    <table class="table table-striped">
+                        <thead class="table-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">영화제목</th>
+                            <th scope="col">장르이름</th>
+                            <th scope="col">유명도</th>
+                            <th scope="col">상영시간(시)</th>
+                            <th scope="col">영화내용</th>
+                            <th scope="col">성인영화</th>
+                            <th scope="col">포스터</th>
+                            <th scope="col">영화추가</th>
+                        </tr>
+                        </thead>
+                        <tbody id="list2"></tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <div class="pageNums2"></div>
+                </div>
             </div>
-
-            <div class="pageNums2"></div>
-
-
         </div>
-
-
     </div>
-
-
 </div>
 </body>
 </html>

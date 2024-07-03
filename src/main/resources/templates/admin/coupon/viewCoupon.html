@@ -4,34 +4,38 @@
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <script th:src="@{/js/paging.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/container-box.css}">
 </head>
 <body>
 <div layout:fragment="content">
+    <div class="container-box text-center">
+        <h1>관리자 페이지</h1>
+    </div>
+
     <div class="container">
-        <h2 class="text-center mb-4">쿠폰 관리</h2>
-        <hr color="grey">
+        <div class="container-box">
+            <h2>쿠폰 관리</h2>
 
         <!--/* 쿠폰 검색 폼 */-->
-        <form th:action="@{/admin/coupon/search}" method="get">
-            <div class="btn-group">
+        <form id="search" th:action="@{/admin/coupon}" method="get">
+            <div class="search-box">
                 <select class="form-select" aria-label="search list" name="type">
-                    <option value="email" selected>All</option>
-                    <option value="name">쿠폰 코드</option>
-                    <option value="role">회원 이메일</option>
+                    <option value="email" selected>이메일</option>
+                    <option value="couponCode">쿠폰 코드</option>
                 </select>
-                <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword">
-                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">검색</button>
+                <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword" id="keyword">
+                <button class="btn btn-primary" type="submit" id="button-addon2">검색</button>
             </div>
         </form>
 
-        <!--/* 회원 목록 테이블 */-->
+        <!--/* 쿠폰 목록 테이블 */-->
         <div id="d1">
             <table class="table table-hover table-bordered" w-80>
                 <thead class="table-dark">
                 <tr>
                     <th scope="col">No</th>
                     <th scope="col">쿠폰 코드</th>
-                    <th scope="col">회원 이메일</th>
+                    <th scope="col">이메일</th>
                     <th scope="col">설명</th>
                     <th scope="col">사용 여부</th>
                     <th scope="col">사용일</th>
@@ -50,7 +54,7 @@
                         <td th:text="${coupon.useDate}"></td>
                         <td th:text="${coupon.createDate}"></td>
                         <td th:text="${coupon.expDate}"></td>
-                        <td><a th:href="@{/admin/coupon/delete(code=${coupon.couponCode})}"><button type="button" class="btn btn-primary">삭제</button></a></td>
+                        <td><button class="btn btn-sm btn-danger" th:onclick="|location.href='@{/admin/coupon/delete(code=${coupon.couponCode})}'|">삭제</button></td>
                     </tr>
                 </tbody>
             </table>

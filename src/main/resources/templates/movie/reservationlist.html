@@ -28,7 +28,6 @@
             function(){
 
 
-
                 function findReservationList(page){
 
                     $('#reservations').html("");
@@ -54,8 +53,8 @@
                                 var movieNo = reservation.movieNo;
                                 console.log("scheduleNo: "+scheduleNo)
 
-                                <!--미결제 처리-->
-                                if(reservation.rsvIsPaid=="N"){
+                                <!--미결제 처리 기능 전부 삭제로 안보이게 하고 관련 페이지로 넘어갈 수 없어 예약 변경 기능 사용 못함-->
+                                /*if(reservation.rsvIsPaid=="N"){
                                     $('#reservations').append('<div class="reservation"><p>'  +   reservation.date   +
                                     '</p><p><span class="title">' +  reservation.movieTitle  +
                                    '</span><button id="update" onclick="location.href=\'/movie/updatemovie?scheduleno=' +
@@ -70,14 +69,16 @@
                                 ') </p><button class="pay" data-schedule-no=' +  scheduleNo  + '>'
                                 + reservation.totalPrice   +'원 결제하기</button></div></div></div>')
 
-                                }
+                                }*/
 
                                 <!--결제한 것-->
                                 if(reservation.rsvIsPaid=="Y"){
 
                                     $('#reservations').append('<div class="reservation"><p>' +  reservation.date +
                                     '</p><p><span class="title">' + reservation.movieTitle +
-                                    '</span><span>결제완료</span></p><div class="mov-content"><div class="img"><img src="' +
+                                    '</span><span>결제완료</span><button id="update" onclick="location.href=\'/movie/updatemovie?scheduleno=' +
+                                    scheduleNo + '\'" data-schedule-no=' + scheduleNo + '>예약변경</button><button id="delete" data-schedule-no='
+                                + scheduleNo + '>취소하기</button></p><div class="mov-content"><div class="img"><img src="' +
                                     reservation.posterPath +
                                     '" width="60%"></div><div class="content1"><p>' +
                                     reservation.cinemaName + '<p><p>' + reservation.screenName + '</p><p>' + reservation.startTime + '~' + reservation.endTime + '</p><p> 성인 ' + reservation.adultNum + '인, 청소년 ' +
@@ -141,10 +142,6 @@
                                 ') </p><button class="pay" data-schedule-no=' +  scheduleNo  + '>'
                                 + reservation.totalPrice   +'원 결제하기</button></div></div></div>')
 
-
-
-
-
                             })
 
                              $('.pageNums').html("");
@@ -183,7 +180,7 @@
                 })
 
 
-                // 결제하기 버튼 클릭 이벤트
+                // 결제하기 버튼 클릭 이벤트로 기능 사라짐
                 function payTheBill(scheduleNo){
 
                     $.ajax({
@@ -206,6 +203,7 @@
                 }
 
 
+                // 결제하기 버튼 사라지고 결제가 완료된 내역만 표시됨
                 $(document).on('click','.pay',function(){
                      const scheduleNo = $(this).data('schedule-no');
 
@@ -244,14 +242,6 @@
                 })
 
 
-
-
-
-
-
-
-
-
             }
         )
 
@@ -270,10 +260,11 @@
 
             <h1>예매 내역 조회</h1>
 
-            <div class="buttons">
+            <!--미결제 내역 조회 기능 없앰. 전부 결제가 된 내역만 표시-->
+            <!--<div class="buttons">
                 <button id="all">전체 내역 조회</button>
                 <button id="notpaid">미결제 내역 조회</button>
-            </div>
+            </div>-->
 
 
         </div>
@@ -358,8 +349,8 @@
         <div class="content" id="questions">
 
             <div class="question" id="q1">
-                <p class="q1">예약 후 결제는 언제까지 해야 하나요?<button class="plus1">+</button></p>
-                <p class="a1 none">1시간 전까지 결제가 완료되지 않으면 자동으로 취소됩니다.</p>
+                <p class="q1">예매내용 변경이 가능한가요?<button class="plus1">+</button></p>
+                <p class="a1 none">예약 변경 버튼을 눌러주세요.</p>
             </div>
 
             <div class="question" id="q2">

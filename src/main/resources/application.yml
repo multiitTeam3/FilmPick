@@ -21,6 +21,18 @@ spring:
       enabled: true
       force: true
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: filmpick123@gmail.com # 이메일
+    password: jxsccjcjrgutlxwy # APP 비밀번호
+    properties:
+      mail:
+        smtp:
+          auth: true # 인증
+          starttls:
+            enable: true
+
 server:
   port: 8099
   servlet:
@@ -35,11 +47,11 @@ logging:
   level:
     org:
       springframework:
-        jdbc: TRACE
-        transaction: TRACE
+        jdbc: DEBUG
+        transaction: DEBUG
     com:
-      .zaxxer: TRACE
-    sql: TRACE
+      .zaxxer: DEBUG
+    sql: DEBUG
 
 cid: TC0ONETIME
 
@@ -50,6 +62,4 @@ kakaopay:
 
 sample:
   host: http://localhost:8099
-
-
 

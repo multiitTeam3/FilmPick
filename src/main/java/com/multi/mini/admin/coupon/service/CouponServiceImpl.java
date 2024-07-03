@@ -2,6 +2,7 @@ package com.multi.mini.admin.coupon.service;
 
 import com.multi.mini.admin.coupon.model.dto.CouponDTO;
 import com.multi.mini.admin.coupon.model.mapper.CouponMapper;
+import com.multi.mini.common.model.dto.PageDTO;
 import com.multi.mini.member.model.dto.MemberDTO;
 import com.multi.mini.member.model.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -61,13 +63,19 @@ public class CouponServiceImpl implements CouponService{
     }
 
     @Override
-    public List<CouponDTO> findCouponAll() throws Exception{
-        List<CouponDTO> list = couponMapper.findCouponAll();
+    public List<CouponDTO> findCouponAll(String type, String keyword, PageDTO pageDTO) throws Exception{
+        List<CouponDTO> list = couponMapper.findCouponAll(type, keyword, pageDTO.getStart(), pageDTO.getEnd());
         return list;
     }
 
     @Override
     public void deleteCoupon(String couponCode) throws Exception{
         if(couponMapper.deleteCoupon(couponCode) == 0) throw new RuntimeException("쿠폰 삭제 실패");
+    }
+
+    @Override
+    public ArrayList<CouponDTO> findCouponListByMemberNo(int memberNo) throws Exception{
+        ArrayList<CouponDTO> list = (ArrayList<CouponDTO>) couponMapper.findCouponListByMemberNo(memberNo);
+        return list;
     }
 }
