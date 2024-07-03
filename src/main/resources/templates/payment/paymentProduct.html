@@ -6,7 +6,10 @@
             font-size: 0.8em; /* 폰트 크기 줄이기 */
             color: rgba(0, 0, 0, 0.6); /* 텍스트 반투명하게 */
         }
-    </style></head><body><div layout:fragment="content">
+    </style>
+
+
+</head><body><div layout:fragment="content">
     <div class="container">
         <div class="row">
             <div class="col-md-12 p-4">
@@ -17,23 +20,16 @@
                             <img th:src="@{${reservations[0].posterPath}}" alt="Movie Poster" class="img-fluid rounded">
                         </div>
                         <div class="col-md-4">
-                            <h2 class="font-weight-bold mb-4">영화정보</h2>
-                            <p><strong>사용자:</strong> <span th:text="${username}"></span></p>
-                            <p><strong>예약번호:</strong> <span th:text="${rsvNoList}"></span></p>
+                            <h2 class="font-weight-bold mb-4">상품정보</h2>
+                            <p><strong>상품명:</strong> <span th:text="${username}"></span></p>
+                            <p><strong>수량  :</strong> <span th:text="${rsvNoList}"></span></p>
                             <p><strong>영화명:</strong> <span th:text="${reservations[0].movieTitle}"></span></p>
-                            <p><strong>일시:</strong> <span th:text="${reservations[0].date}"></span></p>
-                            <p><strong>상영 시간:</strong> <span th:text="${reservations[0].startTime} + ' - ' + ${reservations[0].endTime}"></span></p>
-                            <p><strong>영화관:</strong> <span th:text="${reservations[0].cinemaName}"></span></p>
-                            <p><strong>상영관:</strong> <span th:text="${reservations[0].screenName}"></span></p>
-                            <p><strong>좌석:</strong>
-                                <span th:text="${seatNames}"></span>
-                            </p>
-                            <p><strong>인원:</strong> 성인 <span th:text="${adultCount}"></span>명 청소년 <span th:text="${teenCount}"></span>명</p>
+
                         </div>
                     </div>
                 </div>
 
-                <form id="kakaopay" th:object="${kakaoReadyDTO}" method="post" th:action="@{/payment/kakaoPay}">
+                <form id="kakaopay" th:object="${kakaoReadyDTO}" method="post" th:action="@{/payment/kakaoProductPay}" name="openForm">
                     <div class="mb-4">
                         <div class="d-flex justify-content-between mb-2">
                             <span>사용할 포인트:</span>
@@ -58,27 +54,48 @@
                             <span th:text="${totalPrice}"></span> 원
                         </div>
                         <input type="hidden" name="posterPath" th:field="*{posterPath}">
-                        <input type="hidden" name="memberNo" th:field="*{memberNo}">
+                        <input type="hidden" name="payductNo" th:field="*{payductNo}">
                         <input type="hidden" name="username" th:field="*{username}">
                         <input type="hidden" name="rsvNoList" th:field="*{rsvNoList}">
                         <input type="hidden" name="movieTitle" th:field="*{movieTitle}">
                         <input type="hidden" name="totalPrice" th:field="*{totalPrice}">
-                        <input type="hidden" name="adultCount" th:field="*{adultCount}">
-                        <input type="hidden" name="teenCount" th:field="*{teenCount}">
                         <button type="submit" class="btn btn-primary" id="payButton">결제하기</button>
                     </div>
                 </form>
+                <script>
+                    $('#payButton').on('click', function() {
+                        var form = $('#kakaopay')[0];
+                        var formData = new FormData(form);
+
+                        // 새로운 폼 생성
+                        var newForm = $('<form>', {
+                            method: 'POST',
+                            action: $(form).attr('action'),
+                            target: 'paymentWindow'
+                        });
+
+                        // formData의 값을 새로운 폼에 추가
+                        formData.forEach(function(value, key) {
+                            $('<input>', {
+                                type: 'hidden',
+                                name: key,
+                                value: value
+                            }).appendTo(newForm);
+                        });
+
+                        // 새 창 열기
+                        window.open("", "paymentWindow", "width=800,height=600,menubar=no,toolbar=no");
+
+                        // 새로운 폼을 document에 추가하고 제출
+                        newForm.appendTo('body').submit();
+
+                        // 제출 후 폼 제거
+                        newForm.remove();
+                    });
+                </script>
+
             </div>
         </div>
     </div>
 </div>
-<script>
-    document.getElementById('payButton').addEventListener('click', function() {
-      const selectedMethod = document.querySelector('input[name="payMethod"]:checked').value;
-      if (selectedMethod === 'kakao') {
-          document.getElementById('paymentForm').submit();
-      } else {
-          alert('미구현상태입니다.');
-      }
-  });
-</script></body></html>
+</body></html>

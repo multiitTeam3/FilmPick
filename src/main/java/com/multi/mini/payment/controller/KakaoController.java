@@ -13,10 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping("/payment")
@@ -61,7 +58,7 @@ public class KakaoController {
         System.out.println("결제 승인 결과: " + approveResponse);
         System.out.println("============================================================================================================"+kakaoReadyDTO);
 
-        //모달 사용을 위해 담아주기
+        //VIEW 넘기기 위해 담아주기
         kakaoReadyDTO.setPosterPath(rsv.getPosterPath());
         kakaoReadyDTO.setMovieTitle(rsv.getMovieTitle());
         kakaoReadyDTO.setSeat(rsv.getSeatName());
@@ -69,6 +66,8 @@ public class KakaoController {
         //시트는 배열로 받기
         String[] seatArray = rsv.getSeatName().split(",");
         List<String> seatNames = Arrays.asList(seatArray);
+
+
 
 
         //결제테이블 DB 을 위해 정보담기
@@ -80,19 +79,49 @@ public class KakaoController {
         paymentsDTO.setTotalPrice(kakaoReadyDTO.getTotalPrice() - paymentsDTO.getDiscount()); //할인이 적용된금액
         paymentsDTO.setAmount(kakaoReadyDTO.getTotalPrice()); //상품금액
 
-        //영화 테이블  DB 을 위해 정보담기
-
-        PayMovieDTO payMovieDTO = new PayMovieDTO();
-
-        System.out.println("KakaoReadyDTO: " + kakaoReadyDTO);
-        System.out.println("PaymentsDTO: " + paymentsDTO);
-
 
         //db저장 결제정보
         paymentService.insertPayment(paymentsDTO);
-        //결제 완료 되면 예매테이블 결제정보가 N > Y 로 업데이트
-        paymentService.markReservationAsPaid(kakaoReadyDTO.getRsvNoList());
-        //영화 테이블 저장
+
+
+        //db
+
+
+
+        Integer paymentsNo = paymentService.selectPaymentNo();
+        if (paymentsNo == null) {
+            throw new RuntimeException("결제번호가없습니다..!");
+        }
+
+
+
+        List<Integer> rsvlist = kakaoReadyDTO.getRsvNoList();
+        if (rsvlist ==null) {
+            throw new RuntimeException("예매번호가없습니다..!");
+        }
+
+        System.out.println(rsvlist+"bbbbbbbbbbbb");
+        System.out.println(paymentsNo+"aaaaaaaaaa");
+
+        for(Integer rsvNo : rsvlist){
+            //결제 완료 되면 예매테이블 결제정보가 N > Y 로 업데이트
+            paymentService.markReservationAsPaid(Collections.singletonList(rsvNo));
+
+            PayMovieDTO payMovieDTO = new PayMovieDTO();
+            payMovieDTO.setPayNo(paymentsNo);
+            payMovieDTO.setRsvNo(rsvNo);
+            payMovieDTO.setMovieTitle(kakaoReadyDTO.getMovieTitle());
+            payMovieDTO.setTicketQuantity(kakaoReadyDTO.getAdultCount()+kakaoReadyDTO.getTeenCount());
+            //영화 테이블 저장
+
+
+            paymentService.insertPaymentMovie(payMovieDTO);
+
+        };
+
+
+        System.out.println("KakaoReadyDTO: " + kakaoReadyDTO);
+        System.out.println("PaymentsDTO: " + paymentsDTO);
 
 
         //세션 삭제
@@ -108,6 +137,7 @@ public class KakaoController {
 
         return "payment/kakaoPaySuccess";
     }
+
 
     @Transactional
     @GetMapping("/kakaoPayFail")
