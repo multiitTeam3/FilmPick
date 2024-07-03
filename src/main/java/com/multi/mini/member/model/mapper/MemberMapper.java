@@ -30,4 +30,7 @@ public interface MemberMapper {
             "SET point = point + #{ pointChange } " +
             "WHERE member_no = #{ memberNo }")
     int updatePoint(PointDTO memberNo);
+
+    @Select("SELECT member_no FROM mem_member WHERE user_name = #{ name }")
+    MemberDTO findMemberByName(String name);
 }

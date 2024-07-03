@@ -34,7 +34,7 @@ spring:
             enable: true
 
 server:
-  port: 8097
+  port: 8099
   servlet:
     session:
       timeout: 1800

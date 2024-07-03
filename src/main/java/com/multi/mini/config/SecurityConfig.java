@@ -40,15 +40,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/", "/home", "/login", "/sign-up",  "/error", "/clearMessage", "/community/list", "/password", "/movie/findMovieList").permitAll()
+                        .requestMatchers("/admin/**").hasAnyRole("ADMIN", "STAFF")
+                        .requestMatchers("/community/list", "/community/view").permitAll()
+                        .requestMatchers("/Customer/Index", "/Customer/NoticeDetail").permitAll()
+
+                        .requestMatchers("/", "/home", "/login", "/sign-up", "/error", "/clearMessage", "/password", "/movie/findMovieList", "/member/isEmail", "/member/isName", "/gpt/chatBot").permitAll()
                         .anyRequest().authenticated()
-//                        .requestMatchers("/**").permitAll()
-                        
-                        /*requestMatchers("/member/**").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers("/admin/**").permitAll()
-                                .requestMatchers("/movie/**").permitAll()
-                                .requestMatchers()
-                        .anyRequest().authenticated()*/
                         );
         http
                 .formLogin((auth) -> auth.loginPage("/login")

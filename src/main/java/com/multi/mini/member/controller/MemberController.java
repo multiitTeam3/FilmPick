@@ -14,9 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.Timestamp;
@@ -162,5 +160,17 @@ public class MemberController {
         }
 
         return "redirect:/member/profile";
+    }
+
+    @ResponseBody
+    @PostMapping("/isEmail")
+    public boolean isEmail(@RequestParam("email") String email) {
+        return memberService.isMemberByEmail(email);
+    }
+
+    @ResponseBody
+    @PostMapping("/isName")
+    public boolean isName(@RequestParam("name") String name) {
+        return memberService.isMemberByName(name);
     }
 }

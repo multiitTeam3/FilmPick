@@ -25,6 +25,15 @@
     <link rel="stylesheet" th:href="@{/css/menubar.css}">
     <link rel="stylesheet" th:href="@{/css/chatBot.css}">
 
+    <style>
+        .login-content {
+            text-align: center;
+        }
+        .login-content2 {
+            color: gray;
+        }
+    </style>
+
 <!-- 경고 메시지 -->
 <script th:inline="javascript">
     /*<![CDATA[*/
@@ -139,17 +148,18 @@
                 </div>
 
                 <div class="modal-footer">
-                    <a href="#" onclick="tempPassword()" class="btn btn-link" >비밀번호 찾기</a>
-                    <hr>
-                    <button type="submit" class="btn btn-primary">로그인</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
+                    <div>
+                        <button type="submit" class="btn btn-primary">로그인</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
+                    </div>
+
+                    <div class="login-content">
+                        <a href="#" onclick="tempPassword()" class="btn btn-link login-content2" >PW 찾기</a>
+                        |
+                        <a href="#" onclick="tempPassword()" class="btn btn-link login-content2" >회원가입</a>
+                    </div>
                 </div>
                 </form>
-                <script>
-                        function tempPassword() {
-                            window.open("/password","_blank", "width=400,height=300,menubar=no,toolbar=no")
-                        }
-                </script>
         </div>
     </div>
 </div>
@@ -181,5 +191,11 @@
         </div>
     </div>
 </div>
+<script>
+    function tempPassword() {
+        window.open("/password","_blank", "width=400,height=300,menubar=no,toolbar=no")
+    }
+</script>
+
 </body>
 </html>

@@ -13,4 +13,8 @@ public interface MemberService {
     void deleteMember(int no) throws Exception;
 
     void updateMember(MemberDTO userData, String[] roles) throws Exception;
+
+    boolean isMemberByEmail(String email);
+
+    boolean isMemberByName(String name);
 }

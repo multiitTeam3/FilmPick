@@ -70,4 +70,14 @@ public class MemberServiceImpl implements MemberService{
             if(updateMemberResult != 3) new Exception("회원 수정에 실패했습니다.");
         }
     }
+
+    @Override
+    public boolean isMemberByEmail(String email) {
+        return memberMapper.findMemberByEmail(email) != null;
+    }
+
+    @Override
+    public boolean isMemberByName(String name) {
+        return memberMapper.findMemberByName(name) != null;
+    }
 }
