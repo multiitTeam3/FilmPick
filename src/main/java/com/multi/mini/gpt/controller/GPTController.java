@@ -31,6 +31,8 @@ public class GPTController {
 	
 	/*@Autowired*/
 	private MovieService movieService;
+
+	
 	
 	
 	
@@ -39,8 +41,7 @@ public class GPTController {
 	
 	public GPTController(MovieService movieService) {
 		this.movieService = movieService;
-		
-		
+
 		
 	}
 	
@@ -67,7 +68,7 @@ public class GPTController {
 	OkHttpClient client = new OkHttpClient();
 	ObjectMapper objectMapper = new ObjectMapper();
 	Gson gson = new Gson();
-	
+
 	
 	GPTToolContainer gptToolContainer = new GPTToolContainer(client, objectMapper, gson);
 	
