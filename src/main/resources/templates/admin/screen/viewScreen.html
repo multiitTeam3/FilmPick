@@ -96,7 +96,7 @@
                                 type="button" class="btn btn-primary">상영 일정 추가
                         </button>
                     </td>
-                    <td><a th:href="@{/admin/cinemamanage/screen/delete(code=${screen.cinemaNo})}">
+                    <td><a th:href="@{/admin/cinemamanage/screen/delete(no=${screen.cinemaNo}, code=${screen.screenCode})}">
                         <button type="button" class="btn btn-primary">삭제</button>
                     </a></td>
                 </tr>

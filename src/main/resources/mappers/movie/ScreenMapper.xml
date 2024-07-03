@@ -27,6 +27,14 @@
     </insert>
 
 
+    <delete id="deleteScreenByScreenDTO" parameterType="screenDTO">
+
+        DELETE FROM mov_cinema_and_screen
+        WHERE cinema_no=#{cinemaNo}
+        AND screen_code=#{screenCode};
+
+    </delete>
+
 
 
 

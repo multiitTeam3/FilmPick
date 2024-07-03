@@ -30,9 +30,6 @@ public class ScreenController {
 			
 			ScreenNameList.get(0).setCinemaNo(cinemaNo);
 			
-			System.out.println("howScreenManage : " + ScreenList);
-			
-			
 			model.addAttribute("screens", ScreenList);
 			model.addAttribute("screensNames", ScreenNameList);
 			model.addAttribute("movies", movieList);
@@ -68,10 +65,19 @@ public class ScreenController {
 //        return "redirect:/admin/cinemamanage/screen";
 //    }
 	
-	@PostMapping
-	public String deleteScreen(@RequestParam("no") int cinemaNo, RedirectAttributes redirectAttributes) {
+	@GetMapping("/delete")
+	public String deleteScreen(@RequestParam("no") int cinemaNo, @RequestParam("code") String screenCode, RedirectAttributes redirectAttributes) {
+		
+		System.out.println("deleteScreen cinemaNo : " + cinemaNo);
+		System.out.println("deleteScreen screenCode : " + screenCode);
+		
+		ScreenDTO screenDTO = new ScreenDTO();
+		screenDTO.setScreenCode(screenCode);
+		screenDTO.setCinemaNo(cinemaNo);
+		
+		
 		try {
-			screenService.deleteScreen(cinemaNo);
+			screenService.deleteScreen(screenDTO);
 			redirectAttributes.addFlashAttribute("msg", "상영관 삭제에 성공했습니다.");
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("msg", "상영관 삭제에 실패했습니다.");

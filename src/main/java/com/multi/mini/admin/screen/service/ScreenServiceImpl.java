@@ -27,8 +27,8 @@ public class ScreenServiceImpl implements ScreenService{
 //    }
 
     @Override
-    public void deleteScreen(int cinemaNo) throws Exception{
-        int result = screenMapper.deleteScreenByCinemaNo(cinemaNo);
+    public void deleteScreen(ScreenDTO screenDTO) throws Exception{
+        int result = screenMapper.deleteScreenByScreenDTO(screenDTO);
         if(result == 0) throw new RuntimeException("상영관 삭제 DB Error");
     }
 
