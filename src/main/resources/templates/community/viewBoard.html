@@ -32,14 +32,19 @@
         });
     </script>
     <script>
-        function replyUpdate(no, boardNo) {
-        let comment = prompt("수정할 댓글을 입력해주세요: ");
-        if (comment !== null) {
+        function replyUpdate(no, boardNo, content) {
+        let maxLength = 50;
+        let comment = prompt("수정할 댓글을 입력해주세요 (최대 " + maxLength + "자): ", content);
+
+        if (comment !== null && comment.length <= maxLength) {
             // Construct the URL for replyUpdate
             let updateUrl = '/community/updateReply?no=' + encodeURIComponent(no) + '&boardNo=' + encodeURIComponent(boardNo) + '&comment=' + encodeURIComponent(comment);
             location.href = updateUrl;
         } else {
             // Construct the URL for one
+            if (comment !== null) {
+            alert("최대 " + maxLength + "자까지 입력 가능합니다.");
+            }
             let oneUrl = '/community/view?no=' + encodeURIComponent(boardNo);
             location.href = oneUrl;
             }
@@ -98,7 +103,7 @@
             <div th:each="re : ${list}">
                 <b>댓글 <span th:text="${re.reply_no}"></span></b>
                 <div class="text-right" th:if="${#authentication.principal.memberNo == re.member_no}">
-                    <button id="no" class="btn btn-sm" th:data-reply-no="${re.reply_no}" th:data-board-no="${board.boardNo}" onclick="replyUpdate(this.getAttribute('data-reply-no'), this.getAttribute('data-board-no'))">수정</button>
+                    <button id="no" class="btn btn-sm" th:data-reply-no="${re.reply_no}" th:data-board-no="${board.boardNo}" th:data-reply-content="${re.content}" onclick="replyUpdate(this.getAttribute('data-reply-no'), this.getAttribute('data-board-no'), this.getAttribute('data-reply-content'))">수정</button>
                     <a th:href="@{/community/deleteReply(no=${re.reply_no}, boardNo=${board.boardNo})}">
                         <button id="b1" class="btn btn-sm">삭제</button>
                     </a>
@@ -108,7 +113,7 @@
                 <hr>
             </div>
             <td class="t1">댓글</td>
-            <td> <input id="reply" class="form-control" style="height:100px;" /> <br> <button id="b2" class="btn btn-primary">입력</button></td>
+            <td> <input id="reply" class="form-control" style="height:100px;" maxlength='500' placeholder="최대 500자까지 입력 가능합니다."/> <br> <button id="b2" class="btn btn-primary">입력</button></td>
             <hr>
         </div>
     </div>
