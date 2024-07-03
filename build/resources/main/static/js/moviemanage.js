@@ -185,7 +185,15 @@
                             button.text("장르추가 완료");
                             button.addClass('unclickable');
                             button.prop('disabled',true);
+                       },
+                       error:function(data){
+
+                            console.log(data);
+                            alert("장르가 이미 등록되어 있습니다.");
+
                        }
+
+
 
                      })
 
