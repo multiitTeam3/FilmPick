@@ -13,4 +13,6 @@ public interface ScreenService {
     void deleteScreen(int cinemaNo) throws Exception;
 
     ArrayList<ScreenDTO> getScreenList() throws Exception;
+    
+    ArrayList<ScreenDTO> findNotEnrolledScreenByCinemaNo(int cinemaNo) throws Exception;
 }

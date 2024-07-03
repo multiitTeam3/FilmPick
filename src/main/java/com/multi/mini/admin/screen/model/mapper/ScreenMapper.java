@@ -18,6 +18,10 @@ public interface ScreenMapper {
 
     @Delete("DELETE FROM mov_cinema_and_screen WHERE cinema_no = #{ cinema_no}")
     int deleteScreenByCinemaNo(int cinemaNo);
+    
+    
+    
+    ArrayList<ScreenDTO> findNotEnrolledScreenByCinemaNo(int cinemaNo) throws Exception;
 
 
 //    @Update("UPDATE mov_screen SET is_avail = #{ isAvail } WHERE #{ cinemaNo }")

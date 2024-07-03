@@ -38,4 +38,11 @@ public class ScreenServiceImpl implements ScreenService{
         if(list == null) throw new RuntimeException("상영관 리스트 조회 DB Error");
         return list;
     }
+    
+    @Override
+    public ArrayList<ScreenDTO> findNotEnrolledScreenByCinemaNo(int cinemaNo) throws Exception {
+        ArrayList<ScreenDTO> list = screenMapper.findNotEnrolledScreenByCinemaNo(cinemaNo);
+        
+        return list;
+    }
 }
