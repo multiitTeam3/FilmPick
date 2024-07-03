@@ -39,8 +39,7 @@ public class GPTController {
 	
 	public GPTController(MovieService movieService) {
 		this.movieService = movieService;
-		
-		
+
 		
 	}
 	
