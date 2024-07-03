@@ -3,7 +3,7 @@ package com.multi.mini.movie.model.mapper;
 import com.multi.mini.movie.model.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
+import org.apache.ibatis.annotations.Select;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -74,6 +74,6 @@ public interface MovieMapper {
 
 	ArrayList<CinemaDTO> findCinemaList() throws Exception;
 
-
-
+	@Select("SELECT review_no FROM mov_movie_review WHERE member_no = #{ memberNo } AND movie_no = #{ movieNo } LIMIT 1")
+    ReviewDTO findReviewByMemberNo(ReviewDTO reviewDTO);
 }

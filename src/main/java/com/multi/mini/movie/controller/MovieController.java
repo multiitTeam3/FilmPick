@@ -1,12 +1,11 @@
 package com.multi.mini.movie.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.multi.mini.member.model.dto.CustomUserDetails;
 import com.multi.mini.movie.model.dto.*;
 import com.multi.mini.movie.service.MovieService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -691,8 +689,10 @@ public class MovieController {
 		
 		
 		System.out.println(result);
-		
-		
+
+		// 업데이트 정보가 담긴 세션을 새로 선언하여 교체(point 업데이트)
+		Authentication updateAuthentication = new UsernamePasswordAuthenticationToken(userDetails, authentication.getCredentials(), authentication.getAuthorities());
+		SecurityContextHolder.getContext().setAuthentication(updateAuthentication);
 		
 		return ResponseEntity.ok("리뷰 입력됨");
 	}

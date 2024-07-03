@@ -1,5 +1,6 @@
 package com.multi.mini.member.model.mapper;
 
+import com.multi.mini.common.point.model.dto.PointDTO;
 import com.multi.mini.member.model.dto.MemberDTO;
 import org.apache.ibatis.annotations.*;
 
@@ -25,5 +26,8 @@ public interface MemberMapper {
     @Select("SELECT member_no FROM mem_member WHERE email = #{ userEmail }")
     MemberDTO findMemberByEmail(String userEmail);
 
-    
+    @Update("UPDATE mem_member " +
+            "SET point = point + #{ pointChange } " +
+            "WHERE member_no = #{ memberNo }")
+    int updatePoint(PointDTO memberNo);
 }
