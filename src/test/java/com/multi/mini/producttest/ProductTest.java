@@ -15,8 +15,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -57,15 +55,37 @@ public class ProductTest {
 
     }
 
+    @DisplayName("모든상품조회테스트")
+    @Test
+    public void findAllProductTest() throws Exception{
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/product/productmanage"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("product/productmanage"))
+                .andDo(MockMvcResultHandlers.print());
+
+
+
+    }
+
+    @DisplayName("모든카테고리조회테스트")
+    @Test
+    public void findAllCategoryTest() throws Exception{
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/product/category"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+
+
+
+    }
+
     @DisplayName("카테고리로 상품조회테스트")
     @Test
     public void productbycategoryTest() throws Exception{
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("category", "0");
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/product/productbycategory").params(params))
+        mockMvc.perform(MockMvcRequestBuilders.get("/product/productbycategory").param("category", "0"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("product/productselect"))
                 .andDo(MockMvcResultHandlers.print());
 
 
