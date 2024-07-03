@@ -25,6 +25,14 @@
             width: 100%; /* 버튼 너비를 컨테이너에 맞추기 */
         }
     </style>
+    <script>
+        function redirectToMain() {
+            if (window.opener && !window.opener.closed) {
+                window.opener.location.href = "/";
+                window.close();
+            }
+        }
+    </script>
 </head>
 <body>
 <div layout:fragment="content" class="container">
@@ -40,13 +48,13 @@
                     <h2 class="font-weight-bold mb-4">영화정보</h2>
                     <p><strong>영화제목:</strong> <span th:text="${kakaoReadyDTO.movieTitle}"></span></p>
                     <p><strong>예매자:</strong> <span th:text="${kakaoReadyDTO.username}"></span></p>
-                    <p><strong>좌석:</strong> <span th:text="${seatNames}"></span></p>
+                    <p><strong>좌석:</strong> <span th:text="${seatNames.size()}"></span></p>
                     <p><strong>인원:</strong> 성인 <span th:text="${kakaoReadyDTO.adultCount}"></span>명 청소년 <span th:text="${kakaoReadyDTO.teenCount}"></span>명</p>
                     <p><strong>결제금액:</strong> <span th:text="${paymentsDTO.totalPrice}"></span></p>
                     <p><strong>예매번호:</strong> <span th:text="${paymentsDTO.ordCode}"></span></p>
                 </div>
             </div>
-            <a href="/" class="btn btn-primary btn-block mt-3">메인으로</a>
+            <a href="#" class="btn btn-primary btn-block mt-3" onclick="redirectToMain()">메인으로</a>
         </div>
     </div>
 </div>
