@@ -1,4 +1,4 @@
-package com.multi.mini.point;
+package com.multi.mini.aspect.point;
 
 
 import com.multi.mini.common.point.model.dto.PointDTO;
