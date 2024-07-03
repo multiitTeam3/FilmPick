@@ -4,7 +4,7 @@ package com.multi.mini.point;
 import com.multi.mini.common.point.model.dto.PointDTO;
 import com.multi.mini.common.point.service.PointService;
 import com.multi.mini.member.model.dto.CustomUserDetails;
-import com.multi.util.SecurityUtil;
+import com.multi.mini.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.AfterReturning;

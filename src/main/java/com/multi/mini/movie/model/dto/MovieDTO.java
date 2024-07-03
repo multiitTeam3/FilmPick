@@ -7,9 +7,10 @@ import java.sql.Timestamp;
 @Data
 public class MovieDTO {
 
+	private int id;
 	private int movieNo;
 	private String movieTitle;
-	private String genreNo;
+	private int genreNo;
 	private int popularity;
 	private int duration;
 	private String originalLanguage;
@@ -18,9 +19,9 @@ public class MovieDTO {
 	private String posterPath;
 	private Timestamp createDate;
 	private Timestamp modifyDate;
-	
-	
-	
+
+
+
 
 
 
