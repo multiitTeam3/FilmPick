@@ -1,9 +1,9 @@
-package com.multi.mini.point.model.dto;
+package com.multi.mini.common.point.model.dto;
 
 import lombok.Data;
 
 @Data
-public class Point {
+public class PointDTO {
     private int pointTxNo;
     private int memberNo;
     private int pointChange;

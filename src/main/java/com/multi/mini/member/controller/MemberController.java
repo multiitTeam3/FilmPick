@@ -67,6 +67,7 @@ public class MemberController {
         MemberDTO userData = new MemberDTO();
         userData.setMemberNo(userDetails.getMemberNo());
         userData.setPoint(userDetails.getPoint());
+        System.out.println(userData);
 
         try {
             ArrayList<CouponDTO> coupons = couponService.findCouponListByMemberNo(userData.getMemberNo());

@@ -14,4 +14,6 @@ public interface PageService {
     int selectCouponCount(String type, String keyword);
 
     int selectNoticeCount(String type, String keyword);
+
+    int selectTicketingCount(String type, String keyword);
 }

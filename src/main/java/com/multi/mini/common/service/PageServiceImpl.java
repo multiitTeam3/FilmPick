@@ -46,4 +46,10 @@ public class PageServiceImpl implements PageService{
         return count;
     }
 
+    @Override
+    public int selectTicketingCount(String type, String keyword) {
+        int count = pageMapper.selectTicketingCount(type, keyword);
+        return count;
+    }
+
 }
