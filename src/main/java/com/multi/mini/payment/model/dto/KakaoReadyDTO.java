@@ -1,10 +1,7 @@
 package com.multi.mini.payment.model.dto;
 
-import com.multi.mini.member.model.dto.MemberDTO;
-import com.multi.mini.movie.model.dto.ReservationDTO;
 import lombok.Data;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 @Data
