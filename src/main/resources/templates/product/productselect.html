@@ -295,6 +295,11 @@
             $('#' + pnum + 'formcount' ).val(count);
             $('#' + pnum + 'count' ).val(count);
 
+            cprice = Number($('#' + pnum + 'total' ).val());
+            cprice += Number($('#' + pnum + 'price' ).val());
+
+            $('#' + pnum + 'total' ).val(cprice);
+
             //총 가격 변경
             price = Number($('#' + pnum + 'price' ).val());
             total = Number($('#totalprice').val());
@@ -311,11 +316,18 @@
                 $('#' + pnum + 'formcount' ).val(count);
                 $('#' + pnum + 'count' ).val(count);
 
+                cprice = Number($('#' + pnum + 'total' ).val());
+                cprice -= Number($('#' + pnum + 'price' ).val());
+
+                $('#' + pnum + 'total' ).val(cprice);
+
                 //총 가격 변경
                 price = Number($('#' + pnum + 'price' ).val());
                 total = Number($('#totalprice').val());
 
                 $('#totalprice').val(total - price);
+
+
             }
         }
 
@@ -347,6 +359,12 @@
 
             $('#' + pnum + 'formproduct' ).remove();
             $('#' + pnum + 'formcount' ).remove();
+
+            //총 가격 변경
+            price = Number($('#' + pnum + 'total' ).val());
+            total = Number($('#totalprice').val());
+
+            $('#totalprice').val(total - price);
 
             $('#' + pnum + 'total' ).remove();
 
