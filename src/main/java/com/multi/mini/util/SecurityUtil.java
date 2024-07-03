@@ -1,4 +1,4 @@
-package com.multi.util;
+package com.multi.mini.util;
 
 import com.multi.mini.member.model.dto.CustomUserDetails;
 import org.springframework.security.core.Authentication;
