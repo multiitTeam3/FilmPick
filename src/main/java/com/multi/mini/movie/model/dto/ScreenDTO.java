@@ -8,5 +8,5 @@ public class ScreenDTO {
     private String screenCode;
     private String screenName;
     private int totalSeat;
-    private char isAvail;
+    private String isAvail;
 }

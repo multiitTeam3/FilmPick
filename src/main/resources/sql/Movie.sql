@@ -469,7 +469,36 @@ GROUP BY movie.movie_no,
 
 
 
-
+// is_avail 추가함
+CREATE OR REPLACE
+ALGORITHM = UNDEFINED VIEW `movie`.`vw_find_screen_by_cinema` AS
+SELECT
+    `cs`.`cinema_no` AS `cinema_no`
+    , `cs`.`screen_code` AS `screen_code`
+    , `cs`.`is_avail` AS `is_avail`
+    , `s`.`screen_name` AS `screen_name`
+    , count(`sas`.`screen_code`) AS `total_seat`
+FROM
+    (
+        (
+            `movie`.`mov_cinema_and_screen` `cs`
+        JOIN `movie`.`mov_screen` `s` ON
+            (
+                (
+                    `cs`.`screen_code` = `s`.`screen_code`
+                )
+            )
+        )
+    JOIN `movie`.`mov_screen_and_seat` `sas` ON
+        (
+            (
+                `s`.`screen_code` = `sas`.`screen_code`
+            )
+        )
+    )
+GROUP BY
+    `cs`.`cinema_no`
+    , `s`.`screen_name`;
 
 
 
