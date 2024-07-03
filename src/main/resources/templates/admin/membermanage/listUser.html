@@ -56,16 +56,8 @@
             </div>
 
             <ul class="pagination justify-content-center">
-                <li class="page-item" th:classappend="${page == 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{/admin/membermanage(type=${type != null ? type : ''}, keyword=${keyword != null ? keyword : ''}, page=${page != null ? page - 1 : 1})}" th:text="'이전'"></a>
-                </li>
-
                 <li class="page-item" th:each="p : ${#numbers.sequence(1, pages)}" th:classappend="${p == page} ? 'active'">
                     <a class="page-link" th:href="@{/admin/membermanage(type=${type != null ? type : ''}, keyword=${keyword != null ? keyword : ''}, page=${p})}" th:text="${p}"></a>
-                </li>
-
-                <li class="page-item" th:classappend="${page == pages} ? 'disabled'">
-                    <a class="page-link" th:href="@{/admin/membermanage(type=${type != null ? type : ''}, keyword=${keyword != null ? keyword : ''}, page=${page != null ? page + 1 : 1})}" th:text="'다음'"></a>
                 </li>
             </ul>
         </div>

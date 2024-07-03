@@ -39,6 +39,7 @@ public class MemberManagementController {
             model.addAttribute("users", users);;
         } catch (Exception e) {
             model.addAttribute("msg", "회원 리스트 조회 실패");
+            e.printStackTrace();
         }
 
         return "admin/membermanage/listUser";

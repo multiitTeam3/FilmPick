@@ -16,7 +16,6 @@
 		<result property="tempExpDate" column="exp_date" jdbcType="TIMESTAMP"/>
 		<result property="userName" column="user_name"/>
 		<result property="tel" column="tel"/>
-		<result property="img" column="img"/>
 		<result property="point" column="point"/>
 		<result property="address" column="address"/>
 		<result property="createDate" column="crate_date" jdbcType="TIMESTAMP"/>
