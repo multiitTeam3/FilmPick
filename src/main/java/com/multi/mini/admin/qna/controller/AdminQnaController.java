@@ -40,6 +40,10 @@ public class AdminQnaController {
             ArrayList<QnaDTO> questions = qnaService.getQuestionsListAll(type, keyword, pageDTO);
 
             model.addAttribute("questions", questions);
+
+            // 페이징을 위한 파라미터
+            model.addAttribute("type", type);
+            model.addAttribute("keyword", keyword);
             model.addAttribute("pages", pages);
             model.addAttribute("count", questionCount);
         } catch (Exception e) {
