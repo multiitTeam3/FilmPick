@@ -53,6 +53,24 @@
                     </tr>
                 </tbody>
             </table>
+
+            <ul class="pagination justify-content-center">
+                <!-- Previous Page Link -->
+                <li class="page-item" th:classappend="${page == 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{/admin/notice(type=${type != null ? type : ''}, keyword=${keyword != null ? keyword : ''}, page=${page != null ? page - 1 : 1})}" th:text="'이전'"></a>
+                </li>
+
+                <!-- Page Numbers -->
+                <li class="page-item" th:each="p : ${#numbers.sequence(1, pages)}" th:classappend="${p == page} ? 'active'">
+                    <a class="page-link" th:href="@{/admin/notice(type=${type != null ? type : ''}, keyword=${keyword != null ? keyword : ''}, page=${p})}" th:text="${p}"></a>
+                </li>
+
+                <!-- Next Page Link -->
+                <li class="page-item" th:classappend="${page == pages} ? 'disabled'">
+                    <a class="page-link" th:href="@{/admin/notice(type=${type != null ? type : ''}, keyword=${keyword != null ? keyword : ''}, page=${page != null ? page + 1 : 1})}" th:text="'다음'"></a>
+                </li>
+            </ul>
+
             <div class="d-flex justify-content-end">
                 <button class="btn btn-outline-primary me-2" onclick="location.href='/admin/notice/insert'">공지사항 작성</button>
             </div>

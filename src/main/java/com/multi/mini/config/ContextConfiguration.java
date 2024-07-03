@@ -53,6 +53,18 @@ public class ContextConfiguration {
 		
 	}
 	
+	@Bean
+	public ObjectMapper objectMapper(){
+		return new ObjectMapper();
+		
+	}
+	
+	@Bean
+	public Gson gson(){
+		
+		return new Gson();
+		
+	}
 	
 	
 	
