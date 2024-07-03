@@ -30,7 +30,7 @@
                         <span th:case="4">홈페이지/모바일</span>
                         <span th:case="5">기타</span>
                     </td>
-                    <td><a th:href="@{/qna/view(no=${qna.qna_no})}" th:text="${qna.title}"></a></td>
+                    <td><a th:href="@{/qna/view(no=${qna.qna_no})}" th:text="${#strings.abbreviate(qna.title, 10)}"></a></td>
                     <td th:text="${#dates.format(qna.create_date, 'yyyy-MM-dd')}"></td>
                 </tr>
                 </tbody>

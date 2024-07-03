@@ -25,11 +25,11 @@
                 </div>
                 <div class="form-group">
                     <td class="t1">게시글 제목 :</td>
-                    <td><input name="title" th:value="${dto.title}" class="form-control"></td>
+                    <td><input name="title" th:value="${dto.title}" class="form-control" maxlength='50' ></td>
                 </div>
                 <div class="form-group">
                     <td class="t1">게시글 내용 :</td>
-                    <td><input name="content" th:value="${dto.content}" class="form-control" style="height:300px;"></td>
+                    <td><input name="content" th:value="${dto.content}" class="form-control" style="height:300px;" maxlength='3000'></td>
                 </div>
                 <div class="form-group text-right">
                     <a th:href="@{/community/list}">
