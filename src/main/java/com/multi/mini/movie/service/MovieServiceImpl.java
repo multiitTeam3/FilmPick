@@ -271,5 +271,10 @@ public class MovieServiceImpl implements MovieService {
         return list;
     }
 
+    @Override
+    public ReviewDTO findReviewByMemberNoAndMovieNo(ReviewDTO reviewDTO) throws Exception {
+        ReviewDTO review = movieMapper.findReviewByMemberNo(reviewDTO);
+        return review;
+    }
 }
 

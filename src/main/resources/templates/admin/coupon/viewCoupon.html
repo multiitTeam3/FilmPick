@@ -66,18 +66,19 @@
             </button>
         </div>
 
-        <th:block th:if="${pages != null}">
-            <div class="d-flex justify-content-center">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-secondary btn-sm previous">이전</button>
-                    <th:block th:each="p : ${#numbers.sequence(1, pages)}">
-                        <button type="button" class="btn btn btn-outline-dark btn-sm me-2 pages"
-                                th:text="${p}"></button>
-                    </th:block>
-                    <button type="button" class="btn btn-secondary btn-sm  next">다음</button>
-                </div>
-            </div>
-        </th:block>
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${page == 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{/admin/coupon(type=${type != null ? type : ''}, keyword=${keyword != null ? keyword : ''}, page=${page != null ? page - 1 : 1})}" th:text="'이전'"></a>
+                </li>
+
+                <li class="page-item" th:each="p : ${#numbers.sequence(1, pages)}" th:classappend="${p == page} ? 'active'">
+                    <a class="page-link" th:href="@{/admin/notice(type=${type != null ? type : ''}, keyword=${keyword != null ? keyword : ''}, page=${p})}" th:text="${p}"></a>
+                </li>
+
+                <li class="page-item" th:classappend="${page == pages} ? 'disabled'">
+                    <a class="page-link" th:href="@{/admin/coupon(type=${type != null ? type : ''}, keyword=${keyword != null ? keyword : ''}, page=${page != null ? page + 1 : 1})}" th:text="'다음'"></a>
+                </li>
+            </ul>
 
         <!-- 쿠폰 등록 모달 -->
         <div class="modal fade" id="couponModal" tabindex="-1" aria-labelledby="couponModalLabel" aria-hidden="true">

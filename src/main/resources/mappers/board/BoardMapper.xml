@@ -29,8 +29,8 @@
 		FROM BOARD b
 		JOIN MEMBER m ON b.MEMBER_NO = m.MEMBER_NO
 		<if test="page != null">
-			ORDER BY b.BOARD_NO DESC
-			LIMIT #{start}, #{end}
+			ORDER BY b.board_no DESC
+			LIMIT #{start}, 10
 		</if>
 	</select>
 

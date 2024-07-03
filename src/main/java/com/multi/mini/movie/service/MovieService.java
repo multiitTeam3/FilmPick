@@ -61,4 +61,5 @@ public interface MovieService {
 	
 	ArrayList<MovieDTO> findAllAPIMovieList() throws Exception;
 
+	ReviewDTO findReviewByMemberNoAndMovieNo(ReviewDTO reviewDTO) throws Exception;
 }
