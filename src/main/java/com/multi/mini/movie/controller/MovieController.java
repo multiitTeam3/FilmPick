@@ -449,7 +449,19 @@ public class MovieController {
 			
 			System.out.println("count : " + count);
 			
-			int pages = (count / 3) + 1 ;
+			int pages =0;
+			
+			if (count%3==0){
+				
+				pages =(int) (count / 3);
+				
+				
+			}else {
+				
+				pages =(int) (count / 3) + 1 ;
+				
+			}
+
 			
 			System.out.println("pages : " +pages);
 			

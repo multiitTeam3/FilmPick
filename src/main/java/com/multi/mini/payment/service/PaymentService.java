@@ -2,6 +2,7 @@ package com.multi.mini.payment.service;
 
 
 import com.multi.mini.admin.coupon.model.dto.CouponDTO;
+import com.multi.mini.payment.model.dto.PayMovieDTO;
 import com.multi.mini.payment.model.dto.PaymentsDTO;
 import com.multi.mini.payment.model.dto.VwGetResDataDTO;
 
@@ -22,4 +23,8 @@ public interface PaymentService {
 	void useCoupon(int memberNo, String couponCode) throws Exception;
 
 	int deletePaymentByReservation(int rsvNO) throws Exception;
+
+	int insertPaymentMovie(PayMovieDTO payMovieDTO) throws Exception;
+
+	Integer selectPaymentNo() throws Exception;
 }
