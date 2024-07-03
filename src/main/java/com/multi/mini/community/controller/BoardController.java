@@ -144,7 +144,6 @@ public class BoardController {
     @GetMapping("/deleteBoard")
     public String deleteBoard(@RequestParam("no") int no, Model model) throws Exception{
         try {
-            System.out.println("-------------------------------------" + no);
             boardService.deleteBoard(no);
             model.addAttribute("msg", "게시글 삭제 성공");
         } catch (Exception e) {
@@ -156,7 +155,7 @@ public class BoardController {
     @PostMapping("/updateBoard")
     public String updateBoard(BoardDTO boardDTO) throws Exception {
         boardService.updateBoard(boardDTO);
-        return "redirect:/community/list";
+        return "redirect:/community/view?no=" + boardDTO.getBoardNo();
     }
 
 
