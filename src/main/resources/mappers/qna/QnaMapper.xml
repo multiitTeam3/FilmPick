@@ -13,6 +13,7 @@
 
 	<resultMap id="QnaResultMap" type="qnaDTO">
 		<id property="qna_no" column="qna_no" />
+		<result property="rowNum" column="row_num" />
 		<result property="category" column="category" />
 		<result property="member_no" column="member_no" />
 		<result property="memberEmail" column="email" />
@@ -47,7 +48,8 @@
 
 	<select id="selectAll" parameterType="int" resultMap="QnaResultMap">
 		SELECT
-			q.*
+			  ROW_NUMBER() OVER (ORDER BY qna_no  DESC) AS row_num
+			, q.*
 			, m.member_no
 			, m.user_name
 			, m.email

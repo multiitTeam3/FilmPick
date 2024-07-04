@@ -19,40 +19,13 @@
           <td th:text="${res.movieTitle}"></a></td>
           <td th:text="${res.cinemaName}"></a></td>
           <td th:text="${res.screenName}"></td>
-          <td th:text="${res.seatNum}"></td>
+          <td th:text="${res.seatName}"></td>
           <td th:text="${res.totalPrice}"></td>
-          <td th:text="${res.createDate}"></td>
-          <td th:text="${res.showDate}"></td>
-          <td th:text="${res.rsvDate}"></td>
+          <td th:text="${res.date}"></td>
+          <td th:text="${res.dayDate}"></td>
         </tr>
     </tbody>
+    <tr th:if="${memberRes == null or #lists.isEmpty(memberRes)}">
+        <td colspan="7" class="text-center">예매 내역이 없습니다</td>
+    </tr>
 </table>
-<!--<p>구매 목록 내용</p>-->
-<!--<table class="table table-hover table-bordered" w-80>-->
-<!--    <thead class="table-dark">-->
-<!--    <tr>-->
-<!--        <th scope="col">No</th>-->
-<!--        <th scope="col">쿠폰 코드</th>-->
-<!--        <th scope="col">회원 이메일</th>-->
-<!--        <th scope="col">설명</th>-->
-<!--        <th scope="col">사용 여부</th>-->
-<!--        <th scope="col">사용일</th>-->
-<!--        <th scope="col">발급일자</th>-->
-<!--        <th scope="col">만료일자</th>-->
-<!--        <th scope="col">삭제</th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-<!--    <tbody>-->
-    <!--        <tr th:each="coupon : ${coupons}">-->
-    <!--          <th scope="row" th:text="${coupon.rowNum}"></th>-->
-    <!--          <td th:text="${coupon.couponCode}"></a></td>-->
-    <!--          <td th:text="${coupon.member.email}"></a></td>-->
-    <!--          <td th:text="${coupon.description}"></td>-->
-    <!--          <td th:text="${coupon.discount}"></td>-->
-    <!--          <td th:text="${coupon.useDate}"></td>-->
-    <!--          <td th:text="${coupon.createDate}"></td>-->
-    <!--          <td th:text="${coupon.expDate}"></td>-->
-    <!--          <td><a th:href="@{/admin/coupon/delete(code=${coupon.couponCode})}"><button type="button" class="btn btn-primary">삭제</button></a></td>-->
-<!--    </tr>-->
-<!--    </tbody>-->
-<!--</table>-->

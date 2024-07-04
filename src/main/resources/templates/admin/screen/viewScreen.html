@@ -89,7 +89,7 @@
                     <td colspan="5" class="text-center">조회 정보가 없습니다</td>
                 </tr>
                 <tr th:each="screen : ${screens}">
-                    <th scope="row" th:text="${screen.screenName}"></th>
+                    <th scope="row" th:text="${screen.rowNum}"></th>
                     <td th:text="${screen.isAvail}"></a></td>
                     <td th:text="${screen.totalSeat}"></td>
                     <td>
@@ -99,7 +99,7 @@
                         </button>
                     </td>
                     <td><a th:href="@{/admin/cinemamanage/screen/delete(no=${screen.cinemaNo}, code=${screen.screenCode})}">
-                        <button type="button" class="btn btn-primary">삭제</button>
+                        <button type="button" class="btn btn-danger">삭제</button>
                     </a></td>
                 </tr>
                 </tbody>

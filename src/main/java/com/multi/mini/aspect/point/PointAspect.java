@@ -22,14 +22,14 @@ public class PointAspect {
     private final PointService pointService;
     private final MovieService movieService;
 
-    // 영화 예매 시 포인트 적립 추후 수정
-    @AfterReturning("execution(* com.multi.mini.payment.service.paymentServiceImpl.markReservationAsPaid(..))")
+    // 영화 예매 시 포인트 적립
+    @AfterReturning("execution(* com.multi.mini.payment.service.KakaoPayService.approveProduct(..))")
     public void addPointByTicketing() {
         CustomUserDetails userDetails = SecurityUtil.getUserDetails();
 
         int userNo = userDetails.getMemberNo();
         int point = ticketingPoint();
-        String description = "영화 예매";
+        String description = "영화 예매 또는 상품 구매";
 
         PointDTO pointDTO = new PointDTO();
         pointDTO.setMemberNo(userNo);
@@ -40,7 +40,7 @@ public class PointAspect {
         try {
             log.debug("log debug point controller = {}", pointDTO);
             pointService.addPoints(pointDTO);
-            System.out.println("영화 예매 포인트 적립 완료");
+            System.out.println("영화 예매 or 상품 구매 포인트 적립 완료");
         } catch (Exception e) {
             log.error("log error point insert = ", e);
         }

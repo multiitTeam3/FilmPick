@@ -109,7 +109,7 @@ public class MemberController {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         PageDTO pageDTO = new PageDTO();
         pageDTO.setStart(0);
-        pageDTO.setEnd(5);
+        pageDTO.setEnd(10);
 
         try {
             ArrayList<MyPageReservationDetailsDTO> memberRes = movieService.getMyMovieReservations(userDetails.getMemberNo(), pageDTO);

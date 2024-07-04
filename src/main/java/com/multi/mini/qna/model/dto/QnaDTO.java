@@ -7,6 +7,7 @@ import java.util.Date;
 @Data
 public class QnaDTO {
     private int qna_no;
+    private int rowNum;
     private int category;
     private int member_no;
     private String memberEmail;

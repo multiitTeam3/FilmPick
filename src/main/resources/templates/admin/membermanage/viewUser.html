@@ -3,40 +3,43 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
+	<link rel="stylesheet" th:href="@{/css/container-box.css}">
 </head>
 <body>
 <div layout:fragment="content">
 	<div class="container">
-		<h2 class="text-center mb-4">회원 관리</h2>
-		<hr color="grey">
+		<<div class="container-box text-center">
+			<h1>관리자 페이지</h1>
+		</div>
+		<div class="container-box">
+			<div class="card" style="width: 18rem;">
+				<!--					<img th:src="@{/img/member/{userImg}(userImg=${user.img})}" class="card-img-top" alt="...">-->
+				<div class="card-body">
+					<h5 class="card-title">회원 정보</h5>
+				</div>
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item">회원 번호 : [[${ user.memberNo }]]</li>
+					<li class="list-group-item">이메일 : [[${ user.email }]]</li>
+					<li class="list-group-item">닉네임 : [[${ user.userName }]]</li>
+					<li class="list-group-item">포인트 : [[${ user.point }]]</li>
+					<li class="list-group-item">전화번호 : [[${ user.tel }]]</li>
+					<li class="list-group-item">주소 : [[${ user.address }]]</li>
+					<li class="list-group-item">생성일자 : [[${ user.createDate }]]</li>
+					<li class="list-group-item">
+						<div th:each="role : ${user.roles}">
+							<div th:if="${role.roleName == 'ROLE_USER'}">권한: 일반 회원</div>
+							<div th:if="${role.roleName == 'ROLE_STAFF'}">권한: 스태프</div>
+						</div>
+					</li>
+				</ul>
+				<div class="card-body">
 
-		<div class="card" style="width: 18rem;">
-			<!--					<img th:src="@{/img/member/{userImg}(userImg=${user.img})}" class="card-img-top" alt="...">-->
-			<div class="card-body">
-				<h5 class="card-title">회원 정보</h5>
-			</div>
-			<ul class="list-group list-group-flush">
-				<li class="list-group-item">회원 번호 : [[${ user.memberNo }]]</li>
-				<li class="list-group-item">이메일 : [[${ user.email }]]</li>
-				<li class="list-group-item">닉네임 : [[${ user.userName }]]</li>
-				<li class="list-group-item">포인트 : [[${ user.point }]]</li>
-				<li class="list-group-item">전화번호 : [[${ user.tel }]]</li>
-				<li class="list-group-item">주소 : [[${ user.address }]]</li>
-				<li class="list-group-item">생성일자 : [[${ user.createDate }]]</li>
-				<li class="list-group-item">
-					<div th:each="role : ${user.roles}">
-						<div th:if="${role.roleName == 'ROLE_USER'}">권한: 일반 회원</div>
-						<div th:if="${role.roleName == 'ROLE_STAFF'}">권한: 스태프</div>
-					</div>
-				</li>
-			</ul>
-			<div class="card-body">
+					<button data-bs-toggle="modal" data-bs-target="#updateModal" type="button" class="btn btn-outline-primary me-2">
+						회원 수정
+					</button>
 
-				<button data-bs-toggle="modal" data-bs-target="#updateModal" type="button" class="btn btn-outline-primary me-2">
-					회원 수정
-				</button>
-
-				<a th:href="@{/admin/membermanage/find/delete(no=${user.memberNo})}" class="card-link">회원 삭제</a>
+					<a th:href="@{/admin/membermanage/find/delete(no=${user.memberNo})}" class="card-link">회원 삭제</a>
+				</div>
 			</div>
 		</div>
 	</div>

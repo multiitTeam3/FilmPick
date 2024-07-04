@@ -44,7 +44,7 @@
                         <td colspan="6" class="text-center">조회 정보가 없습니다</td>
                     </tr>
                 <tr th:each="qna : ${questions}">
-                    <th scope="row" th:text="${qna.qna_no}"></th>
+                    <th scope="row" th:text="${qna.rowNum}"></th>
                     <td th:switch="${qna.category}">
                         <span th:case="1">예매/매표</span>
                         <span th:case="2">할인 혜택</span>

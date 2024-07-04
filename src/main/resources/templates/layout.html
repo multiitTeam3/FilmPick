@@ -111,10 +111,10 @@
             </th:block>
 
         <th:block sec:authorize="hasAnyAuthority('ROLE_USER', 'ROLE_STAFF', 'ROLE_ADMIN')">
-            <th:block sec:authorize="hasAnyAuthority('ROLE_ADMIN', 'Role_STAFF')">
-                <button type="button" th:onclick="|location.href='@{/admin}'|" class="btn btn-outline-primary me-2">Admin</button>
+            <th:block sec:authorize="hasAnyAuthority('ROLE_ADMIN', 'ROLE_STAFF')">
+                <button type="button" th:onclick="|location.href='@{/admin/movie/moviemanage}'|" class="btn btn-outline-primary me-2">Admin</button>
             </th:block>
-            <th:block sec:authorize="hasAnyAuthority('ROLE_STAFF', 'ROLE_ADMIN')">
+            <th:block sec:authorize="hasAnyAuthority('ROLE_STAFF', 'ROLE_USER')">
                 <button type="button" th:onclick="|location.href='@{/member/profile}'|" class="btn btn-outline-primary me-2">MyPage</button>
             </th:block>
             <button type="button" th:onclick="|location.href='@{/logout}'|" class="btn btn-outline-primary me-2">Logout</button>

@@ -36,7 +36,7 @@ public class AuthServiceImpl implements AuthService{
             // 권한 관련 DTO
             MemberAndRoleDTO memberAndRoleData = new MemberAndRoleDTO();
             memberAndRoleData.setMemberNo(userData.getMemberNo());
-            memberAndRoleData.setRoleNo(2);
+            memberAndRoleData.setRoleNo(3);
 
             int roleResult = authMapper.insertMemberAndRole(memberAndRoleData);
             if (roleResult == 0) throw new Exception("권한 추가에 실패했습니다.");

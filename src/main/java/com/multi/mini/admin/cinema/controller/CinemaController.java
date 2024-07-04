@@ -77,7 +77,7 @@ public class CinemaController {
     }
 
     @GetMapping("/delete")
-    public String deleteCinema(@RequestParam("code") int cinemaNo, RedirectAttributes redirectAttributes) {
+    public String deleteCinema(@RequestParam("no") int cinemaNo, RedirectAttributes redirectAttributes) {
         try {
             cinemaService.deleteCinema(cinemaNo);
             redirectAttributes.addFlashAttribute("msg",  "영화관 삭제에 성공했습니다.");

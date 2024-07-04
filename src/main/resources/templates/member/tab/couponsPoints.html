@@ -23,7 +23,7 @@
         <td colspan="7" class="text-center">조회 정보가 없습니다</td>
     </tr>
     <tr th:each="coupon : ${coupons}">
-<!--      <th scope="row" th:text="${coupon.rowNum}"></th>-->
+     <th scope="row" th:text="${coupon.rowNum}"></th>
       <td th:text="${coupon.couponCode}"></a></td>
       <td th:text="${coupon.description}"></td>
       <td th:text="${coupon.discount}"></td>
