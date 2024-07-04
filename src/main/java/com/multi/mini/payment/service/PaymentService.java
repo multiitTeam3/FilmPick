@@ -2,9 +2,7 @@ package com.multi.mini.payment.service;
 
 
 import com.multi.mini.admin.coupon.model.dto.CouponDTO;
-import com.multi.mini.payment.model.dto.PayMovieDTO;
-import com.multi.mini.payment.model.dto.PaymentsDTO;
-import com.multi.mini.payment.model.dto.VwGetResDataDTO;
+import com.multi.mini.payment.model.dto.*;
 
 import java.util.List;
 
@@ -27,4 +25,9 @@ public interface PaymentService {
 	int insertPaymentMovie(PayMovieDTO payMovieDTO) throws Exception;
 
 	Integer selectPaymentNo() throws Exception;
+
+
+	PayProductDTO selectProductByPay(int papProductNo) throws Exception;
+
+	PayProductAndPaymentDTO insertPaymentProduct(int papProductNo) throws Exception;
 }

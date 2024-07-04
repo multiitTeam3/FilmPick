@@ -2,6 +2,7 @@ package com.multi.mini.product.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.multi.mini.member.model.dto.CustomUserDetails;
+import com.multi.mini.payment.model.dto.KakaoReadyProductDTO;
 import com.multi.mini.payment.model.dto.PayProductDTO;
 import com.multi.mini.product.model.dto.CategoryDTO;
 import com.multi.mini.product.model.dto.ProductDTO;
@@ -22,7 +23,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -154,27 +157,76 @@ public class ProductController {
     }
 
     @PostMapping("basketpay")
-    public String basketpay(Model model, @RequestParam("totalprice") int totalprice,HttpServletRequest request) throws Exception {
+    public String basketpay(Model model, @RequestParam("totalprice") int totalPrice, HttpServletRequest request) throws Exception{
 
-        String[] productNo = request.getParameterValues("productnum");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        String[] productNoList = request.getParameterValues("productnum");
         String[] quantity = request.getParameterValues("productcount");
 
-        ArrayList<PayProductDTO> list = new ArrayList<>();
 
-        for (int i = 0; i < productNo.length; i++) {
-            ProductDTO p =  productService.findProductByProductNo(Integer.parseInt(productNo[i]));
+        Map<String, PayProductDTO> productMap = new HashMap<>();
 
-            PayProductDTO productDTO = new PayProductDTO();
+        //총합상품계수
+        int totalQuantity = 0;
 
-            productDTO.setPapProductNo(p.getProductNo());
-            productDTO.setProductName(p.getName());
-            productDTO.setProductQuantity(Integer.parseInt(quantity[i]));
 
-            list.add(productDTO);
+
+
+        // 유저정보
+        int MemberNo = userDetails.getMemberNo();
+        String UserName = userDetails.getUsername();
+
+
+        for (int i = 0; i < productNoList.length; i++) {
+            int productNo = Integer.parseInt(productNoList[i]);
+            int qty = Integer.parseInt(quantity[i]);
+
+            totalQuantity += qty;
+
+            ProductDTO p = productService.findProductByProductNo(productNo);
+
+            System.out.println("Product No: " + productNo);
+            System.out.println("Total Quantity: " + totalQuantity);
+
+            // 이미지 URL 생성
+            String imageUrl = "/static/img/uploadFiles/" + p.getProductImg();
+
+            // PayProductDTO 객체 생성 및 설정
+            PayProductDTO payProduct = new PayProductDTO();
+            payProduct.setPosterPath(imageUrl);
+            payProduct.setProductName(p.getName());
+            payProduct.setProductNo(productNo);
+
+            // 기존에 같은 이미지가 있으면 수량을 합산
+            if (productMap.containsKey(imageUrl)) {
+                PayProductDTO existingProduct = productMap.get(imageUrl);
+                existingProduct.setProductQuantity(existingProduct.getProductQuantity() + qty);
+            } else {
+                payProduct.setProductQuantity(qty);
+                productMap.put(imageUrl, payProduct);
+
+            }
         }
-        model.addAttribute("PayProductDTOList",list);
-        model.addAttribute("totalprice",totalprice);
 
-        return "payment/payment_product";
+        // model에 유저 정보 및 총합 수량, 총 가격 설정
+        model.addAttribute("MemberNo", MemberNo);
+        model.addAttribute("UserName", UserName);
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("totalQuantity", totalQuantity);
+
+
+        // 중복 제거된 상품 정보 model에 추가
+        model.addAttribute("productImgAndName", productMap.values());
+
+
+        System.out.println("PRODUCT MAP"+productMap);
+
+
+
+        return "/payment/paymentProduct";
+
     }
+
 }

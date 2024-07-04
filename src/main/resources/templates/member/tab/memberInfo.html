@@ -6,7 +6,7 @@
 
     <div class="form-group">
         <label for="password">비밀번호</label> <br>
-        <button id="password" name="password">비밀번호 변경</button>
+        <button type="button" class="btn btn-secondary" id="password" onclick="changePassword()">비밀번호 변경</button>
     </div>
 
     <div class="form-group">
@@ -26,3 +26,9 @@
     <button type="button" class="btn btn-danger me-2" onclick="cancelReservation()">회원 탈퇴</button>
     <button type="button" class="btn btn-success btn-block" onclick="showUpdateMember()">회원 정보 변경</button>
 </form>
+
+<script>
+    function changePassword() {
+            window.open("/password","_blank", "width=400,height=300,menubar=no,toolbar=no")
+        }
+</script>

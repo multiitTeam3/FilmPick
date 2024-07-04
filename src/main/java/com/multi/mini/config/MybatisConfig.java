@@ -1,9 +1,7 @@
 package com.multi.mini.config;
 
 import com.multi.mini.movie.model.dto.*;
-import com.multi.mini.payment.model.dto.PayMovieDTO;
-import com.multi.mini.payment.model.dto.PaymentsDTO;
-import com.multi.mini.payment.model.dto.VwGetResDataDTO;
+import com.multi.mini.payment.model.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.JdbcType;
@@ -29,16 +27,16 @@ public class MybatisConfig {
 
     @Bean
     public SqlSessionFactory sqlSessoinFactory(DataSource datasource) throws Exception{
-        SqlSessionFactoryBean seb  = new SqlSessionFactoryBean();
-        Resource[] res = new PathMatchingResourcePatternResolver().getResources("classpath:mappers/**/*.xml");
+        SqlSessionFactoryBean factoryBean  = new SqlSessionFactoryBean();
+        Resource[] res = new PathMatchingResourcePatternResolver().getResources("classpath:mappers/**/*.xml"); // 매퍼 경로 설정
 
-        seb.setMapperLocations(res);
+        factoryBean.setMapperLocations(res);
 
-        seb.setDataSource(datasource);
+        factoryBean.setDataSource(datasource);
 
-        org.apache.ibatis.session.Configuration configuration = new  org.apache.ibatis.session.Configuration();
-        configuration.setJdbcTypeForNull(JdbcType.NULL);
-        configuration.setMapUnderscoreToCamelCase(true);
+        org.apache.ibatis.session.Configuration configuration = new  org.apache.ibatis.session.Configuration(); // xml 파일 대체
+        configuration.setJdbcTypeForNull(JdbcType.NULL); // Null처리
+        configuration.setMapUnderscoreToCamelCase(true); // 카멜 케이스 자동 변환
 
         // Type Aliases 설정
         configuration.getTypeAliasRegistry().registerAlias("memberDTO", com.multi.mini.member.model.dto.MemberDTO.class);
@@ -90,16 +88,16 @@ public class MybatisConfig {
 
         configuration.getTypeAliasRegistry().registerAlias("payMovieDTO", PayMovieDTO.class);
 
+        configuration.getTypeAliasRegistry().registerAlias("payProductDTO", PayProductDTO.class);
+
+        configuration.getTypeAliasRegistry().registerAlias("payProductAndPaymentDTO", PayProductAndPaymentDTO.class);
 
 
 
 
-       
+        factoryBean.setConfiguration(configuration); // 팩토리 빈에 세팅
 
-
-        seb.setConfiguration(configuration);
-
-        return seb.getObject();
+        return factoryBean.getObject();
 
 
     }
