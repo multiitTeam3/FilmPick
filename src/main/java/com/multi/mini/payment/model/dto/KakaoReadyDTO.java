@@ -17,6 +17,7 @@ public class KakaoReadyDTO {
     private ArrayList<Integer> rsvNoList;
     private VwGetResDataDTO rsv;
     private String movieTitle;
+    private String productName;
     private String seat;
     private String payMethod;
     private int totalPrice;

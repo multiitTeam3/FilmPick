@@ -674,7 +674,7 @@ public class MovieController {
 		
 		reviewDTO.setMemberNo(memberNO);
 		
-		System.out.println(reviewDTO);
+		System.out.println("reviewDTO : " + reviewDTO);
 		
 		int result = 0;
 		try {
