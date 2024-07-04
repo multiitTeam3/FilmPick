@@ -17,42 +17,43 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 @RequestMapping("/admin/cinemamanage/screen")
 public class ScreenController {
-	private final ScreenService screenService;
-	private final MovieService movieService;
-	
-	@GetMapping
-	public String showScreenManage(@RequestParam("no") int cinemaNo, Model model) {
-		try {
-			ArrayList<ScreenDTO> ScreenList = screenService.getScreenByCinemaNo(cinemaNo);
-			ArrayList<ScreenDTO> ScreenNameList = screenService.getScreenList();
-			ArrayList<MovieDTO> movieList = movieService.findMovieList();
-			String minDate = LocalDate.now().toString();
-			
-			ScreenNameList.get(0).setCinemaNo(cinemaNo);
-			
-			model.addAttribute("screens", ScreenList);
-			model.addAttribute("screensNames", ScreenNameList);
-			model.addAttribute("movies", movieList);
-			model.addAttribute("minDate", minDate);
-		} catch (Exception e) {
-			model.addAttribute("msg", "상영관 목록 조회에 실패했습니다.");
-		}
-		
-		return "admin/screen/viewScreen";
-	}
-	
-	@PostMapping("/insert")
-	public String createScreen(ScreenDTO screenDTO, RedirectAttributes redirectAttributes) {
-		System.out.println("screenDTO : " + screenDTO);
-		
-		try {
-			screenService.insertScreenByCinemaNo(screenDTO);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		
-		return "redirect:/admin/cinemamanage/screen?no=" + screenDTO.getCinemaNo();
-	}
+    private final ScreenService screenService;
+    private final MovieService movieService;
+
+    @GetMapping
+    public String showScreenManage(@RequestParam("no") int cinemaNo, Model model) {
+        try {
+            ArrayList<ScreenDTO> ScreenList = screenService.getScreenByCinemaNo(cinemaNo);
+            ArrayList<ScreenDTO> ScreenNameList = screenService.getScreenList();
+            ArrayList<MovieDTO> movieList = movieService.findMovieList();
+            String minDate = LocalDate.now().toString();
+
+            ScreenNameList.get(0).setCinemaNo(cinemaNo);
+
+            // 페이징을 위한 파라미터
+            model.addAttribute("screens", ScreenList);
+            model.addAttribute("screensNames", ScreenNameList);
+            model.addAttribute("movies", movieList);
+            model.addAttribute("minDate", minDate);
+        } catch (Exception e) {
+            model.addAttribute("msg", "상영관 목록 조회에 실패했습니다.");
+        }
+
+        return "admin/screen/viewScreen";
+    }
+
+    @PostMapping("/insert")
+    public String createScreen(ScreenDTO screenDTO, RedirectAttributes redirectAttributes) {
+        System.out.println("screenDTO : " + screenDTO);
+
+        try {
+            screenService.insertScreenByCinemaNo(screenDTO);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return "redirect:/admin/cinemamanage/screen?no=" + screenDTO.getCinemaNo();
+    }
 
 //    @PostMapping
 //    public String updateScreen(ScreenDTO screenDTO, RedirectAttributes redirectAttributes) {
@@ -64,43 +65,53 @@ public class ScreenController {
 //        }
 //        return "redirect:/admin/cinemamanage/screen";
 //    }
-	
-	@GetMapping("/delete")
-	public String deleteScreen(@RequestParam("no") int cinemaNo, @RequestParam("code") String screenCode, RedirectAttributes redirectAttributes) {
-		
-		System.out.println("deleteScreen cinemaNo : " + cinemaNo);
-		System.out.println("deleteScreen screenCode : " + screenCode);
-		
-		ScreenDTO screenDTO = new ScreenDTO();
-		screenDTO.setScreenCode(screenCode);
-		screenDTO.setCinemaNo(cinemaNo);
-		
-		
-		try {
-			screenService.deleteScreen(screenDTO);
-			redirectAttributes.addFlashAttribute("msg", "상영관 삭제에 성공했습니다.");
-		} catch (Exception e) {
-			redirectAttributes.addFlashAttribute("msg", "상영관 삭제에 실패했습니다.");
-		}
-		return "redirect:/admin/cinemamanage/screen?no=" + cinemaNo;
-	}
-	
-	@PostMapping("findNotEnrolledScreenByCinemaNo")
-	@ResponseBody
-	public ArrayList<ScreenDTO> findNotEnrolledScreenByCinemaNo(@RequestParam("cinemaNo") int cinemaNo) {
-		
-		
-		ArrayList<ScreenDTO> list = null;
-		try {
-			list = screenService.findNotEnrolledScreenByCinemaNo(cinemaNo);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		
-		System.out.println("findNotEnrolledScreenByCinemaNo : " + list);
-		
-		return list;
-		
-	}
-	
+
+    @GetMapping("/delete")
+    public String deleteScreen(@RequestParam("no") int cinemaNo, @RequestParam("code") String screenCode, RedirectAttributes redirectAttributes) {
+
+        System.out.println("deleteScreen cinemaNo : " + cinemaNo);
+        System.out.println("deleteScreen screenCode : " + screenCode);
+
+        ScreenDTO screenDTO = new ScreenDTO();
+        screenDTO.setScreenCode(screenCode);
+        screenDTO.setCinemaNo(cinemaNo);
+
+
+        try {
+            screenService.deleteScreen(screenDTO);
+            redirectAttributes.addFlashAttribute("msg", "상영관 삭제에 성공했습니다.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("msg", "상영관 삭제에 실패했습니다.");
+        }
+        return "redirect:/admin/cinemamanage/screen?no=" + cinemaNo;
+    }
+
+    @PostMapping("findNotEnrolledScreenByCinemaNo")
+    @ResponseBody
+    public ArrayList<ScreenDTO> findNotEnrolledScreenByCinemaNo(@RequestParam("cinemaNo") int cinemaNo) {
+
+
+        ArrayList<ScreenDTO> list = null;
+        try {
+            list = screenService.findNotEnrolledScreenByCinemaNo(cinemaNo);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println("findNotEnrolledScreenByCinemaNo : " + list);
+
+        return list;
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
 }
