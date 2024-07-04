@@ -43,6 +43,53 @@ public class KakaoController {
         return "redirect:" + redirectUrl;
     }
 
+
+    @PostMapping("/kakaoProductPay")
+    public String kakaoPayProduct(@RequestParam("productNames") List<String> productNames,
+                                  @RequestParam("productQuantities") List<Integer> productQuantities,
+                                  @RequestParam("productNos") List<Integer> productNos,
+                                  @RequestParam("totalPrice") int totalprice,
+                                  @RequestParam("memberNo") int memberNo,
+                                  @RequestParam("username") String username,
+                                  @RequestParam("totalQuantity") int totalQuantity,
+                                  HttpSession session) throws Exception {
+
+
+
+        List<PayProductDTO> payProductDTOList = new ArrayList<>();
+        for (int i = 0; i < productNames.size(); i++) {
+            PayProductDTO payProductDTO = new PayProductDTO();
+            payProductDTO.setProductName(productNames.get(i));
+            payProductDTO.setProductQuantity(productQuantities.get(i));
+            payProductDTO.setProductNo(productNos.get(i));
+            payProductDTOList.add(payProductDTO);
+
+            System.out.println(payProductDTOList);
+        }
+
+        System.out.println(payProductDTOList);
+
+
+        String partnerOrderId = UUID.randomUUID().toString();
+
+        session.setAttribute("payProductDTOList",payProductDTOList);
+        session.setAttribute("totalprice",totalprice);
+        session.setAttribute("memberNo",memberNo);
+        session.setAttribute("username",username);
+        session.setAttribute("totalQuantity",totalQuantity);
+        session.setAttribute("productNames",productNames);
+        session.setAttribute("productQuantities",productQuantities);
+
+
+        System.out.println("11111111111111"+payProductDTOList);
+
+
+
+        String redirectUrl = kakaoPayService.kakaoPayReadyProduct(payProductDTOList, totalprice, memberNo, username, partnerOrderId,totalQuantity);
+
+        return "redirect:" + redirectUrl;
+    }
+
     @Transactional
     @GetMapping("/kakaoPaySuccess")
     public String kakaoPaySuccess(@RequestParam("pg_token")String pg_token, @RequestParam("partnerOrderId") String partnerOrderId,HttpSession session,Model model) throws Exception {
@@ -137,6 +184,54 @@ public class KakaoController {
 
         return "payment/kakaoPaySuccess";
     }
+
+    @Transactional
+    @GetMapping("/kakaoPayProductSuccess")
+    public String kakaoPayProductSuccess(@RequestParam("pg_token")String pg_token, @RequestParam("partnerOrderId") String partnerOrderId,HttpSession session,Model model) throws Exception {
+
+
+        List<PayProductDTO> payProductDTOList = (List<PayProductDTO>) session.getAttribute("payProductDTOList");
+        int totalprice = (int) session.getAttribute("totalprice");
+        int memberNo = (int) session.getAttribute("memberNo");
+        String username = (String) session.getAttribute("username");
+        int totalQuantity = (int) session.getAttribute("totalQuantity");
+
+
+
+        String approveResponse = kakaoPayService.approveProduct(pg_token,partnerOrderId, username);
+
+        PaymentsDTO paymentsDTO = new PaymentsDTO();
+        paymentsDTO.setPayMethod("KAKAO");
+        paymentsDTO.setOrdCode(partnerOrderId);
+        paymentsDTO.setDiscount(0);
+        paymentsDTO.setMemberNo(memberNo);
+        paymentsDTO.setTotalPrice(totalprice - paymentsDTO.getDiscount());
+        paymentsDTO.setAmount(totalprice);
+
+        paymentService.insertPayment(paymentsDTO);
+
+
+
+//
+//        for (PayProductDTO payProduct : payProductDTOList) {
+//            payProduct.setProductPaymentNo(paymentsNo);
+//            paymentService.insertPayProduct(payProduct);
+//        }
+
+        // 세션 데이터 삭제
+        session.removeAttribute("payProductDTOList");
+        session.removeAttribute("totalprice");
+        session.removeAttribute("memberNo");
+        session.removeAttribute("username");
+        session.removeAttribute("totalQuantity");
+
+        model.addAttribute("payProductDTOList", payProductDTOList);
+        model.addAttribute("paymentsDTO", paymentsDTO);
+
+        return "payment/kakaoPayProductSuccess";
+    }
+
+
 
 
     @Transactional

@@ -41,6 +41,16 @@
        SELECT LAST_INSERT_ID()
     </select>
 
+    <select id="selectProductByPay" parameterType="int" resultType="payProductDTO">
+        SELECT * FROM pay_product_and_payment WHERE pap_product_no = #{papProductNo};
+
+    </select>
+
+    <select id="insertPaymentProduct" parameterType="int" resultType="payProductAndPaymentDTO">
+        INSERT INTO pay_product_and_payment (pap_product_no, pap_pay_no, product_quantity, product_name) VALUES (#{papProductNo}, #{papPayNo}, #{productQuantity}, #{productName})
+
+    </select>
+
 
 
 </mapper>
