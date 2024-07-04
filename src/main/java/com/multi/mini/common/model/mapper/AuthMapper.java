@@ -10,4 +10,6 @@ public interface AuthMapper {
     MemberDTO selectMemberByEmail(String email);
 
     int insertMemberAndRole(MemberAndRoleDTO memberAndRoleData);
+
+    boolean updatePassword(MemberDTO memberDTO);
 }

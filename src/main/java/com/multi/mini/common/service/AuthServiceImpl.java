@@ -1,6 +1,7 @@
 package com.multi.mini.common.service;
 
 import com.multi.mini.common.model.mapper.AuthMapper;
+import com.multi.mini.member.model.dto.CustomUserDetails;
 import com.multi.mini.member.model.dto.MemberAndRoleDTO;
 import com.multi.mini.member.model.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
@@ -59,5 +60,20 @@ public class AuthServiceImpl implements AuthService{
             throw new RuntimeException("존재하지 않는 이메일입니다.");
         }
         return userData;
+    }
+
+    // 패스워드 변경
+    @Override
+    public boolean changePassword(String password, CustomUserDetails userDetails) {
+        MemberDTO memberDTO = new MemberDTO();
+
+        // 패스워드 암호화
+        String bPw = bCryptPasswordEncoder.encode(password);
+
+        System.out.println("비밀번호 " + bPw);
+        memberDTO.setMemberNo(userDetails.getMemberNo());
+        memberDTO.setPassword(bPw);
+
+        return authMapper.updatePassword(memberDTO);
     }
 }

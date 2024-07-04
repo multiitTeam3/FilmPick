@@ -276,5 +276,11 @@ public class MovieServiceImpl implements MovieService {
         ReviewDTO review = movieMapper.findReviewByMemberNo(reviewDTO);
         return review;
     }
+
+    @Override
+    public ArrayList<MyPageReservationDetailsDTO> getMyMovieReservations(int memberNo) {
+        ArrayList<MyPageReservationDetailsDTO> memberRes = movieMapper.findMyMovieReservationsByMemberNo(memberNo);
+        return memberRes;
+    }
 }
 

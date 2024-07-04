@@ -1,13 +1,16 @@
 package com.multi.mini.member.service;
 
 import com.multi.mini.common.model.dto.PageDTO;
+import com.multi.mini.member.model.dto.CustomUserDetails;
 import com.multi.mini.member.model.dto.MemberDTO;
 import com.multi.mini.member.model.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -16,6 +19,7 @@ import java.util.List;
 public class MemberServiceImpl implements MemberService{
     private final MemberMapper memberMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<MemberDTO> findMemberAll(String type, String keyword, PageDTO page) throws Exception{
@@ -79,5 +83,13 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public boolean isMemberByName(String name) {
         return memberMapper.findMemberByName(name) != null;
+    }
+
+    @Override
+    public boolean isPassword(String password, CustomUserDetails userDetails) {
+        boolean passwordMatches = passwordEncoder.matches(password, userDetails.getPassword()) ||
+                (password.equals(userDetails.getTempPassword()) && // 임시 비밀번호 일치
+                        userDetails.getTempExpDate().isAfter(LocalDateTime.now())); // 만료시간이 현재시간 이전인지 확인
+        return  passwordMatches;
     }
 }

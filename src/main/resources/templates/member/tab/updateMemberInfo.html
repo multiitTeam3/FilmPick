@@ -1,6 +1,26 @@
 <!DOCTYPE html>
 <head>
   <title>회원 정보 수정</title>
+  
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script>
+    // KaKao Map 주소 API
+  function findAddr() {
+      new daum.Postcode({
+          oncomplete: function(data) {
+              var roadAddr = data.roadAddress; // 도로명 주소 변수
+              var jibunAddr = data.jibunAddress; // 지번 주소 변수
+
+              // jQuery를 사용하여 요소 값 설정
+              if (roadAddr !== '') {
+                  $('#address').val(roadAddr);
+              } else if (jibunAddr !== '') {
+                  $('#address').val(jibunAddr);
+              }
+          }
+      }).open();
+  }
+  </script>
 </head>
 <body>
 <h1>회원 정보 수정</h1>
@@ -23,24 +43,6 @@
   <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/member/profile}'|">취소</button>
   <button type="submit" class="btn btn-success btn-block">변경 내용 저장</button>
 </form>
-<script>
-  // KaKao Map 주소 API
-function findAddr() {
-    new daum.Postcode({
-        oncomplete: function(data) {
-            var roadAddr = data.roadAddress; // 도로명 주소 변수
-            var jibunAddr = data.jibunAddress; // 지번 주소 변수
-
-            // jQuery를 사용하여 요소 값 설정
-            if (roadAddr !== '') {
-                $('#address').val(roadAddr);
-            } else if (jibunAddr !== '') {
-                $('#address').val(jibunAddr);
-            }
-        }
-    }).open();
-}
-</script>
 </body>
 
 </html>

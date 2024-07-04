@@ -72,4 +72,13 @@
 			email = #{ email }
 		LIMIT 1
 	</select>
+
+	<update id="updatePassword" parameterType="memberDTO">
+		UPDATE
+			mem_member
+		SET
+			password = #{ password }
+		WHERE
+			member_no = #{ memberNo }
+	</update>
 </mapper>

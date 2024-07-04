@@ -1,6 +1,7 @@
 package com.multi.mini.member.service;
 
 import com.multi.mini.common.model.dto.PageDTO;
+import com.multi.mini.member.model.dto.CustomUserDetails;
 import com.multi.mini.member.model.dto.MemberDTO;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface MemberService {
     boolean isMemberByEmail(String email);
 
     boolean isMemberByName(String name);
+
+    boolean isPassword(String password, CustomUserDetails userDetails);
 }

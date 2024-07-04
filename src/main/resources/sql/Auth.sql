@@ -38,7 +38,6 @@ CREATE TABLE mem_temp_password (
     temp_pw_no INT NOT NULL AUTO_INCREMENT,
     member_no INT NOT NULL,
     temp_pw VARCHAR(100) NOT NULL,
-    is_use BOOLEAN NOT NULL DEFAULT FALSE,
     create_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     exp_date TIMESTAMP NOT NULL,
     PRIMARY KEY (temp_pw_no),

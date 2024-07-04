@@ -5,6 +5,8 @@ import com.multi.mini.admin.coupon.service.CouponService;
 import com.multi.mini.member.model.dto.CustomUserDetails;
 import com.multi.mini.member.model.dto.MemberDTO;
 import com.multi.mini.member.service.MemberService;
+import com.multi.mini.movie.model.dto.MyPageReservationDetailsDTO;
+import com.multi.mini.movie.service.MovieService;
 import com.multi.mini.qna.model.dto.QnaDTO;
 import com.multi.mini.qna.service.QnaService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ public class MemberController {
     private final CouponService couponService;
     private final MemberService memberService;
     private final QnaService qnaService;
+    private final MovieService movieService;
 
     @GetMapping("/profile")
     public String showMyPage() {
@@ -103,12 +106,13 @@ public class MemberController {
     public String showPurchaseHistory(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        // no, 영화 제목, 영화관, 상영관, 좌석 번호,결제 금액, 상영일자, 예매일자
 
         try {
-            ArrayList<CouponDTO> coupons = couponService.findCouponListByMemberNo(userDetails.getMemberNo());
-            model.addAttribute("coupons", coupons);
+            ArrayList<MyPageReservationDetailsDTO> memberRes = movieService.getMyMovieReservations(userDetails.getMemberNo());
+            model.addAttribute("memberRes", memberRes);
         } catch (Exception e) {
-            model.addAttribute("msg", "조회에 실패했습니다");
+            model.addAttribute("msg", "예매 내역 조회에 실패했습니다");
             log.error("error log = ", e);
         }
 
@@ -172,5 +176,14 @@ public class MemberController {
     @PostMapping("/isName")
     public boolean isName(@RequestParam("name") String name) {
         return memberService.isMemberByName(name);
+    }
+
+    @ResponseBody
+    @PostMapping("/isPassword")
+    public boolean isPassword(@RequestParam("password") String password) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        return memberService.isPassword(password, userDetails);
     }
 }
