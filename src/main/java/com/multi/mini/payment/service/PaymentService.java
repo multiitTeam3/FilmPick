@@ -27,7 +27,7 @@ public interface PaymentService {
 	Integer selectPaymentNo() throws Exception;
 
 
-	PayProductDTO selectProductByPay(int papProductNo) throws Exception;
+	PayProductDTO selectProductByPay(int productNo) throws Exception;
 
-	PayProductAndPaymentDTO insertPaymentProduct(int papProductNo) throws Exception;
+	void insertPaymentProduct(PayProductAndPaymentDTO paymentProduct) throws Exception;
 }
