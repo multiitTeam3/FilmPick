@@ -7,27 +7,29 @@
 <mapper namespace="com.multi.mini.community.model.mapper.BoardMapper">
 
 	<resultMap id="memberResultMap" type="memberDTO">
-		<result property="memberNo" column="MEMBER_NO"/>
-		<result property="userName" column="USERNAME"/>
+		<result property="memberNo" column="member_no"/>
+		<result property="userName" column="user_name"/>
 	</resultMap>
 
 	<resultMap id="BoardResultMap" type="boardDTO">
-		<id property="boardNo" column="BOARD_NO" />
-		<result property="title" column="TITLE" />
-		<result property="content" column="CONTENT" />
-		<result property="img" column="IMG" />
-		<result property="createDate" column="CREATE_DATE" />
-		<result property="modifyDate" column="MODIFY_DATE" />
-		<association property="writer" column="MEMBER_NO" javaType="memberDTO" resultMap="memberResultMap" />
+		<id property="boardNo" column="board_no" />
+		<result property="memNo" column="member_no" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="img" column="img" />
+		<result property="likehit" column="likehit" />
+		<result property="createDate" column="create_date" />
+		<result property="modifyDate" column="modify_date" />
+		<association property="writer" column="member_no" javaType="memberDTO" resultMap="memberResultMap" />
 	</resultMap>
 
 	<select id="selectAll" parameterType="pageDTO" resultMap="BoardResultMap">
 		SELECT
 			  b.*
-            , m.MEMBER_NO
-            , m.USERNAME
-		FROM BOARD b
-		JOIN MEMBER m ON b.MEMBER_NO = m.MEMBER_NO
+            , m.member_no
+            , m.user_name
+		FROM comm_board b
+		JOIN mem_member m ON b.member_no = m.member_no
 		<if test="page != null">
 			ORDER BY b.board_no DESC
 			LIMIT #{start}, 10
@@ -37,20 +39,20 @@
 	<select id="selectBoard" parameterType="int" resultMap="BoardResultMap">
 		SELECT
 			  b.*
-			, m.MEMBER_NO
-			, m.USERNAME
-		FROM BOARD b
-		JOIN MEMBER m ON b.MEMBER_NO = m.MEMBER_NO
-		WHERE b.BOARD_NO = #{no}
+			, m.member_no
+			, m.user_name
+		FROM comm_board b
+		JOIN mem_member m ON b.member_no = m.member_no
+		WHERE b.board_no = #{no}
 	</select>
 
 	<insert id="insertBoard" parameterType="boardDTO">
-		INSERT INTO BOARD
+		INSERT INTO comm_board
 		(
-			MEMBER_NO
-			, TITLE
-			, CONTENT
-			, IMG
+			member_no
+			, title
+			, content
+			, img
 		<if test="type != null">
 			, TYPE
 		</if>
@@ -66,4 +68,6 @@
 		</if>
 		)
 	</insert>
+
+
 </mapper>

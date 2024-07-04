@@ -55,17 +55,6 @@ public class ScreenController {
         return "redirect:/admin/cinemamanage/screen?no=" + screenDTO.getCinemaNo();
     }
 
-//    @PostMapping
-//    public String updateScreen(ScreenDTO screenDTO, RedirectAttributes redirectAttributes) {
-//        try {
-//            screenService.updateScreen(screenDTO);
-//            redirectAttributes.addFlashAttribute("msg", "상영관 수정에 성공했습니다.");
-//        } catch (Exception e) {
-//            redirectAttributes.addFlashAttribute("msg", "상영관 수정에 실패했습니다.");
-//        }
-//        return "redirect:/admin/cinemamanage/screen";
-//    }
-
     @GetMapping("/delete")
     public String deleteScreen(@RequestParam("no") int cinemaNo, @RequestParam("code") String screenCode, RedirectAttributes redirectAttributes) {
 
@@ -106,12 +95,3 @@ public class ScreenController {
 
 }
 
-
-
-
-
-
-
-
-
-}
