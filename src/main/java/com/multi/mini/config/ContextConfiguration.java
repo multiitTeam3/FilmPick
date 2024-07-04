@@ -14,8 +14,6 @@ import org.springframework.context.annotation.Configuration;
 public class ContextConfiguration {
 	
 	
-	
-	
 	@Bean
 	public OkHttpClient okHttpClient() {
 		return new OkHttpClient();
@@ -23,13 +21,13 @@ public class ContextConfiguration {
 	}
 	
 	@Bean
-	public ObjectMapper objectMapper(){
+	public ObjectMapper objectMapper() {
 		return new ObjectMapper();
 		
 	}
 	
 	@Bean
-	public Gson gson(){
+	public Gson gson() {
 		
 		return new Gson();
 		
@@ -42,9 +40,6 @@ public class ContextConfiguration {
 		return MessageWindowChatMemory.withMaxMessages(40);
 		
 	}
-	
-
-	
 	
 	
 }
