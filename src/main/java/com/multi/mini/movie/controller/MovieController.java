@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -140,7 +141,7 @@ public class MovieController {
 		
 		MovieScheduleDTO movieScheduleDTO = (MovieScheduleDTO) httpSession.getAttribute("movieScheduleDTO");
 		System.out.println("@GetMapping(\"/reservationseat\") : " + movieScheduleDTO);
-
+		
 		
 		ArrayList<SeatDTO> seatListByScreen = null;
 		
@@ -367,7 +368,7 @@ public class MovieController {
 		return rsvNoList;
 		
 	}
-	
+
 //	@GetMapping("/reservationseat/payment")
 //	public String payment(@RequestParam("list") String list, Model model) {
 //
@@ -402,7 +403,7 @@ public class MovieController {
 	
 	@RequestMapping("findAllReservationByMemberNo")
 	@ResponseBody
-	public ReservationResponseDTO response(@RequestParam("page") int page, Model model){
+	public ReservationResponseDTO response(@RequestParam("page") int page, Model model) {
 		
 		
 		// 현재 인증된 사용자 정보를 가져옴
@@ -413,7 +414,6 @@ public class MovieController {
 		
 		int memberNO = userDetails.getMemberNo();
 		
-	
 		
 		MoviePageDTO moviePageDTO = new MoviePageDTO();
 		moviePageDTO.setPage(page);
@@ -425,46 +425,44 @@ public class MovieController {
 		
 		Map<String, Object> params = new HashMap<>();
 		params.put("memberNo", memberNO);
-		params.put("start",moviePageDTO.getStart());
+		params.put("start", moviePageDTO.getStart());
 		System.out.println("moviePageDTO.getStart() : " + moviePageDTO.getStart());
-		params.put("end",moviePageDTO.getEnd());
+		params.put("end", moviePageDTO.getEnd());
 		System.out.println("moviePageDTO.getEnd() : " + moviePageDTO.getEnd());
 		
-		ReservationResponseDTO responseDTO= null;
+		ReservationResponseDTO responseDTO = null;
 		
 		try {
 			list = movieService.findAllReservationByMemberNo(params);
 			
 			System.out.println(" findAllReservationByMemberNo(params) list : " + list);
 			
-			for (VWResDataGroupDTO reservation : list){
+			for (VWResDataGroupDTO reservation : list) {
 				
 				reservation.setSeatNames(reservation.getSeatNames());
 				
 			}
 			
 			
-			
 			int count = movieService.findAllReservationCountByMemberNo(memberNO);
 			
 			System.out.println("count : " + count);
 			
-			int pages =0;
+			int pages = 0;
 			
-			if (count%3==0){
+			if (count % 3 == 0) {
 				
-				pages =(int) (count / 3);
+				pages = (int) (count / 3);
 				
 				
-			}else {
+			} else {
 				
-				pages =(int) (count / 3) + 1 ;
+				pages = (int) (count / 3) + 1;
 				
 			}
-
 			
-			System.out.println("pages : " +pages);
 			
+			System.out.println("pages : " + pages);
 			
 			
 			responseDTO = new ReservationResponseDTO();
@@ -473,26 +471,21 @@ public class MovieController {
 			responseDTO.setCount(count);
 			
 			
-			
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 		
-		System.out.println("ArrayList<VWResDataDTO>" +list);
-		
-		
-		
-		
+		System.out.println("ArrayList<VWResDataDTO>" + list);
 		
 		
 		return responseDTO;
 		
-	
+		
 	}
 	
 	@RequestMapping("findAllNotPaidReservationByMemberNo")
 	@ResponseBody
-	public ReservationResponseDTO response2(@RequestParam("page") int page, Model model){
+	public ReservationResponseDTO response2(@RequestParam("page") int page, Model model) {
 		
 		
 		// 현재 인증된 사용자 정보를 가져옴
@@ -503,7 +496,6 @@ public class MovieController {
 		
 		int memberNO = userDetails.getMemberNo();
 		
-	
 		
 		MoviePageDTO moviePageDTO = new MoviePageDTO();
 		moviePageDTO.setPage(page);
@@ -515,32 +507,29 @@ public class MovieController {
 		
 		Map<String, Object> params = new HashMap<>();
 		params.put("memberNo", memberNO);
-		params.put("start",moviePageDTO.getStart());
-		params.put("end",moviePageDTO.getEnd());
+		params.put("start", moviePageDTO.getStart());
+		params.put("end", moviePageDTO.getEnd());
 		
-		ReservationResponseDTO responseDTO= null;
+		ReservationResponseDTO responseDTO = null;
 		
 		try {
 			list = movieService.findAllNotPaidReservationByMemberNo(params);
 			
-			for (VWResDataGroupDTO reservation : list){
+			for (VWResDataGroupDTO reservation : list) {
 				
 				reservation.setSeatNames(reservation.getSeatNames());
 				
 			}
 			
 			
-			
 			int count = movieService.findAllNotPaidReservationCountByMemberNo(memberNO);
 			
 			System.out.println("count : " + count);
 			
-			int pages = count / 3 + 1 ;
+			int pages = count / 3 + 1;
 			
-	
 			
-			System.out.println("pages : " +pages);
-			
+			System.out.println("pages : " + pages);
 			
 			
 			responseDTO = new ReservationResponseDTO();
@@ -549,31 +538,25 @@ public class MovieController {
 			responseDTO.setCount(count);
 			
 			
-			
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 		
-		System.out.println("ArrayList<VWResDataDTO>" +list);
-		
-		
-		
-		
+		System.out.println("ArrayList<VWResDataDTO>" + list);
 		
 		
 		return responseDTO;
 		
-	
+		
 	}
 	
 	
-	
 	// 예약 내역 화면에서 받은 정보로 예약 번호를 추출해서 다시 페이 화면으로 보내기.
-
+	
 	
 	@RequestMapping("/payTheBill")
 	@ResponseBody
-	public ArrayList<Integer> payTheBill(@RequestBody Map<String,Object> requestData) {
+	public ArrayList<Integer> payTheBill(@RequestBody Map<String, Object> requestData) {
 		
 		Integer scheduleNo = (Integer) requestData.get("scheduleNo");
 		
@@ -607,7 +590,7 @@ public class MovieController {
 	}
 	
 	@GetMapping("/review")
-	public void goReview(@RequestParam("movieNo") int movieNo, Model model){
+	public void goReview(@RequestParam("movieNo") int movieNo, Model model) {
 		
 		model.addAttribute("movieNo", movieNo);
 		
@@ -616,7 +599,7 @@ public class MovieController {
 	
 	@RequestMapping("VWReviewListByMovieNo")
 	@ResponseBody
-	public ReviewResponseDTO response3(@RequestParam("page") int page, @RequestParam("movieNo") int movieNo , Model model){
+	public ReviewResponseDTO response3(@RequestParam("page") int page, @RequestParam("movieNo") int movieNo, Model model) {
 		
 		
 		MoviePageDTO moviePageDTO = new MoviePageDTO();
@@ -625,29 +608,36 @@ public class MovieController {
 		moviePageDTO.setStartEnd(moviePageDTO.getPage());
 		
 		
-		
-		
 		Map<String, Object> params = new HashMap<>();
 		params.put("movieNo", movieNo);
-		params.put("start",moviePageDTO.getStart());
-		params.put("end",moviePageDTO.getEnd());
+		params.put("start", moviePageDTO.getStart());
+		params.put("end", moviePageDTO.getEnd());
 		
-		ReviewResponseDTO responseDTO= null;
+		ReviewResponseDTO responseDTO = null;
 		
 		ArrayList<VWRewDataDTO> list = null;
 		try {
 			list = movieService.findVWReviewListByMovieNo(params);
 			
+			for (VWRewDataDTO review : list) {
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String formattedDate = sdf.format(review.getCreateDate());
+				
+				review.setFormattedDate(formattedDate);
+				System.out.println("formattedDate : " + formattedDate);
+				
+			}
+			
+			
 			int count = movieService.findAllReviewCountByMovieNo(movieNo);
 			
 			System.out.println("count : " + count);
 			
-			int pages = count / 3 + 1 ;
+			int pages = count / 3 + 1;
 			
 			
-			
-			System.out.println("pages : " +pages);
-			
+			System.out.println("pages : " + pages);
 			
 			
 			responseDTO = new ReviewResponseDTO();
@@ -656,16 +646,11 @@ public class MovieController {
 			responseDTO.setCount(count);
 			
 			
-			
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 		
-		System.out.println("VWRewDataDTO" +list);
-		
-		
-		
-		
+		System.out.println("VWRewDataDTO" + list);
 		
 		
 		return responseDTO;
@@ -676,8 +661,7 @@ public class MovieController {
 	
 	@PostMapping("insertReview")
 	@ResponseBody
-	public ResponseEntity<String> insertReview(@RequestBody ReviewDTO reviewDTO){
-		
+	public ResponseEntity<String> insertReview(@RequestBody ReviewDTO reviewDTO) {
 		
 		
 		// 현재 인증된 사용자 정보를 가져옴
@@ -687,7 +671,7 @@ public class MovieController {
 		// 작성자의 memberNo와 userName을 설정
 		
 		int memberNO = userDetails.getMemberNo();
-
+		
 		reviewDTO.setMemberNo(memberNO);
 		
 		System.out.println(reviewDTO);
@@ -701,7 +685,7 @@ public class MovieController {
 		
 		
 		System.out.println(result);
-
+		
 		// 업데이트 정보가 담긴 세션을 새로 선언하여 교체(point 업데이트)
 		Authentication updateAuthentication = new UsernamePasswordAuthenticationToken(userDetails, authentication.getCredentials(), authentication.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(updateAuthentication);
@@ -710,11 +694,10 @@ public class MovieController {
 	}
 	
 	
-	
 	@PostMapping("/deleteReservation")
 	@ResponseBody
-	public String deleteReservation(@RequestBody ReservationDTO reservationDTO){
-
+	public String deleteReservation(@RequestBody ReservationDTO reservationDTO) {
+		
 		// 현재 인증된 사용자 정보를 가져옴
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -722,7 +705,7 @@ public class MovieController {
 		// 작성자의 memberNo와 userName을 설정
 		
 		int memberNO = userDetails.getMemberNo();
-	
+		
 		reservationDTO.setMemberNo(memberNO);
 		
 		try {
@@ -732,12 +715,12 @@ public class MovieController {
 		}
 		
 		return "예약 삭제 성공!";
-	
-	
+		
+		
 	}
 	
 	@GetMapping("/updatemovie")
-	public void updateMovie(@RequestParam("scheduleno") int scheduleNo, Model model, HttpSession httpSession){
+	public void updateMovie(@RequestParam("scheduleno") int scheduleNo, Model model, HttpSession httpSession) {
 		
 		// 현재 인증된 사용자 정보를 가져옴
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -767,7 +750,6 @@ public class MovieController {
 		model.addAttribute("vwResDataGroupDTO", vwResDataGroupDTO2);
 		
 	}
-	
 	
 	
 	// 예약 취소 후 변경
@@ -853,9 +835,6 @@ public class MovieController {
 		httpSession.removeAttribute("movieScheduleDTO2");
 		
 	}
-	
-	
-	
 	
 	
 }
