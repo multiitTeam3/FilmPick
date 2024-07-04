@@ -38,8 +38,8 @@ public class AdminNoticeController {
 
         try {
             // 페이지 수 계산
-            int memberCount = pageService.selectNoticeCount(type, keyword);
-            int pages = (int) Math.ceil((double) memberCount / 10);
+            int noticeCount = pageService.selectNoticeCount(type, keyword);
+            int pages = (int) Math.ceil((double) noticeCount / 10);
 
             ArrayList<NoticeDTO> notices = adminNoticeService.getNoticeList(type, keyword, pageDTO);
 
@@ -49,7 +49,7 @@ public class AdminNoticeController {
             model.addAttribute("type", type);
             model.addAttribute("keyword", keyword);
             model.addAttribute("pages", pages);
-            model.addAttribute("count", memberCount);
+            model.addAttribute("count", noticeCount);
         } catch (Exception e) {
             model.addAttribute("msg", "공지사항 조회 실패");
         }
