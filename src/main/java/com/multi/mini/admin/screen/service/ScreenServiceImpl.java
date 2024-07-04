@@ -42,7 +42,7 @@ public class ScreenServiceImpl implements ScreenService{
     @Override
     public ArrayList<ScreenDTO> findNotEnrolledScreenByCinemaNo(int cinemaNo) throws Exception {
         ArrayList<ScreenDTO> list = screenMapper.findNotEnrolledScreenByCinemaNo(cinemaNo);
-        
+        list = list == null ? screenMapper.findScreenAll() : list ;
         return list;
     }
     

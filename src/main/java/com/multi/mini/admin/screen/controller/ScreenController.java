@@ -28,6 +28,14 @@ public class ScreenController {
             ArrayList<MovieDTO> movieList = movieService.findMovieList();
             String minDate = LocalDate.now().toString();
 
+            System.out.println("LOG INFO " + ScreenList);
+
+            if(ScreenList.isEmpty()) {
+                ScreenDTO screenDTO = new ScreenDTO();
+                screenDTO.setCinemaNo(cinemaNo);
+                ScreenList.add(screenDTO);
+            }
+
             ScreenNameList.get(0).setCinemaNo(cinemaNo);
 
             // 페이징을 위한 파라미터
