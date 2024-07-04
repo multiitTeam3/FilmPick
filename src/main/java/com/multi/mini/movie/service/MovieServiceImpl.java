@@ -154,7 +154,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public ArrayList<VWRewDataDTO> findVWReviewListByMovieNo(Map<String, Object> params) throws Exception {
         ArrayList<VWRewDataDTO> list = movieMapper.findVWReviewListByMovieNo(params);
-
+        
         return list;
     }
 

@@ -3,6 +3,7 @@ package com.multi.mini.movie.model.dto;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 @Data
 public class VWRewDataDTO {
@@ -16,8 +17,7 @@ public class VWRewDataDTO {
 	private String movieTitle;
 	private String posterPath;
 	private String userName;
-	
-	
-	
-	
+	private String formattedDate;
+
+
 }
