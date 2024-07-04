@@ -1,6 +1,8 @@
 package com.multi.mini.customer.notice.controller;
 
+import com.multi.mini.admin.notice.service.AdminNoticeService;
 import com.multi.mini.common.model.dto.PageDTO;
+import com.multi.mini.common.service.PageService;
 import com.multi.mini.customer.notice.model.dto.NoticeDTO;
 import com.multi.mini.customer.notice.service.NoticeService;
 import lombok.RequiredArgsConstructor;
@@ -16,28 +18,64 @@ import java.util.ArrayList;
 @RequestMapping("/Customer")
 @RequiredArgsConstructor
 public class NoticeController {
+    private final AdminNoticeService adminNoticeService;
     private final NoticeService noticeService;
+    private final PageService pageService;
 
-    @GetMapping("/noticeInfo")
-    public String showNoticeAll(Model model) {
-        return "common/customer/notice/view-notice";
-    }
-
-    @GetMapping("/loadNotice")
-    public String loadNotice(@RequestParam(required = false, value = "type") String type,
-                             @RequestParam(required = false, value = "keyword") String keyword,
-                             @RequestParam(required = false, value = "page") int page, Model model) {
+    @GetMapping(value = {"/Index", "/noticeInfo"})
+    public String showNoticeAll(@RequestParam(required = false, name = "type") String type,
+                                @RequestParam(required = false, name = "keyword") String keyword,
+                                @RequestParam(required = false, defaultValue = "1", name = "page") int page,
+                                Model model) {
         PageDTO pageDTO = new PageDTO();
         pageDTO.setStartEnd(page);
 
         try {
-            ArrayList<NoticeDTO> notices = noticeService.getNoticeList(type, keyword, pageDTO);
+            // 페이지 수 계산
+            int noticeCount = pageService.selectNoticeCount(type, keyword);
+            int pages = (int) Math.ceil((double) noticeCount / 10);
+
+            ArrayList<NoticeDTO> notices = adminNoticeService.getNoticeList(type, keyword, pageDTO);
+
             model.addAttribute("notices", notices);
+
+            // 페이징을 위한 파라미터
+            model.addAttribute("type", type);
+            model.addAttribute("keyword", keyword);
+            model.addAttribute("pages", pages);
+            model.addAttribute("count", noticeCount);
         } catch (Exception e) {
-            model.addAttribute("msg", "공지사항 목록 조회 실패");
+            model.addAttribute("msg", "공지사항 조회 실패");
         }
         return "common/customer/notice/notice";
     }
+
+//    @GetMapping("/loadNotice")
+//    public String loadNotice(@RequestParam(required = false, name = "type") String type,
+//                             @RequestParam(required = false, name = "keyword") String keyword,
+//                             @RequestParam(required = false, defaultValue = "1", name = "page") int page,
+//                             Model model) {
+//        PageDTO pageDTO = new PageDTO();
+//        pageDTO.setStartEnd(page);
+//
+//        try {
+//            // 페이지 수 계산
+//            int memberCount = pageService.selectNoticeCount(type, keyword);
+//            int pages = (int) Math.ceil((double) memberCount / 10);
+//
+//            ArrayList<NoticeDTO> notices = noticeService.getNoticeList(type, keyword, pageDTO);
+//            model.addAttribute("notices", notices);
+//
+//            // 페이징을 위한 파라미터
+//            model.addAttribute("type", type);
+//            model.addAttribute("keyword", keyword);
+//            model.addAttribute("pages", pages);
+//            model.addAttribute("count", memberCount);
+//        } catch (Exception e) {
+//            model.addAttribute("msg", "공지사항 목록 조회 실패");
+//        }
+//        return "common/customer/notice/notice";
+//    }
 
     @GetMapping("/NoticeDetail")
     public String showNotice(@RequestParam("no") int noticeNo, Model model) {
