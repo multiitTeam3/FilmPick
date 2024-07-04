@@ -40,6 +40,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                    <tr th:if="${questions == null or #lists.isEmpty(questions)}">
+                        <td colspan="6" class="text-center">조회 정보가 없습니다</td>
+                    </tr>
                 <tr th:each="qna : ${questions}">
                     <th scope="row" th:text="${qna.qna_no}"></th>
                     <td th:switch="${qna.category}">

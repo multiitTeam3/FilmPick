@@ -57,7 +57,6 @@ public class PayMovieController {
         int memberNo = userDetails.getMemberNo();
 
 
-
         if (adult > 0) {
 
             for (int i = 0; i < adult; i++) {

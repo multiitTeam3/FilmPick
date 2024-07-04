@@ -12,9 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Aspect
@@ -28,8 +25,7 @@ public class PointAspect {
     // 영화 예매 시 포인트 적립 추후 수정
     @AfterReturning("execution(* com.multi.mini.payment.service.paymentServiceImpl.markReservationAsPaid(..))")
     public void addPointByTicketing() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        CustomUserDetails userDetails = SecurityUtil.getUserDetails();
 
         int userNo = userDetails.getMemberNo();
         int point = ticketingPoint();
@@ -44,15 +40,10 @@ public class PointAspect {
         try {
             log.debug("log debug point controller = {}", pointDTO);
             pointService.addPoints(pointDTO);
+            System.out.println("영화 예매 포인트 적립 완료");
         } catch (Exception e) {
             log.error("log error point insert = ", e);
         }
-
-        // 업데이트 정보가 담긴 세션을 새로 선언하여 교체
-        Authentication updateAuthentication = new UsernamePasswordAuthenticationToken(userDetails, authentication.getCredentials(), authentication.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(updateAuthentication);
-
-        System.out.println("영화 예매 포인트 적립 완료");
     }
 
     // 영화 리뷰 시 포인트 적립

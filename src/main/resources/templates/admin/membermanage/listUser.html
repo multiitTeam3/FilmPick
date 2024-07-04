@@ -43,6 +43,9 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <tr th:if="${users == null or #lists.isEmpty(users)}">
+                        <td colspan="6" class="text-center">조회 정보가 없습니다</td>
+                    </tr>
                     <tr th:each="user : ${users}">
                         <th scope="row" th:text="${user.rowNum}"></th>
                         <td><a th:href="@{/admin/membermanage/find(no=${user.memberNo})}" th:text="${user.email}"></a></td>

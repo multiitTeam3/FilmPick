@@ -84,10 +84,10 @@
 		WHERE
 		<choose>
 			<when test="type == 'category'">
-				c.description LIKE CONCAT('%', #{ keyword }, '%')
+				c.description LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
 			</when>
 			<when test="type == 'email'">
-				m.email LIKE CONCAT('%', #{keyword}, '%')
+				m.email LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
 			</when>
 			<otherwise>
 				1 = 1

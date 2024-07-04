@@ -2,6 +2,7 @@ package com.multi.mini.member.controller;
 
 import com.multi.mini.admin.coupon.model.dto.CouponDTO;
 import com.multi.mini.admin.coupon.service.CouponService;
+import com.multi.mini.common.model.dto.PageDTO;
 import com.multi.mini.member.model.dto.CustomUserDetails;
 import com.multi.mini.member.model.dto.MemberDTO;
 import com.multi.mini.member.service.MemberService;
@@ -106,10 +107,12 @@ public class MemberController {
     public String showPurchaseHistory(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        // no, 영화 제목, 영화관, 상영관, 좌석 번호,결제 금액, 상영일자, 예매일자
+        PageDTO pageDTO = new PageDTO();
+        pageDTO.setStart(0);
+        pageDTO.setEnd(5);
 
         try {
-            ArrayList<MyPageReservationDetailsDTO> memberRes = movieService.getMyMovieReservations(userDetails.getMemberNo());
+            ArrayList<MyPageReservationDetailsDTO> memberRes = movieService.getMyMovieReservations(userDetails.getMemberNo(), pageDTO);
             model.addAttribute("memberRes", memberRes);
         } catch (Exception e) {
             model.addAttribute("msg", "예매 내역 조회에 실패했습니다");
@@ -164,6 +167,19 @@ public class MemberController {
         }
 
         return "redirect:/member/profile";
+    }
+
+    @GetMapping("/reSign")
+    public String deleteMember(RedirectAttributes redirectAttributes) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        try {
+            memberService.deleteMember(userDetails.getMemberNo());
+        } catch (Exception e) {
+            log.error("LOG ERROR = " + e);
+        }
+
+        return "redirect:/logout";
     }
 
     @ResponseBody
