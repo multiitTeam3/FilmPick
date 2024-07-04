@@ -36,7 +36,7 @@
                 <!-- PayProductDTOList가 비어있지 않은 경우 상품 정보를 출력 -->
                 <ul>
                     <li th:each="product : ${payProductDTOList}">
-                        <img th:src="@{${product.posterPath}}" alt="Product Image" style="width: 100px; height: 100px;">
+                        <img th:src="@{/img/uploadFiles/{posterPath}(posterPath=${product.posterPath})}"  alt="Product Image" style="width: 100px; height: 100px;">
                         <p>상품명: <span th:text="${product.productName}"></span></p>
                         <p>수량: <span th:text="${product.productQuantity}"></span></p>
                         <input type="hidden" th:name="productNos" th:value="${product.productNo}" />
