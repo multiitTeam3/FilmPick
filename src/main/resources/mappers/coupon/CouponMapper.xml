@@ -54,10 +54,10 @@
 		WHERE
 		<choose>
 			<when test="type == 'couponCode'">
-				c.coupon_code LIKE CONCAT('%', #{ keyword }, '%')
+				c.coupon_code LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
 			</when>
 			<when test="type == 'email'">
-				m.email LIKE CONCAT('%', #{keyword}, '%')
+				m.email LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
 			</when>
 			<otherwise>
 				1 = 1

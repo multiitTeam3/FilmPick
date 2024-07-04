@@ -110,14 +110,14 @@
                 </button>
             </th:block>
 
-            <th:block sec:authorize="hasAnyAuthority('ROLE_USER', 'ROLE_STAFF', 'ROLE_ADMIN')">
-        <th:block sec:authorize="hasAnyAuthority('ROLE_ADMIN', 'Role_STAFF')">
-          <button type="button" th:onclick="|location.href='@{/admin}'|" class="btn btn-outline-primary me-2">Admin</button>
-        </th:block>
-        <th:block sec:authorize="hasAuthority('ROLE_USER')">
-          <button type="button" th:onclick="|location.href='@{/member/profile}'|" class="btn btn-outline-primary me-2">MyPage</button>
-        </th:block>
-        <button type="button" th:onclick="|location.href='@{/logout}'|" class="btn btn-outline-primary me-2">Logout</button>
+        <th:block sec:authorize="hasAnyAuthority('ROLE_USER', 'ROLE_STAFF', 'ROLE_ADMIN')">
+            <th:block sec:authorize="hasAnyAuthority('ROLE_ADMIN', 'Role_STAFF')">
+                <button type="button" th:onclick="|location.href='@{/admin}'|" class="btn btn-outline-primary me-2">Admin</button>
+            </th:block>
+            <th:block sec:authorize="hasAnyAuthority('ROLE_STAFF', 'ROLE_ADMIN')">
+                <button type="button" th:onclick="|location.href='@{/member/profile}'|" class="btn btn-outline-primary me-2">MyPage</button>
+            </th:block>
+            <button type="button" th:onclick="|location.href='@{/logout}'|" class="btn btn-outline-primary me-2">Logout</button>
       </th:block>
     </div>
   </header>
@@ -141,10 +141,10 @@
                 <div class="modal-body">
                     <label for="userId" class="mr-sm-2">Email :</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter ID" id="userId"
-                           name="username"> <br>
+                        name="username"> <br>
                     <label for="userPwd" class="mr-sm-2">Password:</label>
                     <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter password" id="userPwd"
-                           name="password">
+                        name="password">
                 </div>
 
                 <div class="modal-footer">
@@ -166,7 +166,7 @@
 
 <!-- CHATBOT Modal -->
 <div class="modal fade" id="chatBotModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
-     aria-hidden="true">
+    aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document" id="background1">
         <div class="modal-content" id="modal-content1">
             <div class="modal-header">

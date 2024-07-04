@@ -14,17 +14,17 @@
     </tr>
     </thead>
     <tbody>
-    <!--        <tr th:each="coupon : ${coupons}">-->
-    <!--          <th scope="row" th:text="${coupon.rowNum}"></th>-->
-    <!--          <td th:text="${coupon.couponCode}"></a></td>-->
-    <!--          <td th:text="${coupon.member.email}"></a></td>-->
-    <!--          <td th:text="${coupon.description}"></td>-->
-    <!--          <td th:text="${coupon.discount}"></td>-->
-    <!--          <td th:text="${coupon.useDate}"></td>-->
-    <!--          <td th:text="${coupon.createDate}"></td>-->
-    <!--          <td th:text="${coupon.expDate}"></td>-->
-    <!--          <td><a th:href="@{/admin/coupon/delete(code=${coupon.couponCode})}"><button type="button" class="btn btn-primary">삭제</button></a></td>-->
-    </tr>
+        <tr th:each="res : ${memberRes}">
+          <th scope="row" th:text="${res.rowNum}"></th>
+          <td th:text="${res.movieTitle}"></a></td>
+          <td th:text="${res.cinemaName}"></a></td>
+          <td th:text="${res.screenName}"></td>
+          <td th:text="${res.seatNum}"></td>
+          <td th:text="${res.totalPrice}"></td>
+          <td th:text="${res.createDate}"></td>
+          <td th:text="${res.showDate}"></td>
+          <td th:text="${res.rsvDate}"></td>
+        </tr>
     </tbody>
 </table>
 <!--<p>구매 목록 내용</p>-->

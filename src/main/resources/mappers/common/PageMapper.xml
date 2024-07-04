@@ -8,7 +8,7 @@
 
 	<select id="selectMemberCount" parameterType="map">
 		SELECT
-			COUNT(*)
+			COUNT(DISTINCT m.member_no)
 		FROM
 			mem_member m
 		LEFT JOIN
@@ -42,10 +42,10 @@
 		WHERE
 		<choose>
 			<when test="type == 'cinema'">
-				c.cinema_name LIKE CONCAT('%', #{ keyword }, '%')
+				c.cinema_name LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
 			</when>
 			<when test="type == 'region'">
-				r.region_name LIKE CONCAT('%', #{keyword}, '%')
+				r.region_name LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
 			</when>
 			<otherwise>
 				1 = 1
@@ -65,10 +65,10 @@
 		WHERE
 		<choose>
 			<when test="type == 'category'">
-				c.description LIKE CONCAT('%', #{ keyword }, '%')
+				c.description LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
 			</when>
 			<when test="type == 'email'">
-				m.email LIKE CONCAT('%', #{keyword}, '%')
+				m.email LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
 			</when>
 			<otherwise>
 				1 = 1
@@ -86,10 +86,10 @@
 		WHERE
 		<choose>
 			<when test="type == 'couponCode'">
-				c.coupon_code LIKE CONCAT('%', #{ keyword }, '%')
+				c.coupon_code LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
 			</when>
 			<when test="type == 'email'">
-				m.email LIKE CONCAT('%', #{keyword}, '%')
+				m.email LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
 			</when>
 			<otherwise>
 				1 = 1

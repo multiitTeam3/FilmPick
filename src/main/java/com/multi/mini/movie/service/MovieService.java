@@ -63,5 +63,5 @@ public interface MovieService {
 
 	ReviewDTO findReviewByMemberNoAndMovieNo(ReviewDTO reviewDTO) throws Exception;
 
-    ArrayList<MyPageReservationDetailsDTO> getMyMovieReservations(int memberNo);
+    ArrayList<MyPageReservationDetailsDTO> getMyMovieReservations(int memberNo, PageDTO pageDTO);
 }

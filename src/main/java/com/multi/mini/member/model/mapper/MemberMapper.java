@@ -2,6 +2,7 @@ package com.multi.mini.member.model.mapper;
 
 import com.multi.mini.common.point.model.dto.PointDTO;
 import com.multi.mini.member.model.dto.MemberDTO;
+import com.multi.mini.member.model.dto.RoleDTO;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface MemberMapper {
     List<MemberDTO> findMemberAll(@Param("type") String type, @Param("keyword") String keyword, @Param("start") int start, @Param("end") int end);
-
+    List<RoleDTO> findRolesByMemberNo(@Param("member_no") int memberNo);
     MemberDTO findMemberByNo(int no);
 
     @Delete("DELETE FROM mem_member WHERE member_no = #{no}")

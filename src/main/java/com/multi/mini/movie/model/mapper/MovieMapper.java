@@ -77,6 +77,6 @@ public interface MovieMapper {
 	@Select("SELECT review_no FROM mov_movie_review WHERE member_no = #{ memberNo } AND movie_no = #{ movieNo } LIMIT 1")
     ReviewDTO findReviewByMemberNo(ReviewDTO reviewDTO);
 
-	@Select("SELECT * FROM find_pay_and_movie WHERE member_no = #{ memberNo }")
-    ArrayList<MyPageReservationDetailsDTO> findMyMovieReservationsByMemberNo(int memberNo);
+	@Select("SELECT * FROM find_pay_and_movie WHERE member_no = #{ memberNo } LIMIT #{ start }, #{ end }")
+    ArrayList<MyPageReservationDetailsDTO> findMyMovieReservationsByMemberNo(@Param("memberNo") int memberNo, @Param("start") int start, @Param("end") int end);
 }

@@ -278,8 +278,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public ArrayList<MyPageReservationDetailsDTO> getMyMovieReservations(int memberNo) {
-        ArrayList<MyPageReservationDetailsDTO> memberRes = movieMapper.findMyMovieReservationsByMemberNo(memberNo);
+    public ArrayList<MyPageReservationDetailsDTO> getMyMovieReservations(int memberNo, PageDTO pageDTO) {
+        ArrayList<MyPageReservationDetailsDTO> memberRes = movieMapper.findMyMovieReservationsByMemberNo(memberNo, pageDTO.getStart(), pageDTO.getEnd());
         return memberRes;
     }
 }

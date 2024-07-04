@@ -251,10 +251,10 @@
         WHERE
         <choose>
             <when test="type == 'cinema'">
-                c.cinema_name LIKE CONCAT('%', #{keyword}, '%')
+                c.cinema_name LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
             </when>
             <when test="type == 'region'">
-                r.region_name LIKE CONCAT('%', #{keyword}, '%')
+                r.region_name LIKE CONCAT('%', REPLACE(#{keyword}, ' ', '%'), '%')
             </when>
             <otherwise>
                 1 = 1

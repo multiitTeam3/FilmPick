@@ -40,10 +40,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((auth) -> auth
+                        .requestMatchers("/admin/**").hasAnyRole("ADMIN")
                         .requestMatchers("/admin/**").hasAnyRole("ADMIN", "STAFF")
                         .requestMatchers("/community/list", "/community/view").permitAll()
                         .requestMatchers("/Customer/Index", "/Customer/NoticeDetail").permitAll()
-
                         .requestMatchers("/", "/home", "/login", "/sign-up", "/error", "/clearMessage", "/password", "/movie/findMovieList", "/member/isEmail", "/member/isName", "/gpt/chatBot").permitAll()
                         .anyRequest().authenticated()
                         );

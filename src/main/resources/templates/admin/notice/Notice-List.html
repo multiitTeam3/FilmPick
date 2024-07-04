@@ -40,6 +40,9 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr th:if="${notices == null or #lists.isEmpty(notices)}">
+                        <td colspan="6" class="text-center">조회 정보가 없습니다</td>
+                    </tr>
                     <tr th:each="notice : ${notices}">
                         <td th:text="${notice.rowNum}"></td>
                         <td th:text="${notice.category.categoryDesc}"></td>

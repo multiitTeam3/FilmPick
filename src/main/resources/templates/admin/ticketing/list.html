@@ -46,6 +46,9 @@
                     </tr>
                     </thead>
                     <tbody>
+                        <tr th:if="${tickets == null or #lists.isEmpty(tickets)}">
+                            <td colspan="8" class="text-center">조회 정보가 없습니다</td>
+                        </tr>
                     <tr th:each="ticket : ${tickets}">
                         <th scope="row" th:text="${ticket.rowNum}">번호</th>
                         <th scope="row" th:text="${ticket.rsvNo}">예약 번호</th>

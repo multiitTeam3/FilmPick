@@ -23,9 +23,29 @@
         <label for="phone">핸드폰 번호</label>
         <input type="tel" class="form-control" id="phone" th:field="*{tel}" placeholder="- 을 제외한 숫자로 입력해주세요." readonly pattern="[0-9]{11}" title="- 을 제외한 숫자로 입력해주세요.">
     </div> <br>
-    <button type="button" class="btn btn-danger me-2" onclick="cancelReservation()">회원 탈퇴</button>
+    <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#resignModal">회원 탈퇴</button>
     <button type="button" class="btn btn-success btn-block" onclick="showUpdateMember()">회원 정보 변경</button>
 </form>
+
+<!-- 회원탈퇴 모달 -->
+<div class="modal fade" id="resignModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">회원 탈퇴</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>모든 정보가 삭제 됩니다.</p>
+        <p>정말로 탈퇴 하시겠습니까?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        <a th:href="@{/member/reSign}" class="btn btn-primary">확인</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
     function changePassword() {
