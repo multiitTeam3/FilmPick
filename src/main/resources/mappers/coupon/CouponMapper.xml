@@ -44,7 +44,8 @@
 
 	<select id="findCouponAll" resultMap="couponResultMap">
 		SELECT
-			  c.*
+			  ROW_NUMBER() OVER (ORDER BY coupon_no DESC) AS row_num
+			,  c.*
 			, m.member_no
 			, m.email
 		FROM
@@ -69,7 +70,8 @@
 
 	<select id="findCouponListByMemberNo" resultMap="couponResultMap">
 		SELECT
-			  c.*
+		      ROW_NUMBER() OVER (ORDER BY coupon_no DESC) AS row_num
+			,  c.*
 			, m.member_no
 			, m.email
 		FROM

@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class ScreenDTO {
+    private int rowNum;
     private int cinemaNo;
     private String screenCode;
     private String screenName;
