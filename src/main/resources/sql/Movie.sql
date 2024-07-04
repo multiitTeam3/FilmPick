@@ -369,3 +369,150 @@ AND
 
 
 
+
+CREATE VIEW vw_movie_manage_data AS
+SELECT
+	movie.movie_no,
+	movie.movie_title,
+	movie.genre_no,
+	movie.popularity,
+	movie.duration,
+	movie.original_language,
+	movie.movie_content,
+	movie.adult,
+	movie.poster_path
+	, genre.genre_content
+	, AVG(review.rate) avg_rate
+	, COUNT(reservation.rsv_no) ticket_sold
+
+FROM
+	mov_movie movie
+
+JOIN
+	mov_genre genre on movie.genre_no = genre.genre_no
+
+JOIN
+	mov_movie_review review ON movie.movie_no = review.movie_no
+
+JOIN
+	mov_movie_schedule sch ON movie.movie_no = sch.movie_no
+
+JOIN
+	mov_reservation reservation ON reservation.schedule_no = sch.schedule_no
+
+
+
+GROUP BY sch.movie_no,
+	movie.movie_title,
+	movie.genre_no,
+	movie.popularity,
+	movie.duration,
+	movie.original_language,
+	movie.movie_content,
+	movie.adult,
+	movie.poster_path
+	, genre.genre_content;
+
+
+
+
+select count(*) from mov_reservation m
+join mov_movie_schedule mms  on m.schedule_no =mms.schedule_no
+group by mms.movie_no  ;
+
+
+CREATE VIEW vw_agg_reviews AS
+
+SELECT
+	movie_no,
+	AVG(rate) AS avg_rate
+FROM
+	mov_movie_review review
+GROUP BY
+	movie_no;
+
+
+
+
+CREATE VIEW vw_movie_manage_data AS
+SELECT
+	movie.movie_no,
+	movie.movie_title,
+	movie.genre_no,
+	movie.popularity,
+	movie.duration,
+	movie.original_language,
+	movie.movie_content,
+	movie.adult,
+	movie.poster_path
+	, genre.genre_content
+	, review.avg_rate
+	, COUNT(reservation.rsv_no) ticket_sold
+
+FROM
+	mov_movie movie
+
+JOIN
+	mov_genre genre ON movie.genre_no = genre.genre_no
+
+LEFT join
+	mov_movie_schedule sch ON sch.movie_no = movie.movie_no
+
+LEFT join
+	mov_reservation reservation ON sch.schedule_no = reservation.schedule_no
+
+LEFT JOIN
+	vw_agg_reviews review ON movie.movie_no = review.movie_no
+
+GROUP BY movie.movie_no,
+		review.avg_rate;
+
+
+
+// is_avail 추가함
+CREATE OR REPLACE
+ALGORITHM = UNDEFINED VIEW `movie`.`vw_find_screen_by_cinema` AS
+SELECT
+    `cs`.`cinema_no` AS `cinema_no`
+    , `cs`.`screen_code` AS `screen_code`
+    , `cs`.`is_avail` AS `is_avail`
+    , `s`.`screen_name` AS `screen_name`
+    , count(`sas`.`screen_code`) AS `total_seat`
+FROM
+    (
+        (
+            `movie`.`mov_cinema_and_screen` `cs`
+        JOIN `movie`.`mov_screen` `s` ON
+            (
+                (
+                    `cs`.`screen_code` = `s`.`screen_code`
+                )
+            )
+        )
+    JOIN `movie`.`mov_screen_and_seat` `sas` ON
+        (
+            (
+                `s`.`screen_code` = `sas`.`screen_code`
+            )
+        )
+    )
+GROUP BY
+    `cs`.`cinema_no`
+    , `s`.`screen_name`;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

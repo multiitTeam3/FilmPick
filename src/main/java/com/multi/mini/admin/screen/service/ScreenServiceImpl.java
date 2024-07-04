@@ -27,8 +27,8 @@ public class ScreenServiceImpl implements ScreenService{
 //    }
 
     @Override
-    public void deleteScreen(int cinemaNo) throws Exception{
-        int result = screenMapper.deleteScreenByCinemaNo(cinemaNo);
+    public void deleteScreen(ScreenDTO screenDTO) throws Exception{
+        int result = screenMapper.deleteScreenByScreenDTO(screenDTO);
         if(result == 0) throw new RuntimeException("상영관 삭제 DB Error");
     }
 
@@ -37,5 +37,17 @@ public class ScreenServiceImpl implements ScreenService{
         ArrayList<ScreenDTO> list =  screenMapper.findScreenAll();
         if(list == null) throw new RuntimeException("상영관 리스트 조회 DB Error");
         return list;
+    }
+    
+    @Override
+    public ArrayList<ScreenDTO> findNotEnrolledScreenByCinemaNo(int cinemaNo) throws Exception {
+        ArrayList<ScreenDTO> list = screenMapper.findNotEnrolledScreenByCinemaNo(cinemaNo);
+        
+        return list;
+    }
+    
+    @Override
+    public void insertScreenByCinemaNo(ScreenDTO screenDTO) throws Exception {
+        screenMapper.insertScreenByCinemaNo(screenDTO);
     }
 }

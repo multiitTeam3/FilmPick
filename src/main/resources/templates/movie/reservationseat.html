@@ -38,9 +38,9 @@
 
                     })
 
-                    $('#seats').append('<br><button class="reset">좌석 리셋</button><br>');
-                    $('#seats').append('<br><button class="notpay">예약하기</button><br>');
-                    $('#seats').append('<br><button class="pay">결제하기</button><br>');
+                    $('#seats').append('<br><button class="seatBtn" id="reset">좌석리셋</button><br>');
+                    // $('#seats').append('<br><button class="seatBtn" id="notpay">예약하기</button><br>');
+                    $('#seats').append('<br><button class="seatBtn" id="pay">결제하기</button><br>');
 
 
 
@@ -123,7 +123,7 @@
                 selectReservedSeat();
 
 
-                 $(document).on('click','.reset',function(){
+                 $(document).on('click','#reset',function(){
                     count = 0;
                     $('.ticket').val(0);
                     $('.total').val(0);
@@ -138,7 +138,7 @@
 
 
 
-                 $(document).on('click','.notpay',function(){
+                 $(document).on('click','#notpay',function(){
 
                         var scheduleNo = movieScheduleDTO.scheduleNo;
                         var selectedSeatNoList = [];
@@ -198,8 +198,8 @@
 
 
 
-
-                 $(document).on('click','.pay',function(){
+                 // 사라진 기능
+                 $(document).on('click','#pay',function(){
 
                         var scheduleNo = movieScheduleDTO.scheduleNo;
                         var selectedSeatNoList = [];
@@ -246,12 +246,12 @@
 
                                     $.each(list, function(index, rsvNo){
                                         console.log(rsvNo);
+                                        console.log(list);
                                     })
 
                                     var encodedList = encodeURIComponent(JSON.stringify(list));
 
-                                    window.location.href='/movie/reservationseat/payment?list=' + encodedList;
-
+                                    window.location.href='/movie/reservationseat/payment?list=' + encodedList + '&adult=' + adult + '&teen=' + teen;
                                 }
 
                          })
@@ -279,15 +279,16 @@
 <div layout:fragment="content">
 
 
-    <div class="container">
+    <div class="containerColumn">
 
-
-        <div class="sidebar">
-
-            <a href="/movie/reservationtime">상영시간 재선택</a>
-            <a href="/movie/reservationseat" class="unclickable">인원/좌석 선택</a>
-
-        </div>
+        <ul class="nav justify-content-center" style="height: 10%;">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/movie/reservationtime}">상영시간 재선택</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active disabled" th:href="@{/movie/reservationseat}">인원/좌석 선택</a>
+            </li>
+        </ul>
 
 
         <div class="content" id="content1">
@@ -296,21 +297,23 @@
             <div>
 
                 <h5>인원 좌석 선택</h5>
-                <p th:text="${movieScheduleDTO}"></p>
-                <p>스크린</p>
+                <br><br>
             </div>
 
 
             <div class="ticketNum">
-
-                성인 : <input type="number" class="ticket" id="adult" min="0"><br>
-                청소년 : <input type="number" class="ticket" id="teen" min="0"><br><br>
-                총 티켓 수: <input type="number" class="total" id="total" min="0" disabled>
-
+                <div id="ticketNum1">
+                    성인 : <input type="number" class="ticket" id="adult" min="0">
+                    청소년 : <input type="number" class="ticket" id="teen" min="0">
+                </div>
+                <div id="ticketNum2">
+                    총 티켓: <input type="number" class="total" id="total" min="0" disabled>
+                </div>
 
             </div>
 
-
+            <br><br>
+            <div id="screenText"><p>스크린</p></div>
             <div class="seats" id="seats">
 
 

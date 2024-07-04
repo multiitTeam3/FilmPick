@@ -1,6 +1,9 @@
 package com.multi.mini.config;
 
 import com.multi.mini.movie.model.dto.*;
+import com.multi.mini.payment.model.dto.PayMovieDTO;
+import com.multi.mini.payment.model.dto.PaymentsDTO;
+import com.multi.mini.payment.model.dto.VwGetResDataDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.JdbcType;
@@ -47,6 +50,14 @@ public class MybatisConfig {
         configuration.getTypeAliasRegistry().registerAlias("memberAndRoleDTO", com.multi.mini.member.model.dto.MemberAndRoleDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("qnaDTO", com.multi.mini.qna.model.dto.QnaDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("couponDTO", com.multi.mini.admin.coupon.model.dto.CouponDTO.class);
+        configuration.getTypeAliasRegistry().registerAlias("productDTO", com.multi.mini.product.model.dto.ProductDTO.class);
+        configuration.getTypeAliasRegistry().registerAlias("noticeDTO", com.multi.mini.customer.notice.model.dto.NoticeDTO.class);
+        configuration.getTypeAliasRegistry().registerAlias("noticeCategoryDTO", com.multi.mini.customer.notice.model.dto.NoticeCategoryDTO.class);
+        configuration.getTypeAliasRegistry().registerAlias("ticketingDTO", com.multi.mini.admin.ticketing.model.dto.TicketingDTO.class);
+
+
+
+
 
 //        configuration.getTypeAliasRegistry().registerAlias("noticeDTO", com.multi.mini.admin.notice.model.dto.NoticeDTO.class);
 
@@ -70,11 +81,18 @@ public class MybatisConfig {
         configuration.getTypeAliasRegistry().registerAlias("genreDTO", GenreDTO.class);
         configuration.getTypeAliasRegistry().registerAlias("screenDTO", ScreenDTO.class);
 
-      
 
-        
-        
-        
+
+        configuration.getTypeAliasRegistry().registerAlias("VwGetResDataDTO", VwGetResDataDTO.class);
+
+
+        configuration.getTypeAliasRegistry().registerAlias("paymentsDTO", PaymentsDTO.class);
+
+        configuration.getTypeAliasRegistry().registerAlias("payMovieDTO", PayMovieDTO.class);
+
+
+
+
 
        
 

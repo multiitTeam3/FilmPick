@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
 @Controller
-@RequestMapping("/movie")
+@RequestMapping("/admin/movie")
 public class MovieControllerAdmin {
 	
 	private final MovieServiceAdmin movieServiceAdmin;
@@ -46,7 +46,18 @@ public class MovieControllerAdmin {
 			
 			System.out.println("count : " + count);
 			
-			int pages = count/3 +1;
+			int pages =0;
+			
+			if (count%3==0){
+				
+				pages =(int) (count / 3);
+				
+				
+			}else {
+				
+				pages =(int) (count / 3) + 1 ;
+				
+			}
 			
 			System.out.println(pages);
 			

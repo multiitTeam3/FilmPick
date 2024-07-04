@@ -10,7 +10,11 @@ public interface ScreenService {
 
 //    void updateScreen(ScreenDTO screenDTO) throws Exception;
 
-    void deleteScreen(int cinemaNo) throws Exception;
+    void deleteScreen(ScreenDTO screenDTO) throws Exception;
 
     ArrayList<ScreenDTO> getScreenList() throws Exception;
+    
+    ArrayList<ScreenDTO> findNotEnrolledScreenByCinemaNo(int cinemaNo) throws Exception;
+	
+	void insertScreenByCinemaNo(ScreenDTO screenDTO) throws Exception;
 }

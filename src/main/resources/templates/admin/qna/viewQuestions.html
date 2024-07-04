@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html layout:decorate="~{layoutAdmin}">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link rel="stylesheet" th:href="@{/css/container-box.css}">
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-box text-center">
+        <h1>관리자 페이지</h1>
+    </div>
+
+    <div class="container-box">
+        <h2>문의 관리</h2>
+
+        <!--/* 문의 검색 폼 */-->
+        <form id="search" th:action="@{/admin/question}" method="get">
+            <div class="search-box">
+                <select class="form-select" aria-label="search list" name="type" id="type">
+                    <option value="category" selected>구분</option>
+                    <option value="email">이메일</option>
+                </select>
+                <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword" id="keyword">
+                <button class="btn btn-primary" type="submit" id="button-addon2">검색</button>
+            </div>
+        </form>
+
+        <div id="d1">
+            <table class="table table-hover table-bordered table-striped">
+                <thead class="table-dark">
+                <tr>
+                    <th scope="col">번호</th>
+                    <th scope="col">구분</th>
+                    <th scope="col">이메일</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">작성일</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="qna : ${questions}">
+                    <th scope="row" th:text="${qna.qna_no}"></th>
+                    <td th:switch="${qna.category}">
+                        <span th:case="1">예매/매표</span>
+                        <span th:case="2">할인 혜택</span>
+                        <span th:case="3">영화관 이용</span>
+                        <span th:case="4">홈페이지/모바일</span>
+                        <span th:case="5">기타</span>
+                    </td>
+                    <td th:text="${qna.memberEmail}"></td>
+                    <td><a th:href="@{/admin/question/find(no=${qna.qna_no})}" th:text="${qna.title}"></a></td>
+                    <td th:text="${#dates.format(qna.create_date, 'yyyy-MM-dd')}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <p th:if="${questions == null}" style="text-align: center;">문의 내역이 존재하지 않습니다.</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

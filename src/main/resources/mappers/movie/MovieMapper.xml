@@ -7,6 +7,7 @@
 <mapper namespace="com.multi.mini.movie.model.mapper.MovieMapper">
 
 
+
     <select id="findMovieList">
 
         SELECT * FROM mov_movie;
@@ -87,7 +88,14 @@
     </select>
 
 
+    <select id="findAllVWMovieManageDataDTO">
 
+
+        SELECT *
+        FROM vw_movie_manage_data;
+
+
+    </select>
 
     <select id="findRsvNoListByVWGroupDTO">
 
@@ -146,7 +154,7 @@
 
         SELECT *
         FROM (
-        SELECT ROW_NUMBER() OVER(ORDER BY schedule_no desc) AS rownum, vw.*
+        SELECT ROW_NUMBER() OVER(PARTITION BY member_no ORDER BY schedule_no desc) AS rownum, vw.*
         FROM vw_res_group_data vw) vw2
 
         WHERE
@@ -160,7 +168,7 @@
 
         SELECT *
         FROM (
-        SELECT ROW_NUMBER() OVER(ORDER BY create_date desc) AS rownum, vw.*
+        SELECT ROW_NUMBER() OVER(PARTITION BY movie_no ORDER BY create_date desc) AS rownum, vw.*
         FROM vw_rew_data vw) vw2
 
         WHERE
@@ -187,7 +195,7 @@
 
         SELECT *
         FROM (
-        SELECT ROW_NUMBER() OVER(ORDER BY schedule_no desc) AS rownum, vw.*
+        SELECT ROW_NUMBER() OVER(PARTITION BY member_no ORDER BY schedule_no desc) AS rownum, vw.*
         FROM vw_res_group_data vw
         ) vw2
 
@@ -233,18 +241,48 @@
 
     </insert>
 
-
-
-
-    <select id="findCinemaList"> 
-
-        SELECT * FROM mov_cinema
-
+    <select id="findCinemaList" parameterType="map">
+        SELECT
+            c.*
+        FROM
+            mov_cinema c
+        JOIN
+            mov_region r ON c.region_no = r.region_no
+        WHERE
+        <choose>
+            <when test="type == 'cinema'">
+                c.cinema_name LIKE CONCAT('%', #{keyword}, '%')
+            </when>
+            <when test="type == 'region'">
+                r.region_name LIKE CONCAT('%', #{keyword}, '%')
+            </when>
+            <otherwise>
+                1 = 1
+            </otherwise>
+        </choose>
+        ORDER BY c.cinema_no
+        LIMIT #{start}, #{end}
     </select>
 
   <select id="vwResDataNo" parameterType="int" resultType="vwResDataDTO">
 
         SELECT * FROM vw_res_data WHERE RSV_NO = #{rsv_no};
-    </select>
+</select>
+
+  <select id="findVWResDataGroupDTO" parameterType="vwResDataGroupDTO" resultType="vwResDataGroupDTO">
+
+        SELECT * FROM vw_res_group_data
+        WHERE member_no = #{memberNo}
+        AND schedule_no = #{scheduleNo};
+  </select>
+
+
+    <delete id="deleteReservation" parameterType="reservationDTO">
+
+        DELETE FROM mov_reservation
+        WHERE schedule_no = #{scheduleNo}
+        AND member_no = #{memberNo};
+
+    </delete>
 
 </mapper>

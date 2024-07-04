@@ -4,24 +4,71 @@
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <script th:src="@{/js/paging.js}"></script>
-    <script>
-    $(document).ready(function(){
-        $('#movieScheduleModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var screenCode = button.data('screen-code');
-            var cinemaNo = button.data('cinema-no');
-            var modal = $(this);
-            modal.find('#screenCode').val(screenCode);
-            modal.find('#cinemaNo').val(cinemaNo);
+
+    <script th:inline="javascript">
+        $(document).ready(function(){
+            $('#movieScheduleModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var screenCode = button.data('screen-code');
+                var cinemaNo = button.data('cinema-no');
+                var modal = $(this);
+                modal.find('#screenCode').val(screenCode);
+                modal.find('#cinemaNo').val(cinemaNo);
+            });
+
+            $('#screenModal').on('show.bs.modal', function (event) {
+
+                    console.log("$('#screenModal').on('show.bs.modal')")
+                    var cinemaNo = [[${screens[0].cinemaNo}]];
+                    console.log("cinemaNo : " + cinemaNo);
+
+                    // 등록이 안 된 상영관만 가져옴
+                   function findNotEnrolledScreenByCinemaNo(){
+                       $.ajax({
+
+                           url: '/admin/cinemamanage/screen/findNotEnrolledScreenByCinemaNo?cinemaNo=' + cinemaNo,
+                           method: 'POST',
+                           contentType: 'application/json',
+                           success: function(list){
+
+                               $("#notEnrolled").html("");
+                               $("#cinemaNo2").val(cinemaNo)
+
+                                console.log("성공 : ")
+                                console.log(list)
+
+                                $.each(list, function(index, screen){
+                                    console.log("screen : ")
+                                    console.log(screen.screenCode)
+                                    console.log(screen.screenName)
+
+                                    var name = screen.screenName;
+
+                                    var htmlContent = `<option value="${screen.screenCode}">${name}</option>`;
+                                    console.log(htmlContent)
+                                    $("#notEnrolled").append(htmlContent);
+
+                                })
+
+                           }
+                       })
+                   }
+
+                   findNotEnrolledScreenByCinemaNo();
+                });
+
         });
-    });
-</script>
+    </script>
+    <link rel="stylesheet" th:href="@{/css/container-box.css}">
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="container">
-        <h2 class="text-center mb-4">상영관 관리</h2>
-        <hr color="grey">
+    <div class="container-box text-center">
+        <h1>관리자 페이지</h1>
+    </div>
+
+    <div class="container-box">
+        <h2>상영관 관리</h2>
 
         <!--/* 상영관 목록 테이블 */-->
         <div id="d1">
@@ -36,29 +83,36 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:if="${screens == null or #lists.isEmpty(screens)}">
-                        <td colspan="5" class="text-center">조회 정보가 없습니다</td>
-                    </tr>
-                    <tr th:each="screen : ${screens}">
-                        <th scope="row" th:text="${screen.screenName}"></th>
-                        <td th:text="${screen.isAvail}"></a></td>
-                        <td th:text="${screen.totalSeat}"></td>
-                        <td><button data-bs-toggle="modal" data-bs-target="#movieScheduleModal" th:attr="data-cinema-no=${screen.cinemaNo}, data-screen-code=${screen.screenCode}" type="button" class="btn btn-primary">상영 일정 추가</button></td>
-                        <td><a th:href="@{/admin/cinemamanage/screen/delete(code=${screen.cinemaNo})}"><button type="button" class="btn btn-primary">삭제</button></a></td>
-                    </tr>
+                <tr th:if="${screens == null or #lists.isEmpty(screens)}">
+                    <td colspan="5" class="text-center">조회 정보가 없습니다</td>
+                </tr>
+                <tr th:each="screen : ${screens}">
+                    <th scope="row" th:text="${screen.screenName}"></th>
+                    <td th:text="${screen.isAvail}"></a></td>
+                    <td th:text="${screen.totalSeat}"></td>
+                    <td>
+                        <button data-bs-toggle="modal" data-bs-target="#movieScheduleModal"
+                                th:attr="data-cinema-no=${screen.cinemaNo}, data-screen-code=${screen.screenCode}"
+                                type="button" class="btn btn-primary">상영 일정 추가
+                        </button>
+                    </td>
+                    <td><a th:href="@{/admin/cinemamanage/screen/delete(no=${screen.cinemaNo}, code=${screen.screenCode})}">
+                        <button type="button" class="btn btn-primary">삭제</button>
+                    </a></td>
+                </tr>
                 </tbody>
             </table>
+            <div class="d-flex justify-content-end">
+                <button data-bs-toggle="modal" data-bs-target="#screenModal" type="button"
+                        class="btn btn-outline-primary me-2" id="enroll">
+                    상영관 등록
+                </button>
+            </div>
         </div>
 
-
-<!--        <div class="d-flex justify-content-end" th:with="screen=${screens[0]}">-->
-<!--            <button data-bs-toggle="modal" data-bs-target="#screenModal" th:attr="data-cinema-no=${screen.cinemaNo}" type="button" class="btn btn-outline-primary me-2">-->
-<!--                상영관 등록-->
-<!--            </button>-->
-<!--        </div>-->
-
         <!-- 상영일정 등록 모달 -->
-        <div class="modal fade" id="movieScheduleModal" tabindex="-1" aria-labelledby="couponModalLabel" aria-hidden="true">
+        <div class="modal fade" id="movieScheduleModal" tabindex="-1" aria-labelledby="couponModalLabel"
+             aria-hidden="true">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
 
@@ -83,7 +137,8 @@
                             <input type="date" class="form-control mb-2 mr-sm-2" name="date" required> <br>
 
                             <label class="mr-sm-2">휴게 시간 :</label>
-                            <input type="text" class="form-control mb-2 mr-sm-2" placeholder="00" pattern="^[0-5]\d$" title="00부터 59까지 입력 가능합니다." name="breaktime" required> <br>
+                            <input type="text" class="form-control mb-2 mr-sm-2" placeholder="00" pattern="^[0-5]\d$"
+                                   title="00부터 59까지 입력 가능합니다." name="breaktime" required> <br>
                         </div>
 
                         <div class="modal-footer">
@@ -105,14 +160,13 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
-                    <form th:action="@{/admin/cinemamanage/insert}" method="post">
-                        <input type="hidden" id="cinemaNo" name="cinemaNo">
-                        <div class="modal-body">
-                            <label class="mr-sm-2">상영관 선택 :</label>
-                            <select class="form-select" aria-label="Default select example" name="screenCode">
-                                <tr th:each="screen : ${screens}">
-                                    <option th:value="${screen.screenCode}" th:text="${screen.screenName}" selected></option>
-                                </tr>
+                    <form th:action="@{/admin/cinemamanage/screen/insert}" method="post">
+                        <input type="hidden" id="cinemaNo2" name="cinemaNo">
+                        <div class="modal-body" id="notEnrolledScreens">
+                            <label class="mr-sm-2">미등록 상영관 선택 :</label>
+                            <select class="form-select" aria-label="Default select example" name="screenCode" id="notEnrolled">
+
+
                             </select> <br>
                         </div>
 

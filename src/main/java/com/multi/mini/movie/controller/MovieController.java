@@ -139,7 +139,10 @@ public class MovieController {
 	@GetMapping("/reservationseat")
 	public void movieReservationSeat(HttpSession httpSession, Model model) {
 		
+		
 		MovieScheduleDTO movieScheduleDTO = (MovieScheduleDTO) httpSession.getAttribute("movieScheduleDTO");
+		System.out.println("@GetMapping(\"/reservationseat\") : " + movieScheduleDTO);
+
 		
 		ArrayList<SeatDTO> seatListByScreen = null;
 		
@@ -367,29 +370,29 @@ public class MovieController {
 		
 	}
 	
-	@GetMapping("/reservationseat/payment")
-	public String payment(@RequestParam("list") String list, Model model) {
-		
-		List<String> rsvNoList = new Gson().fromJson(list, new TypeToken<List<String>>() {
-		}.getType());
-		
-		
-		// 현재 인증된 사용자 정보를 가져옴
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-		
-		// 작성자의 memberNo와 userName을 설정
-		
-		int memberNO = userDetails.getMemberNo();
-		
-		VWResDataGroupDTO vwResDataGroupDTO = new VWResDataGroupDTO();
-		
-		
-		model.addAttribute("rsvNoList", rsvNoList);
-		return "payment/payment";
-		
-		
-	}
+//	@GetMapping("/reservationseat/payment")
+//	public String payment(@RequestParam("list") String list, Model model) {
+//
+//		List<String> rsvNoList = new Gson().fromJson(list, new TypeToken<List<String>>() {
+//		}.getType());
+//
+//
+//		// 현재 인증된 사용자 정보를 가져옴
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+//
+//		// 작성자의 memberNo와 userName을 설정
+//
+//		int memberNO = userDetails.getMemberNo();
+//
+//		VWResDataGroupDTO vwResDataGroupDTO = new VWResDataGroupDTO();
+//
+//
+//		model.addAttribute("rsvNoList", rsvNoList);
+//		return "payment/payment";
+//
+//
+//	}
 	
 	
 	@GetMapping("/reservationlist")
@@ -425,12 +428,16 @@ public class MovieController {
 		Map<String, Object> params = new HashMap<>();
 		params.put("memberNo", memberNO);
 		params.put("start",moviePageDTO.getStart());
+		System.out.println("moviePageDTO.getStart() : " + moviePageDTO.getStart());
 		params.put("end",moviePageDTO.getEnd());
+		System.out.println("moviePageDTO.getEnd() : " + moviePageDTO.getEnd());
 		
 		ReservationResponseDTO responseDTO= null;
 		
 		try {
 			list = movieService.findAllReservationByMemberNo(params);
+			
+			System.out.println(" findAllReservationByMemberNo(params) list : " + list);
 			
 			for (VWResDataGroupDTO reservation : list){
 				
@@ -444,7 +451,19 @@ public class MovieController {
 			
 			System.out.println("count : " + count);
 			
-			int pages = count / 3 + 1 ;
+			int pages =0;
+			
+			if (count%3==0){
+				
+				pages =(int) (count / 3);
+				
+				
+			}else {
+				
+				pages =(int) (count / 3) + 1 ;
+				
+			}
+
 			
 			System.out.println("pages : " +pages);
 			
@@ -552,6 +571,7 @@ public class MovieController {
 	
 	
 	// 예약 내역 화면에서 받은 정보로 예약 번호를 추출해서 다시 페이 화면으로 보내기.
+
 	
 	@RequestMapping("/payTheBill")
 	@ResponseBody
@@ -690,6 +710,149 @@ public class MovieController {
 	}
 	
 	
+	
+	@PostMapping("/deleteReservation")
+	@ResponseBody
+	public String deleteReservation(@RequestBody ReservationDTO reservationDTO){
+
+		// 현재 인증된 사용자 정보를 가져옴
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+		
+		// 작성자의 memberNo와 userName을 설정
+		
+		int memberNO = userDetails.getMemberNo();
+	
+		reservationDTO.setMemberNo(memberNO);
+		
+		try {
+			int result = movieService.deleteReservation(reservationDTO);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+		return "예약 삭제 성공!";
+	
+	
+	}
+	
+	@GetMapping("/updatemovie")
+	public void updateMovie(@RequestParam("scheduleno") int scheduleNo, Model model, HttpSession httpSession){
+		
+		// 현재 인증된 사용자 정보를 가져옴
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+		
+		// 작성자의 memberNo와 userName을 설정
+		
+		int memberNO = userDetails.getMemberNo();
+		
+		httpSession.setAttribute("deleteSheduleNo", scheduleNo);
+		System.out.println("@GetMapping(updatemovie) deleteSheduleNo : " + scheduleNo);
+		
+		VWResDataGroupDTO vwResDataGroupDTO = new VWResDataGroupDTO();
+		
+		vwResDataGroupDTO.setScheduleNo(scheduleNo);
+		vwResDataGroupDTO.setMemberNo(memberNO);
+		
+		VWResDataGroupDTO vwResDataGroupDTO2 = null;
+		try {
+			vwResDataGroupDTO2 = movieService.findVWResDataGroupDTO(vwResDataGroupDTO);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+		System.out.println("vwResDataGroupDTO2 : " + vwResDataGroupDTO2);
+		
+		model.addAttribute("vwResDataGroupDTO", vwResDataGroupDTO2);
+		
+	}
+	
+	
+	
+	// 예약 취소 후 변경
+	// 오류 : 삭제한 영화 movieScheduleDTO 내용을 넘기고 있다
+	@PostMapping("/updateseat")
+	@ResponseBody
+	public String updateseat(@RequestBody MovieScheduleDTO movieScheduleDTO2, HttpSession httpSession) {
+		
+		// 현재 인증된 사용자 정보를 가져옴
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+		
+		// 작성자의 memberNo와 userName을 설정
+		
+		int memberNO = userDetails.getMemberNo();
+		
+		int deleteSheduleNo = (int) httpSession.getAttribute("deleteSheduleNo");
+		httpSession.removeAttribute("deleteSheduleNo");
+		System.out.println("@PostMapping(updateseat) deleteSheduleNo : " + deleteSheduleNo);
+		
+		ReservationDTO reservationDTO = new ReservationDTO();
+		reservationDTO.setScheduleNo(deleteSheduleNo);
+		reservationDTO.setMemberNo(memberNO);
+		
+		try {
+			int result = movieService.deleteReservation(reservationDTO);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+		
+		// 삭제해야하는 정보가 넘어온다?? 분명 넘길 때는 클릭한 정보인데..
+		httpSession.setAttribute("movieScheduleDTO2", movieScheduleDTO2);
+		System.out.println("@RequestMapping(updateseat) movieScheduleDTO2 exist here???: " + movieScheduleDTO2);
+		
+		
+		return "PostMapping(updateseat) 받은 거: " + movieScheduleDTO2.toString();
+		
+	}
+	
+	
+	@GetMapping("/updateseat")
+	public void updateSeat(HttpSession httpSession, Model model) {
+		
+		
+		MovieScheduleDTO movieScheduleDTO = (MovieScheduleDTO) httpSession.getAttribute("movieScheduleDTO2");
+		System.out.println("@GetMapping(updateseat) : " + movieScheduleDTO);
+		
+		
+		ArrayList<SeatDTO> seatListByScreen = null;
+		
+		try {
+			seatListByScreen = movieService.findSeatListByScreen(movieScheduleDTO.getScreenCode());
+			
+			System.out.println("seatListByScreen : " + seatListByScreen);
+			
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+		
+		ArrayList<SeatDTO> reservedSeatList = null;
+		try {
+			/*reservedSeatList = movieService.reservedSeatList();*/
+			reservedSeatList = movieService.findReservedSeat(movieScheduleDTO);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+		ArrayList<String> seatNoList = new ArrayList();
+		
+		for (SeatDTO seat : reservedSeatList) {
+			seatNoList.add(String.valueOf(seat.getSeatNo()));
+		}
+		
+		System.out.println("seatNoList" + seatNoList);
+		
+		model.addAttribute("movieScheduleDTO", movieScheduleDTO);
+		model.addAttribute("reservedSeatList", reservedSeatList);
+		model.addAttribute("seatNoList", seatNoList);
+		model.addAttribute("seatListByScreen", seatListByScreen);
+		
+		httpSession.removeAttribute("movieScheduleDTO2");
+		
+	}
 	
 	
 	
