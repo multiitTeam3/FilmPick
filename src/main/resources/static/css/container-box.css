@@ -37,17 +37,17 @@
         .search-box .form-select,
         .search-box .form-control,
         .search-box .btn {
-            margin-right: 10px; /* 요소 간의 간격을 위해 여백 추가 */
+            margin-right: 10px;
         }
 
         .search-box .form-select {
-            flex: 0 0 auto; /* select 요소의 크기를 고정 */
+            flex: 0 0 auto;
         }
 
         .search-box .form-control {
-            flex: 1 1 auto; /* input 요소가 가로 공간을 최대한 차지하도록 */
+            flex: 1 1 auto;
         }
 
         .search-box .btn {
-            flex: 0 0 auto; /* 버튼의 크기를 고정 */
+            flex: 0 0 auto;
         }
