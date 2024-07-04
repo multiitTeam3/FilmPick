@@ -1,10 +1,7 @@
 package com.multi.mini.payment.model.mapper;
 
 import com.multi.mini.movie.model.dto.VWResDataDTO;
-import com.multi.mini.payment.model.dto.PayMovieDTO;
-import com.multi.mini.payment.model.dto.PayProductDTO;
-import com.multi.mini.payment.model.dto.PaymentsDTO;
-import com.multi.mini.payment.model.dto.VwGetResDataDTO;
+import com.multi.mini.payment.model.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -28,5 +25,5 @@ public interface PaymentMapper {
 
     PayProductDTO selectProductByPay(int papProductNo) throws Exception;
 
-
+    PayProductAndPaymentDTO insertPaymentProduct(int papProductNo) throws Exception;
 }

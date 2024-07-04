@@ -3,10 +3,7 @@ package com.multi.mini.payment.service;
 import com.multi.mini.admin.coupon.model.dto.CouponDTO;
 import com.multi.mini.admin.coupon.model.mapper.CouponMapper;
 import com.multi.mini.member.model.mapper.MemberMapper;
-import com.multi.mini.payment.model.dto.PayMovieDTO;
-import com.multi.mini.payment.model.dto.PayProductDTO;
-import com.multi.mini.payment.model.dto.PaymentsDTO;
-import com.multi.mini.payment.model.dto.VwGetResDataDTO;
+import com.multi.mini.payment.model.dto.*;
 import com.multi.mini.payment.model.mapper.PaymentMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -85,8 +82,13 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	@Override
-	public PayProductDTO selectProductByPay(int ProductNo) throws Exception {
-		return paymentMapper.selectProductByPay();
+	public PayProductDTO selectProductByPay(int papProductNo) throws Exception {
+		return paymentMapper.selectProductByPay(papProductNo);
+	}
+
+	@Override
+	public PayProductAndPaymentDTO insertPaymentProduct(int papProductNo) throws Exception {
+		return paymentMapper.insertPaymentProduct(papProductNo);
 	}
 
 
