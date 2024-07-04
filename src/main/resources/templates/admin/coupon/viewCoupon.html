@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layoutAdmin}">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <script th:src="@{/js/paging.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/container-box.css}">
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-box text-center">
+        <h1>관리자 페이지</h1>
+    </div>
+
+    <div class="container">
+        <div class="container-box">
+            <h2>쿠폰 관리</h2>
+
+        <!--/* 쿠폰 검색 폼 */-->
+        <form id="search" th:action="@{/admin/coupon}" method="get">
+            <div class="search-box">
+                <select class="form-select" aria-label="search list" name="type">
+                    <option value="email" selected>이메일</option>
+                    <option value="couponCode">쿠폰 코드</option>
+                </select>
+                <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword" id="keyword">
+                <button class="btn btn-primary" type="submit" id="button-addon2">검색</button>
+            </div>
+        </form>
+
+        <!--/* 쿠폰 목록 테이블 */-->
+        <div id="d1">
+            <table class="table table-hover table-bordered" w-80>
+                <thead class="table-dark">
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">쿠폰 코드</th>
+                    <th scope="col">이메일</th>
+                    <th scope="col">설명</th>
+                    <th scope="col">사용 여부</th>
+                    <th scope="col">사용일</th>
+                    <th scope="col">발급일자</th>
+                    <th scope="col">만료일자</th>
+                    <th scope="col">삭제</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="coupon : ${coupons}">
+                        <th scope="row" th:text="${coupon.rowNum}"></th>
+                        <td th:text="${coupon.couponCode}"></a></td>
+                        <td th:text="${coupon.member.email}"></a></td>
+                        <td th:text="${coupon.description}"></td>
+                        <td th:text="${coupon.discount}"></td>
+                        <td th:text="${coupon.useDate}"></td>
+                        <td th:text="${coupon.createDate}"></td>
+                        <td th:text="${coupon.expDate}"></td>
+                        <td><button class="btn btn-sm btn-danger" th:onclick="|location.href='@{/admin/coupon/delete(code=${coupon.couponCode})}'|">삭제</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <button data-bs-toggle="modal" data-bs-target="#couponModal" type="button" class="btn btn-outline-primary me-2">
+                쿠폰 등록
+            </button>
+        </div>
+
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${page == 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{/admin/coupon(type=${type != null ? type : ''}, keyword=${keyword != null ? keyword : ''}, page=${page != null ? page - 1 : 1})}" th:text="'이전'"></a>
+                </li>
+
+                <li class="page-item" th:each="p : ${#numbers.sequence(1, pages)}" th:classappend="${p == page} ? 'active'">
+                    <a class="page-link" th:href="@{/admin/notice(type=${type != null ? type : ''}, keyword=${keyword != null ? keyword : ''}, page=${p})}" th:text="${p}"></a>
+                </li>
+
+                <li class="page-item" th:classappend="${page == pages} ? 'disabled'">
+                    <a class="page-link" th:href="@{/admin/coupon(type=${type != null ? type : ''}, keyword=${keyword != null ? keyword : ''}, page=${page != null ? page + 1 : 1})}" th:text="'다음'"></a>
+                </li>
+            </ul>
+
+        <!-- 쿠폰 등록 모달 -->
+        <div class="modal fade" id="couponModal" tabindex="-1" aria-labelledby="couponModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="updateModalLabel">쿠폰 등록</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <form th:action="@{/admin/coupon/insert}" method="post">
+                        <div class="modal-body">
+                            <!--   나중에 자바 스크립트로 이메일 존재 하는지 프론트에서 검증하는 로직 만들 것    -->
+                            <label class="mr-sm-2">이메일 :</label>
+                            <input type="text" class="form-control mb-2 mr-sm-2" name="email"> <br>
+                            <label class="mr-sm-2">할인률 :</label>
+                            <input type="text" class="form-control mb-2 mr-sm-2" name="discount"> <br>
+                            <label class="mr-sm-2">설명 :</label>
+                            <input type="text" class="form-control mb-2 mr-sm-2" name="desc"> <br>
+                            <label class="mr-sm-2">만료일자 :</label>
+                            <input type="text" class="form-control mb-2 mr-sm-2" name="expDate"> <br>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">등록</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+		/*<![CDATA[*/
+		let pages = /*[[${pages}]]*/;
+		/*]]>*/
+
+</script>
+
+
+</body>
+</html>

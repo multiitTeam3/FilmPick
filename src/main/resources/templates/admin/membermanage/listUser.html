@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layoutAdmin}">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <script th:src="@{/js/paging.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/container-box.css}">
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="container-box text-center">
+            <h1>관리자 페이지</h1>
+        </div>
+
+        <div class="container-box">
+            <h2>회원 관리</h2>
+
+            <!--/* 회원 검색 폼 */-->
+            <form id="search" th:action="@{/admin/membermanage}" method="get">
+                <div class="search-box">
+                    <select class="form-select" aria-label="search list" name="type">
+                        <option value="email" selected>이메일</option>
+                        <option value="name">닉네임</option>
+                        <option value="role">권한</option>
+                    </select>
+                    <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword" id="keyword">
+                    <button class="btn btn-primary" type="submit" id="button-addon2">검색</button>
+                </div>
+            </form>
+
+            <!--/* 회원 목록 테이블 */-->
+            <div id="d1">
+                <table class="table table-hover table-bordered table-striped" w-80>
+                    <thead class="table-dark">
+                    <tr>
+                        <th scope="col">번호</th>
+                        <th scope="col">이메일</th>
+                        <th scope="col">닉네임</th>
+                        <th scope="col">생성일</th>
+                        <th scope="col">권한</th>
+                        <th scope="col">삭제</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user : ${users}">
+                        <th scope="row" th:text="${user.rowNum}"></th>
+                        <td><a th:href="@{/admin/membermanage/find(no=${user.memberNo})}" th:text="${user.email}"></a></td>
+                        <td th:text="${user.userName}"></td>
+                        <td th:text="${user.createDate}"></td>
+                        <td th:each="role : ${user.roles}" th:text="${role.roleName}"></td>
+                        <td><a th:href="@{/admin/membermanage/delete(no=${user.memberNo})}"><button type="button" class="btn btn-primary">DELETE</button></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:each="p : ${#numbers.sequence(1, pages)}" th:classappend="${p == page} ? 'active'">
+                    <a class="page-link" th:href="@{/admin/membermanage(type=${type != null ? type : ''}, keyword=${keyword != null ? keyword : ''}, page=${p})}" th:text="${p}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+		/*<![CDATA[*/
+		let pages = /*[[${pages}]]*/;
+		/*]]>*/
+
+</script>
+
+
+</body>
+</html>

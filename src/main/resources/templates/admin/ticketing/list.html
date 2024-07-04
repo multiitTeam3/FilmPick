@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layoutAdmin}">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <script th:src="@{/js/paging.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/container-box.css}">
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="container-box text-center">
+            <h1>관리자 페이지</h1>
+        </div>
+
+        <div class="container-box">
+            <h2>예매 내역 관리</h2>
+
+            <!--/* 예매 내역 검색 폼 */-->
+            <form id="search" th:action="@{/admin/ticketing}" method="get">
+                <div class="search-box">
+                    <select class="form-select" aria-label="search list" name="type">
+                        <option value="email" selected>이메일</option>
+                        <option value="title">영화 제목</option>
+                        <option value="cinema">영화관</option>
+                        <option value="screen">상영관</option>
+                    </select>
+                    <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword" id="keyword">
+                    <button class="btn btn-primary" type="submit" id="button-addon2">검색</button>
+                </div>
+            </form>
+
+            <!--/* 예매 내역 테이블 */-->
+            <div id="d1">
+                <table class="table table-hover table-bordered table-striped" w-80>
+                    <thead class="table-dark">
+                    <tr>
+                        <th scope="col">번호</th>
+                        <th scope="col">예매 번호</th>
+                        <th scope="col">이메일</th>
+                        <th scope="col">영화관</th>
+                        <th scope="col">상영관</th>
+                        <th scope="col">결제 유무</th>
+                        <th scope="col">예매 일자</th>
+                        <th scope="col">상세 조회</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="ticket : ${tickets}">
+                        <th scope="row" th:text="${ticket.rowNum}">번호</th>
+                        <th scope="row" th:text="${ticket.rsvNo}">예약 번호</th>
+                        <td th:text="${ticket.email}">이메일</td>
+                        <td th:text="${ticket.cinemaName}">영화관</td>
+                        <td th:text="${ticket.screenName}">상영관</td>
+                        <td th:text="${ticket.isPaid}">결제 유무</td>
+                        <td th:text="${ticket.createDate}">예매 일자</td>
+                        <td><a th:href="@{/admin/ticketing/find(no=${ticket.rsvNo})}"><button type="button" class="btn btn-primary">상세 조회</button></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${page == 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{/admin/ticketing(type=${type != null ? type : ''}, keyword=${keyword != null ? keyword : ''}, page=${page != null ? page - 1 : 1})}" th:text="'이전'"></a>
+                </li>
+
+                <li class="page-item" th:each="p : ${#numbers.sequence(1, pages)}" th:classappend="${p == page} ? 'active'">
+                    <a class="page-link" th:href="@{/admin/ticketing(type=${type != null ? type : ''}, keyword=${keyword != null ? keyword : ''}, page=${p})}" th:text="${p}"></a>
+                </li>
+
+                <li class="page-item" th:classappend="${page == pages} ? 'disabled'">
+                    <a class="page-link" th:href="@{/admin/ticketing(type=${type != null ? type : ''}, keyword=${keyword != null ? keyword : ''}, page=${page != null ? page + 1 : 1})}" th:text="'다음'"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

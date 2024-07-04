@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="~{layout.html}">
+<head>
+    <title>Home Page</title>
+
+
+    <link rel="stylesheet" th:href="@{/css/reservationlist.css}">
+
+    <script th:inline="javascript">
+
+        $(document).on('click','.plus1',function(){
+            $('.a1').toggleClass('none');
+        })
+
+        $(document).on('click','.plus2',function(){
+            $('.a2').toggleClass('none');
+        })
+
+        <!--예약 전체 내역 페이지 켜지며 불러오기-->
+
+         $(document).ready(
+            function(){
+
+
+                function findReservationList(page){
+
+                    $('#reservations').html("");
+
+                    $.ajax({
+
+                        url: '/movie/findAllReservationByMemberNo?page=' + page,
+                        method: 'POST',
+                        contentType: 'application/json',
+                        success: function(responseDTO){
+
+                            var vwResDataGroupDTO = responseDTO.reservations;
+                            var counts = responseDTO.count;
+                            var pages = responseDTO.pages;
+
+
+
+
+                            $.each(vwResDataGroupDTO, function(index, reservation){
+
+                                console.log(reservation.memberNo);
+                                var scheduleNo = reservation.scheduleNo;
+                                var movieNo = reservation.movieNo;
+                                console.log("scheduleNo: "+scheduleNo)
+
+                                <!--미결제 처리 기능 전부 삭제로 안보이게 하고 관련 페이지로 넘어갈 수 없어 예약 변경 기능 사용 못함-->
+                                /*if(reservation.rsvIsPaid=="N"){
+                                    $('#reservations').append('<div class="reservation"><p>'  +   reservation.date   +
+                                    '</p><p><span class="title">' +  reservation.movieTitle  +
+                                   '</span><button id="update" onclick="location.href=\'/movie/updatemovie?scheduleno=' +
+                                    scheduleNo + '\'" data-schedule-no=' + scheduleNo + '>예약변경</button><button id="delete" data-schedule-no='
+                                + scheduleNo + '>취소하기</button></p><div class="mov-content"><div class="img"><img src="' +
+                                reservation.posterPath  +
+                                '" width="60%"></div><div class="content1"><p>' +
+                                reservation.cinemaName + '</p><p>' + reservation.screenName  +
+                                '</p><p>' + reservation.startTime + '~' + reservation.endTime +
+                                '</p><p> 성인 ' + reservation.adultNum + '인, 청소년 ' +
+                                reservation.teenNum + '인(' + reservation.seatNameList +
+                                ') </p><button class="pay" data-schedule-no=' +  scheduleNo  + '>'
+                                + reservation.totalPrice   +'원 결제하기</button></div></div></div>')
+
+                                }*/
+
+                                <!--결제한 것-->
+                                if(reservation.rsvIsPaid=="Y"){
+
+                                    $('#reservations').append('<div class="reservation"><p>' +  reservation.date +
+                                    '</p><p><span class="title">' + reservation.movieTitle +
+                                    '</span><span>결제완료</span><button id="update" onclick="location.href=\'/movie/updatemovie?scheduleno=' +
+                                    scheduleNo + '\'" data-schedule-no=' + scheduleNo + '>예약변경</button><button id="delete" data-schedule-no='
+                                + scheduleNo + '>취소하기</button></p><div class="mov-content"><div class="img"><img src="' +
+                                    reservation.posterPath +
+                                    '" width="60%"></div><div class="content1"><p>' +
+                                    reservation.cinemaName + '<p><p>' + reservation.screenName + '</p><p>' + reservation.startTime + '~' + reservation.endTime + '</p><p> 성인 ' + reservation.adultNum + '인, 청소년 ' +
+                                    reservation.teenNum + '인(' + reservation.seatNameList +
+                                ') </p><a href="/movie/review?movieNo='
+                                + movieNo
+                                + '"><button class="review" data-movie-no=' +  movieNo + '>감상평 남기기</button></a></div></div></div>')
+                                }
+
+                            })
+
+                             $('.pageNums').html("");
+
+                             for(var p=1; p<=pages; p++){
+                                $('.pageNums').append('<button class="pagesAll">'+ p  + '</button>');
+                             }
+
+                        }
+                    })
+
+                }
+
+
+
+                function findNotPaidReservationList(page){
+
+                    $('#reservations').html("");
+
+                    $.ajax({
+
+                        url: '/movie/findAllNotPaidReservationByMemberNo?page=' + page,
+                        method: 'POST',
+                        contentType: 'application/json',
+                        success: function(responseDTO){
+
+                            var vwResDataGroupDTO = responseDTO.reservations;
+                            var counts = responseDTO.count;
+                            var pages = responseDTO.pages;
+
+                            $.each(vwResDataGroupDTO, function(index, reservation){
+
+
+                                console.log(reservation.memberNo);
+
+                                var scheduleNo = reservation.scheduleNo;
+
+                                console.log("scheduleNo: "+scheduleNo)
+
+
+                                $('#reservations').append('<div class="reservation"><p>'  +   reservation.date   +
+                                '</p><p><span class="title">' +  reservation.movieTitle  +
+                                '</span><button id="update" onclick="location.href=\'/movie/updateMovie?scheduleno=' +
+                                    scheduleNo + '\'" data-schedule-no=' + scheduleNo + '>예약 변경</button><button id="delete" data-schedule-no='
+                                + scheduleNo + '>취소하기</button></p><div class="mov-content"><div class="img"><img src="' +
+                                reservation.posterPath  +
+                                '" width="60%"></div><div class="content1"><p>' +
+                                reservation.cinemaName + '</p><p>' + reservation.screenName  +
+                                '</p><p>' + reservation.startTime + '~' + reservation.endTime +
+                                '</p><p> 성인 ' + reservation.adultNum + '인, 청소년 ' +
+                                reservation.teenNum + '인(' + reservation.seatNameList +
+                                ') </p><button class="pay" data-schedule-no=' +  scheduleNo  + '>'
+                                + reservation.totalPrice   +'원 결제하기</button></div></div></div>')
+
+                            })
+
+                             $('.pageNums').html("");
+
+                             for(var p=1; p<=pages; p++){
+                                $('.pageNums').append('<button class="pagesNotPaid">'+ p  + '</button>');
+                             }
+
+                        }
+                    })
+
+                }
+
+                findReservationList(1);
+
+                $(document).on('click','.pagesAll',function(){
+                     const page = $(this).text();
+                     findReservationList(page);
+
+                })
+
+
+                $(document).on('click','#all',function(){
+                    findReservationList(1);
+                })
+
+                $(document).on('click','#notpaid',function(){
+                    findNotPaidReservationList(1);
+                })
+
+
+                $(document).on('click','.pagesNotPaid',function(){
+                     const page = $(this).text();
+                     findNotPaidReservationList(page);
+
+                })
+
+
+                // 결제하기 버튼 클릭 이벤트로 기능 사라짐
+                function payTheBill(scheduleNo){
+
+                    $.ajax({
+
+                        url: '/movie/payTheBill',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ scheduleNo : scheduleNo }),
+                        success: function(list){
+
+                            console.log("success/movie/payTheBill");
+
+                            var encodedList = encodeURIComponent(JSON.stringify(list));
+
+                            window.location.href='/movie/reservationseat/payment?list=' + encodedList;
+                        }
+
+                    })
+
+                }
+
+
+                // 결제하기 버튼 사라지고 결제가 완료된 내역만 표시됨
+                $(document).on('click','.pay',function(){
+                     const scheduleNo = $(this).data('schedule-no');
+
+                     console.log("scheduleNo : ??? : "+scheduleNo);
+
+                     payTheBill(scheduleNo);
+
+                })
+
+                // 삭제하기 버튼
+                $(document).on('click','#delete',function(){
+                     const scheduleNo = $(this).data('schedule-no');
+
+                     console.log("scheduleNo : "+scheduleNo);
+
+                    // 삭제 처리
+
+                     $.ajax({
+
+                        url: '/movie/deleteReservation',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ scheduleNo : scheduleNo }),
+                        success: function(response){
+
+                            console.log(response);
+
+                            alert("예약 삭제 성공!");
+                        }
+
+                    })
+
+                     // 리스트 재로딩
+                     findReservationList(1);
+
+                })
+
+
+            }
+        )
+
+
+    </script>>
+
+
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <div class="head">
+
+        <div class="content" id="select-buttons">
+
+            <h1>예매 내역 조회</h1>
+
+            <!--미결제 내역 조회 기능 없앰. 전부 결제가 된 내역만 표시-->
+            <!--<div class="buttons">
+                <button id="all">전체 내역 조회</button>
+                <button id="notpaid">미결제 내역 조회</button>
+            </div>-->
+
+
+        </div>
+
+    </div>
+
+
+    <div class="medium">
+
+        <div class="content" id="reservations">
+
+            <!--<div class="reservation">
+
+                <p>2024/06/24</p>
+                <p>
+                    <span class="title">토끼의 춤</span>
+                    <button id="update">예약 변경</button>
+                    <button id="delete">취소하기</button>
+                </p>
+
+                <div class="mov-content">
+
+                    <div class="img"><img src="http://image.tmdb.org/t/p/w500//pmemGuhr450DK8GiTT44mgwWCP7.jpg" width="60%"></div>
+                    <div class="content1">
+
+                        <p>강남점</p>
+                        <p>D관</p>
+                        <p>16:00~18:00</p>
+                        <p>성인 2인(A1, A2)</p>
+                        <p>청소년 1인(A3)</p>
+                        <button class="pay">결제하기</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="reservation">
+
+                <p>2024/02/21</p>
+                <p>
+                    <span class="title">헤어질 결심</span>
+                    <span>결제완료</span>
+                </p>
+
+                <div class="mov-content">
+
+                    <div class="img"><img src="https://image.tmdb.org/t/p/w500/plNOSbqkSuGEK2i15A5btAXtB7t.jpg" width="60%"></div>
+                    <div class="content1">
+
+                        <p>서울대입구역점<p>
+                        <p>C관</p>
+                        <p>16:00~18:00</p>
+                        <p>성인 2인(A1, A2)</p>
+                        <p>청소년 1인(A3)</p>
+                        <button class="review">감상평 남기기</button>
+
+
+                    </div>
+
+                </div>
+
+
+
+            </div>-->
+
+
+        </div>
+
+
+
+
+
+    </div>
+
+    <div class="pageNums"></div>
+
+
+    <div class="foot">
+
+        <div class="content" id="questions">
+
+            <div class="question" id="q1">
+                <p class="q1">예매내용 변경이 가능한가요?<button class="plus1">+</button></p>
+                <p class="a1 none">예약 변경 버튼을 눌러주세요.</p>
+            </div>
+
+            <div class="question" id="q2">
+                <p class="q2">영화관 매점 상품은 어디서 구매하나요?<button class="plus2">+</button></p>
+                <p class="a2 none">상단 메뉴바 상점을 클릭해주세요.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+</div>
+
+
+
+
+<script>
+
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 네임스페이스는 풀클래스명을 써야한다 와 DTO 타입을 변경한 후 마이바티스 config 설정파일에 매퍼 부분은 지워주고, spring-context.xml에 매퍼 스캐닝을 추가해야 한다. -->
+<mapper namespace="com.multi.mini.movie.model.mapper.MovieMapper">
+
+
+
+    <select id="findMovieList">
+
+        SELECT * FROM mov_movie;
+
+    </select>
+
+
+    <select id="findRegionList">
+
+        SELECT * FROM mov_region;
+
+    </select>
+
+
+    <select id="findCinemaListByRegionNo">
+
+        SELECT * FROM mov_cinema
+
+        WHERE region_no = #{regionNo};
+
+    </select>
+
+
+    <select id="findScheduleListByCinemaNo">
+
+        SELECT * FROM mov_movie_schedule
+
+        WHERE cinema_no = #{cinemaNo};
+
+    </select>
+
+
+    <select id="findMovieByMovieNo">
+
+        SELECT * FROM mov_movie
+
+        WHERE movie_no = #{movieNo};
+
+    </select>
+
+
+    <select id="findAllSeat">
+
+        SELECT * FROM mov_seat;
+
+    </select>
+
+
+
+    <select id="findReservedSeat">
+
+        SELECT ms.seat_no, ms.seat_name
+        FROM mov_seat ms
+        JOIN mov_reservation mr ON ms.seat_no = mr.seat_no
+        WHERE mr.schedule_no= #{scheduleNo};
+
+    </select>
+
+
+
+    <select id="findSeatListByScreen">
+
+        SELECT ms.seat_no, ms.seat_name
+        FROM mov_seat ms
+        JOIN mov_screen_and_seat msas ON ms.seat_no = msas.seat_no
+        WHERE screen_code= #{screenCode};
+
+    </select>
+
+
+
+    <select id="findReservationNo">
+
+        SELECT rsv_no
+        FROM mov_reservation
+        WHERE schedule_no= #{scheduleNo} AND seat_no= #{seatNo};
+
+    </select>
+
+
+    <select id="findAllVWMovieManageDataDTO">
+
+
+        SELECT *
+        FROM vw_movie_manage_data;
+
+
+    </select>
+
+    <select id="findRsvNoListByVWGroupDTO">
+
+        SELECT rsv_no
+        FROM mov_reservation
+        WHERE
+        schedule_no= #{scheduleNo}
+        AND
+        member_no= #{memberNo}
+        AND
+        rsv_is_paid="N";
+
+    </select>
+
+
+
+
+
+
+    <select id="findAllReservationCountByMemberNo">
+
+        SELECT COUNT(*) count
+        FROM vw_res_group_data
+        WHERE member_no= #{memberNo};
+
+    </select>
+
+    <select id="findAllNotPaidReservationCountByMemberNo">
+
+        SELECT COUNT(*) count
+        FROM vw_res_group_data
+        WHERE member_no= #{memberNo}
+        AND rsv_is_paid="N";
+
+    </select>
+
+    <select id="findAllReviewCountByMovieNo">
+
+        SELECT COUNT(*) count
+        FROM vw_rew_data
+        WHERE movie_no= #{movierNo};
+
+    </select>
+
+
+    <select id="findAllEnrolledMovieCount">
+
+        SELECT COUNT(*) count
+        FROM vw_movie_manage_data;
+
+    </select>
+
+
+
+    <select id="findAllReservationByMemberNo" parameterType="map" resultType="vwResDataGroupDTO">
+
+        SELECT *
+        FROM (
+        SELECT ROW_NUMBER() OVER(PARTITION BY member_no ORDER BY schedule_no desc) AS rownum, vw.*
+        FROM vw_res_group_data vw) vw2
+
+        WHERE
+        vw2.member_no= #{memberNo}
+        AND
+        vw2.rownum BETWEEN ${start} and ${end};
+
+    </select>
+
+    <select id="findVWReviewListByMovieNo" parameterType="map" resultType="vwRewDataDTO">
+
+        SELECT *
+        FROM (
+        SELECT ROW_NUMBER() OVER(PARTITION BY movie_no ORDER BY create_date desc) AS rownum, vw.*
+        FROM vw_rew_data vw) vw2
+
+        WHERE
+        vw2.movie_no= #{movieNo}
+        AND
+        vw2.rownum BETWEEN ${start} and ${end};
+
+    </select>
+
+
+    <select id="findAllEnrolledMovie" parameterType="moviePageDTO" resultType="vwMovieManageDataDTO">
+
+        SELECT *
+        FROM (
+        SELECT ROW_NUMBER() OVER(ORDER BY movie_no asc) AS rownum, vw.*
+        FROM vw_movie_manage_data vw) vw2
+
+        WHERE vw2.rownum BETWEEN #{start} AND #{end};
+
+    </select>
+
+
+    <select id="findAllNotPaidReservationByMemberNo" parameterType="map" resultType="vwResDataGroupDTO">
+
+        SELECT *
+        FROM (
+        SELECT ROW_NUMBER() OVER(PARTITION BY member_no ORDER BY schedule_no desc) AS rownum, vw.*
+        FROM vw_res_group_data vw
+        ) vw2
+
+        WHERE
+        vw2.member_no= #{memberNo}
+        AND
+        vw2.rownum BETWEEN ${start} and ${end}
+
+        AND vw2.rsv_is_paid="N";
+
+    </select>
+
+
+
+    <insert id="insertReservation" parameterType="reservationDTO">
+
+        INSERT INTO mov_reservation(schedule_no, seat_no, member_no, rsv_movie_price, rsv_is_paid)
+        VALUES(#{scheduleNo}, #{seatNo}, #{memberNo}, #{rsvMoviePrice}, #{rsvIsPaid})
+
+    </insert>
+
+
+    <insert id="insertReview" parameterType="reviewDTO">
+
+        INSERT INTO mov_movie_review
+        VALUES(NULL, #{movieNo}, #{memberNo}, #{content}, #{rate}, NOW())
+
+    </insert>
+
+
+    <insert id="insertGenre" parameterType="genreDTO">
+
+        INSERT INTO mov_genre
+        VALUES(#{genreNo}, #{genreContent})
+
+    </insert>
+
+
+    <insert id="insertAPIMovie" parameterType="movieDTO">
+
+        INSERT INTO mov_movie
+        VALUES(NULL,#{movieTitle}, #{genreNo}, #{popularity}, #{duration},#{originalLanguage},#{movieContent},#{adult},#{posterPath},NOW(), NULL )
+
+    </insert>
+
+    <select id="findCinemaList" parameterType="map">
+        SELECT
+            c.*
+        FROM
+            mov_cinema c
+        JOIN
+            mov_region r ON c.region_no = r.region_no
+        WHERE
+        <choose>
+            <when test="type == 'cinema'">
+                c.cinema_name LIKE CONCAT('%', #{keyword}, '%')
+            </when>
+            <when test="type == 'region'">
+                r.region_name LIKE CONCAT('%', #{keyword}, '%')
+            </when>
+            <otherwise>
+                1 = 1
+            </otherwise>
+        </choose>
+        ORDER BY c.cinema_no
+        LIMIT #{start}, #{end}
+    </select>
+
+  <select id="vwResDataNo" parameterType="int" resultType="vwResDataDTO">
+
+        SELECT * FROM vw_res_data WHERE RSV_NO = #{rsv_no};
+</select>
+
+  <select id="findVWResDataGroupDTO" parameterType="vwResDataGroupDTO" resultType="vwResDataGroupDTO">
+
+        SELECT * FROM vw_res_group_data
+        WHERE member_no = #{memberNo}
+        AND schedule_no = #{scheduleNo};
+  </select>
+
+
+    <delete id="deleteReservation" parameterType="reservationDTO">
+
+        DELETE FROM mov_reservation
+        WHERE schedule_no = #{scheduleNo}
+        AND member_no = #{memberNo};
+
+    </delete>
+
+</mapper>

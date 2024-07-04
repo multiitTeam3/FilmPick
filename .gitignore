@@ -167,23 +167,34 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,java,intellij
+.gradle/8.8/checksums/checksums.lock
+.gradle/8.8/checksums/checksums.lock
+.gradle/8.8/executionHistory/executionHistory.bin
+.gradle/8.8/executionHistory/executionHistory.lock
+.gradle/8.8/fileHashes/fileHashes.bin
+.gradle/8.8/fileHashes/fileHashes.lock
+.gradle/8.8/fileHashes/resourceHashesCache.bin
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
+.gradle/8.8/checksums/checksums.lock
+.gradle/8.8/checksums/md5-checksums.bin
+.gradle/8.8/checksums/sha1-checksums.bin
+.gradle/8.8/fileHashes/fileHashes.lock
+.idea/misc.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/modules/mini.main.iml
+.gradle/8.8/executionHistory/executionHistory.lock
+.gradle/8.8/fileHashes/fileHashes.lock
+.gradle/8.8/executionHistory/executionHistory.lock
+.gradle/8.8/fileHashes/fileHashes.lock
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
+.idea/modules/mini.main.iml
+.idea/modules.xml
+.gradle/8.8/checksums/checksums.lock
+.gradle/8.8/checksums/md5-checksums.bin
+.gradle/8.8/checksums/sha1-checksums.bin
+.gradle/8.8/executionHistory/executionHistory.lock
+.gradle/8.8/fileHashes/fileHashes.lock
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
 
-# IntelliJ project files
-.idea
-.idea/*.xml*
-.iml
-out
-gen
-build
-rebel.xml
-
-# Compliled files
-/target/
-**/target
-
-/example
-
-# Gradle
-.gradle
 /build/
-.gradletasknamecache
