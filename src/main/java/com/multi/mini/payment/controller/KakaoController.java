@@ -196,6 +196,11 @@ public class KakaoController {
         String username = (String) session.getAttribute("username");
         int totalQuantity = (int) session.getAttribute("totalQuantity");
 
+        List<String> productNames = (List<String>) session.getAttribute("productNames");
+
+        List<Integer> productQuantities = (List<Integer>) session.getAttribute("productQuantities");
+
+
 
 
         String approveResponse = kakaoPayService.approveProduct(pg_token,partnerOrderId, username);
@@ -208,16 +213,45 @@ public class KakaoController {
         paymentsDTO.setTotalPrice(totalprice - paymentsDTO.getDiscount());
         paymentsDTO.setAmount(totalprice);
 
+
+
         paymentService.insertPayment(paymentsDTO);
 
 
+        Integer paymentsNo = paymentService.selectPaymentNo();
+        if (paymentsNo == null) {
+            throw new RuntimeException("결제번호가없습니다..!");
+        }
 
+        //pay_product_and_payment 테이블에는 pap_product_no 만큼 추가 20,21,22 번 상품 결제시 상품번호 db에 하나씩 넣어주기
+//    for(PayProductDTO payProductDTO : payProductDTOList){
+//        int productNo = payProductDTO.getProductNo();
 //
-//        for (PayProductDTO payProduct : payProductDTOList) {
-//            payProduct.setProductPaymentNo(paymentsNo);
-//            paymentService.insertPayProduct(payProduct);
-//        }
+//        PayProductAndPaymentDTO paymentProduct = new PayProductAndPaymentDTO();
+//
+//        paymentProduct.setPapProductNo(productNo);
+//        paymentProduct.setProductName(productName);
+//        paymentProduct.setProductQuantity(productQuantities);
+//        paymentProduct.setPapPayNo(paymentsNo);
+//
+//       paymentService.insertPaymentProduct(productNo);
+//    }
 
+
+        for (int i = 0; i < payProductDTOList.size(); i++){
+            PayProductDTO payProductDTO = payProductDTOList.get(i);
+            int productNo = payProductDTO.getProductNo();
+
+            PayProductAndPaymentDTO paymentProduct = new PayProductAndPaymentDTO();
+            paymentProduct.setPapProductNo(productNo);
+            paymentProduct.setProductName(productNames.get(i));
+            paymentProduct.setProductQuantity(productQuantities.get(i));
+            paymentProduct.setPapPayNo(paymentsNo);
+
+            paymentService.insertPaymentProduct(paymentProduct);
+
+
+        }
         // 세션 데이터 삭제
         session.removeAttribute("payProductDTOList");
         session.removeAttribute("totalprice");

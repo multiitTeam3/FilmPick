@@ -25,5 +25,5 @@ public interface PaymentMapper {
 
     PayProductDTO selectProductByPay(int papProductNo) throws Exception;
 
-    PayProductAndPaymentDTO insertPaymentProduct(int papProductNo) throws Exception;
+    void insertPaymentProduct(PayProductAndPaymentDTO paymentProduct) throws Exception;
 }

@@ -82,13 +82,14 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	@Override
-	public PayProductDTO selectProductByPay(int papProductNo) throws Exception {
-		return paymentMapper.selectProductByPay(papProductNo);
+	public PayProductDTO selectProductByPay(int productNo) throws Exception {
+		return paymentMapper.selectProductByPay(productNo);
 	}
 
 	@Override
-	public PayProductAndPaymentDTO insertPaymentProduct(int papProductNo) throws Exception {
-		return paymentMapper.insertPaymentProduct(papProductNo);
+	@Transactional
+	public void insertPaymentProduct(PayProductAndPaymentDTO paymentProduct) throws Exception {
+		paymentMapper.insertPaymentProduct(paymentProduct);
 	}
 
 
