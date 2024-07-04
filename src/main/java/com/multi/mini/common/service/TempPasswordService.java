@@ -8,6 +8,4 @@ public interface TempPasswordService {
 
     void sendTempPassword(EmailDTO emailDTO) throws Exception;
     String createTempPassword();
-
-
 }

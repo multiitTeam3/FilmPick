@@ -13,6 +13,7 @@
 		<result property="screenName" column="screen_name"/>
 		<result property="email" column="email"/>
 		<result property="movieTitle" column="movie_title"/>
+		<result property="poster" column="poster"/>
 		<result property="seatName" column="seat_name"/>
 		<result property="price" column="rsv_movie_price"/>
 		<result property="createDate" column="create_date"/>
@@ -55,5 +56,29 @@
 			</otherwise>
 		</choose>
 		LIMIT #{start}, #{end}
+	</select>
+
+	<select id="findTicketingByRsvNo" parameterType="int" resultMap="ticketingResultMap">
+		SELECT
+			  vrd.rsv_no
+			, vrd.rsv_is_paid
+			, vrd.movie_title
+			, movie.poster_path AS poster
+			, vrd.rsv_movie_price
+			, vrd.cinema_name
+			, vrd.screen_name
+			, seat_name
+			, m.email
+			, r.create_date
+		FROM
+			vw_res_data vrd
+		JOIN
+			mem_member m ON vrd.member_no = m.member_no
+		JOIN
+			mov_reservation r ON vrd.rsv_no = r.rsv_no
+		JOIN
+			mov_movie movie ON movie.movie_title = vrd.movie_title
+		WHERE
+			vrd.rsv_no = #{ revNo }
 	</select>
 </mapper>

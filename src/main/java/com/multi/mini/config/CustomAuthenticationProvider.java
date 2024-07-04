@@ -24,7 +24,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         // CustomUserDetailsService로 변환
         CustomUserDetails customUserDetails = (CustomUserDetails) customUserDetailsService.loadUserByUsername(username);
-        
+
         // loadUserByUsername에서 username(email)이 DB에 없어서 반환 못한 경우 예외 처리
         if (customUserDetails == null) {
             throw new AuthenticationException("User not found") {};
@@ -33,7 +33,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         // 비밀번호 or 임시 비밀번호 둘 중 하나가 맞으면 true처리
         boolean passwordMatches = passwordEncoder.matches(password, customUserDetails.getPassword()) ||
                 (password.equals(customUserDetails.getTempPassword()) && // 임시 비밀번호 일치
-                        !customUserDetails.getTempPasswordIsUse() && // 임시 비밀번호 사용 전
                         customUserDetails.getTempExpDate().isAfter(LocalDateTime.now())); // 만료시간이 현재시간 이전인지 확인
 
         // 비밀번호 false 일 시 예외 처리

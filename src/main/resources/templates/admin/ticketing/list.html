@@ -40,7 +40,6 @@
                         <th scope="col">이메일</th>
                         <th scope="col">영화관</th>
                         <th scope="col">상영관</th>
-                        <th scope="col">영화 제목</th>
                         <th scope="col">결제 유무</th>
                         <th scope="col">예매 일자</th>
                         <th scope="col">상세 조회</th>
@@ -53,10 +52,9 @@
                         <td th:text="${ticket.email}">이메일</td>
                         <td th:text="${ticket.cinemaName}">영화관</td>
                         <td th:text="${ticket.screenName}">상영관</td>
-                        <td th:text="${ticket.movieTitle}">영화 제목</td>
                         <td th:text="${ticket.isPaid}">결제 유무</td>
                         <td th:text="${ticket.createDate}">예매 일자</td>
-                        <td><a th:href="@{/admin/membermanage/delete(no=${ticket.rsvNo})}"><button type="button" class="btn btn-primary">상세 조회</button></a></td>
+                        <td><a th:href="@{/admin/ticketing/find(no=${ticket.rsvNo})}"><button type="button" class="btn btn-primary">상세 조회</button></a></td>
                     </tr>
                     </tbody>
                 </table>

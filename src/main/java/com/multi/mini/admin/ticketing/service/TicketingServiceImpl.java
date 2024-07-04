@@ -15,9 +15,16 @@ public class TicketingServiceImpl implements TicketingService{
 
 
     @Override
-    public ArrayList<TicketingDTO> getTicketingList(String type, String keyword, PageDTO pageDTO) {
+    public ArrayList<TicketingDTO> getTicketingList(String type, String keyword, PageDTO pageDTO) throws Exception{
         ArrayList<TicketingDTO> tickets = ticketingMapper.findTicketingAll(type, keyword, pageDTO.getStart(), pageDTO.getEnd());
         if(tickets == null) throw new RuntimeException("예매 전체 목록 DB 조회에 실패했습니다");
         return tickets;
+    }
+
+    @Override
+    public TicketingDTO getTicketing(int revNo) throws Exception {
+        TicketingDTO ticketing = ticketingMapper.findTicketingByRsvNo(revNo);
+        if(ticketing == null) throw new RuntimeException("예매 DB 조회에 실패했습니다");
+        return ticketing;
     }
 }

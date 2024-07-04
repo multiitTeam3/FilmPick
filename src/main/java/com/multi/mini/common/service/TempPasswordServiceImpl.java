@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Random;
 
 @Service
@@ -36,7 +37,7 @@ public class TempPasswordServiceImpl implements TempPasswordService {
 
         tempPasswordDTO.setMemberNo(userData.getMemberNo());
         tempPasswordDTO.setTempPw(tempPassword);
-        tempPasswordDTO.setExpDate(LocalDateTime.now().plusHours(3));
+        tempPasswordDTO.setExpDate(LocalDateTime.now(ZoneId.of("Asia/Seoul")).plusHours(3));
 
         tempPasswordMapper.insertTempPassword(tempPasswordDTO);
     }

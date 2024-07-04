@@ -156,7 +156,7 @@
                     <div class="login-content">
                         <a href="#" onclick="tempPassword()" class="btn btn-link login-content2" >PW 찾기</a>
                         |
-                        <a href="#" onclick="tempPassword()" class="btn btn-link login-content2" >회원가입</a>
+                        <a href="/sign-up" class="btn btn-link login-content2" >회원가입</a>
                     </div>
                 </div>
                 </form>
@@ -192,11 +192,6 @@
         </div>
     </div>
 </div>
-<script>
-    function tempPassword() {
-        window.open("/password","_blank", "width=400,height=300,menubar=no,toolbar=no")
-    }
-</script>
-
+<script type="text/javascript" th:src="@{/js/tempPassword.js}"></script>
 </body>
 </html>

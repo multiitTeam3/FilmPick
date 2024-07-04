@@ -12,7 +12,7 @@
 
   <div class="form-group">
     <label for="address">주소</label>
-    <input type="text" class="form-control" id="address" th:field="*{address}" placeholder="변경할 주소를 입력해주세요" required>
+    <input type="text" class="form-control" id="address" th:field="*{address}" placeholder="변경할 주소를 입력해주세요" onclick="findAddr()" readonly required>
   </div>
 
   <div class="form-group">
@@ -23,5 +23,24 @@
   <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/member/profile}'|">취소</button>
   <button type="submit" class="btn btn-success btn-block">변경 내용 저장</button>
 </form>
+<script>
+  // KaKao Map 주소 API
+function findAddr() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            var roadAddr = data.roadAddress; // 도로명 주소 변수
+            var jibunAddr = data.jibunAddress; // 지번 주소 변수
+
+            // jQuery를 사용하여 요소 값 설정
+            if (roadAddr !== '') {
+                $('#address').val(roadAddr);
+            } else if (jibunAddr !== '') {
+                $('#address').val(jibunAddr);
+            }
+        }
+    }).open();
+}
+</script>
 </body>
+
 </html>

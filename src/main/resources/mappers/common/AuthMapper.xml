@@ -70,5 +70,6 @@
 			vw_mem_by_email
 		WHERE
 			email = #{ email }
+		LIMIT 1
 	</select>
 </mapper>

@@ -54,4 +54,17 @@ public class TicketingController {
 
         return "admin/ticketing/list";
     }
+
+    @GetMapping("/find")
+    public String showTicketingDetail(@RequestParam("no") int revNo, Model model) {
+        try {
+            TicketingDTO ticketingDTO = ticketingService.getTicketing(revNo);
+            model.addAttribute("ticket", ticketingDTO);
+            log.info("log info = {}", ticketingDTO);
+        } catch (Exception e) {
+            log.error("log error = ", e);
+            model.addAttribute("msg", "예약 조회 실패");
+        }
+        return "admin/ticketing/detail";
+    }
 }

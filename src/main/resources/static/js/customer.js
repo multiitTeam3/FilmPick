@@ -1,11 +1,11 @@
 $(function() {
-    $('.nav-link').click(function(e) {
+    $('#nav-tab .nav-link').click(function(e) {
         e.preventDefault();
-        let tab = $(this).attr('href');
+        let tab = $(this).data('bs-target');
         let tabContent = tab.replace('#', '');
 
         $.ajax({
-            url: "/Customer/" + tab,
+            url: "/Customer/" + tabContent,
             type: 'GET',
             success: function(data) {
                 $('#' + tabContent).html(data);
@@ -13,9 +13,8 @@ $(function() {
                 $('.nav-link').removeClass('active');
                 $('.tab-pane').removeClass('show active');
 
-                $('#' + tabContent + '-tab').addClass('active');
+                $(this).addClass('active');
                 $('#' + tabContent).addClass('show active');
-
             },
             error: function() {
                 alert('서버 오류 실패');
@@ -36,16 +35,3 @@ $(function() {
 
 
 });
-
-function showUpdateMember() {
-        $.ajax({
-            url: "/member/profile/memberInfo/update",
-            type: 'GET',
-            success: function(data) {
-                $("#memberInfo").html(data);
-            },
-            error: function() {
-                alert('서버 오류 실패');
-            }
-        });
-    }

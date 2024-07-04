@@ -13,6 +13,7 @@ public class TicketingDTO {
     private String screenName;
     private String email;
     private String movieTitle;
+    private String poster;
     private String seatName;
     private int price;
     private Date createDate;

@@ -17,6 +17,7 @@
                     <th scope="col">NO.</th>
                     <th scope="col">Category</th>
                     <th scope="col">Title</th>
+                    <th scope="col">Is_Answer</th>
                     <th scope="col">CREATE_DATE</th>
                 </tr>
                 </thead>
@@ -31,6 +32,7 @@
                         <span th:case="5">기타</span>
                     </td>
                     <td><a th:href="@{/qna/view(no=${qna.qna_no})}" th:text="${#strings.abbreviate(qna.title, 10)}"></a></td>
+                    <td><a th:href="@{/qna/view(no=${qna.qna_no})}" th:text="${qna.isAnswer}"></a></td>
                     <td th:text="${#dates.format(qna.create_date, 'yyyy-MM-dd')}"></td>
                 </tr>
                 </tbody>

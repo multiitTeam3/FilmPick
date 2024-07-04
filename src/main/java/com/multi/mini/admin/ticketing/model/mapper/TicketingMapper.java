@@ -9,4 +9,6 @@ import java.util.ArrayList;
 @Mapper
 public interface TicketingMapper {
     ArrayList<TicketingDTO> findTicketingAll(@Param("type") String type, @Param("keyword") String keyword, @Param("start") int start, @Param("end") int end);
+
+    TicketingDTO findTicketingByRsvNo(int revNo);
 }
