@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 네임스페이스는 풀클래스명을 써야한다 와 DTO 타입을 변경한 후 마이바티스 config 설정파일에 매퍼 부분은 지워주고, spring-context.xml에 매퍼 스캐닝을 추가해야 한다. -->
+    <mapper namespace="com.multi.mini.customer.notice.model.mapper.NoticeMapper">
+
+    <resultMap id="noticeCategoryResultMap" type="noticeCategoryDTO">
+        <result property="categoryNo" column="type_no"/>
+        <result property="categoryDesc" column="description"/>
+    </resultMap>
+
+    <resultMap id="noticeResultMap" type="noticeDTO">
+        <result property="rowNum" column="row_num"/>
+        <result property="noticeNo" column="notice_no"/>
+        <result property="memberNo" column="member_no"/>
+        <result property="memberEmail" column="email"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="createDate" column="create_date"/>
+        <association property="category" resultMap="noticeCategoryResultMap"/>
+    </resultMap>
+
+    <select id="findNoticeAll" parameterType="pageDTO" resultMap="noticeResultMap">
+        SELECT
+              ROW_NUMBER() OVER (ORDER BY notice_no DESC) AS row_num
+            , n.*
+            , m.member_no
+            , m.email
+            , nt.description
+        FROM
+            admin_notice n
+        LEFT JOIN
+            mem_member m ON n.member_no = m.member_no
+        JOIN
+            admin_notice_type nt ON n.type_no = nt.type_no
+    </select>
+
+    <select id="findNoticeCategoryAll" resultMap="noticeCategoryResultMap">
+        SELECT
+            *
+        FROM
+            admin_notice_type
+    </select>
+
+    <select id="findNoticeByNo" parameterType="int" resultMap="noticeResultMap">
+        SELECT
+              n.notice_no
+            , n.member_no
+            , n.title
+            , n.content
+            , n.create_date
+            , m.email
+            , nt.type_no
+            , nt.description
+        FROM
+        admin_notice n
+        LEFT JOIN
+            mem_member m ON n.member_no = m.member_no
+        JOIN
+            admin_notice_type nt ON n.type_no = nt.type_no
+        WHERE
+            n.notice_no = #{ noticeNo }
+    </select>
+
+</mapper>

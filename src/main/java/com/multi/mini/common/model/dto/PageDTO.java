@@ -9,8 +9,9 @@ public class PageDTO {
 	private int page;
 
 	public void setStartEnd(int page) {
-		start = (page - 1) * 10;
-		end = page * 10;
+		this.page = page;
+		this.start = (page - 1) * 10;
+		this.end = 10;
 	}
 	
 }

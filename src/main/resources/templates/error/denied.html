@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html layout:decorate="~{layout}">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>401 Error Page</title>
 </head>
 <body>
-	<h1 align="center">접근 권한이 없습니다. 관리자에게 문의해 주세요</h1>
+	<div layout:fragment="content">
+		<div class="container">
+			<h1 align="center">접근 권한이 없습니다. 관리자에게 문의해 주세요</h1>
+		</div>
+	</div>
 </body>
 </html>

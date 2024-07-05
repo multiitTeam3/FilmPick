@@ -11,6 +11,28 @@ spring:
     restart:
       enabled: true
 
+  servlet:
+    multipart:
+      max-file-size: 1MB
+    mvc:
+      static-path-pattern: /webapp/**
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: filmpick123@gmail.com # 이메일
+    password: jxsccjcjrgutlxwy # APP 비밀번호
+    properties:
+      mail:
+        smtp:
+          auth: true # 인증
+          starttls:
+            enable: true
+
 server:
   port: 8099
   servlet:
@@ -25,8 +47,19 @@ logging:
   level:
     org:
       springframework:
-        jdbc: TRACE
-        transaction: TRACE
+        jdbc: DEBUG
+        transaction: DEBUG
     com:
-      .zaxxer: TRACE
-    sql: TRACE
+      .zaxxer: DEBUG
+    sql: DEBUG
+
+cid: TC0ONETIME
+
+kakaopay:
+  api:
+    secret:
+      key: DEV24D1E9D44D9145F851EEEC95AAFE08F533B86
+
+sample:
+  host: http://localhost:8099
+

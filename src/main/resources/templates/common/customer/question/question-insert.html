@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
+    <title>고객센터</title>
+    <link rel="stylesheet" th:href="@{/css/container-box.css}">
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="container-box">
+            <h1 class="text-center my-4">고객센터</h1>
+
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-link" th:href="@{/Customer/noticeInfo}" id="noticeInfo-tab" role="tab" aria-controls="noticeInfo" aria-selected="true">공지 사항</a>
+                <a class="nav-link active" id="questionInfo-tab" th:href="@{/Customer/questionInfo}" role="tab" aria-controls="questionInfo" aria-selected="false">1:1 문의</a>
+            </div>
+
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade" id="noticeInfo" role="tabpanel" aria-labelledby="noticeInfo-tab"></div>
+                <div class="tab-pane fade show active" id="questionInfo" role="tabpanel" aria-labelledby="questionInfo-tab">
+                    <div class="container mt-5">
+                        <div class="card">
+                            <div class="card-body">
+                                <form action="#" th:action="@{/qna/insert}" id="form" method="post" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label for="title">제목</label>
+                                        <input type="text" id="title" name="title"  class="form-control" required maxlength='50' placeholder="최대 50자까지 입력 가능합니다.">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="category">문의 유형</label>
+                                        <br>
+                                        <select id ="selectCategory" name ="category" required="required" class="form-control">
+                                            <option value="" selected disabled hidden>카테고리를 선택하세요.</option>
+                                            <option value="1" name="1">예매/매표</option>
+                                            <option value="2" name="2">할인 혜택</option>
+                                            <option value="3" name="3">영화관 이용</option>
+                                            <option value="4" name="4">홈페이지/모바일</option>
+                                            <option value="5" name="5">기타</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="writer">이메일</label>
+                                        <input type="text" id="writer" name="writer" th:value="${#authentication.principal.Username}" class="form-control" required disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="content">내용</label>
+                                        <textarea id="content" name="content" class="form-control" rows="5" required maxlength='3000' placeholder="최대 3000자까지 입력 가능합니다."></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="singleFile">이미지</label>
+                                        <input type="file" name="singleFile" class="form-control" required>
+                                    </div>
+                                    <div class="form-group text-right">
+                                        <button type="submit" class="btn btn-primary">등록</button>
+                                        <a href="#" th:href="@{/home}" class="btn btn-secondary">취소</a></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

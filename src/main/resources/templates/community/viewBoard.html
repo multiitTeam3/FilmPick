@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://www.w3.org/1999/XSL/Transform">
+<html layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 조회</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script th:inline="javascript">
+        $(function() {
+            $('#b2').click(function() {
+                $.ajax({
+                    url: [[@{insertReply}]],
+                    data: {
+                        board_no : [[${board.boardNo}]],
+                        member_no : [[${#authentication.principal.memberNo}]],
+                        content : $('#reply').val()
+                    },
+                    success: function(response) {
+                        $('#result').append(response);
+                        $('#commentList').append(response); // Append new comment to the list
+                        $('#reply').val('');
+                        location.reload();
+                    }
+                });
+            });
+
+
+        });
+    </script>
+    <script>
+        function replyUpdate(no, boardNo, content) {
+        let maxLength = 50;
+        let comment = prompt("수정할 댓글을 입력해주세요 (최대 " + maxLength + "자): ", content);
+
+        if (comment !== null && comment.length <= maxLength) {
+            // Construct the URL for replyUpdate
+            let updateUrl = '/community/updateReply?no=' + encodeURIComponent(no) + '&boardNo=' + encodeURIComponent(boardNo) + '&comment=' + encodeURIComponent(comment);
+            location.href = updateUrl;
+        } else {
+            // Construct the URL for one
+            if (comment !== null) {
+            alert("최대 " + maxLength + "자까지 입력 가능합니다.");
+            }
+            let oneUrl = '/community/view?no=' + encodeURIComponent(boardNo);
+            location.href = oneUrl;
+            }
+        }
+    </script>
+    <script>
+        function updateLike(no, login){
+
+            location.href="updateLike?no=" + no + "&login=" + login;
+        }
+    </script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-center mb-4" th:text="${board.title}">게시글 제목</h2>
+            </div>
+            <hr color="grey">
+            <div class="card-body">
+                <div class="row" >
+                    <div class="form-group col-md-6">
+                        <label class="form-control">게시글 번호: [[${board.boardNo}]]</label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="form-control">작성자: [[${board.writer.userName}]]</label>
+                    </div>
+                </div>
+                <div class="mb-3 form-group">
+                    <label class="form-control">작성일: [[${board.createDate}]]</label>
+                </div>
+                <div class="mb-3 form-group">
+                    <label class="form-control" style="height:auto; padding: 10px;">내용: <br> [[${board.content}]] <br>
+                        <div th:if="${board.img != null}">
+                            <img th:src="@{'/img/board/' + ${board.img}}" width="250" height="250" alt="게시글 이미지" class="img-fluid">
+                        </div>
+                    </label>
+                </div>
+                <div style="margin-right:1px;" class="mt-4 text-center">
+                    <button id="like_btn" class="btn btn-success" th:data-board-no="${board.boardNo}" th:data-member-no="${#authentication.principal.memberNo}" onclick="updateLike(this.getAttribute('data-board-no'), this.getAttribute('data-member-no'))" th:text="'👍추천 ' + ${board.likehit}">추천</button>
+                </div>
+                <div class="mt-4 text-right">
+                    <a href="/community/list" class="btn btn-outline-primary">목록으로</a>
+                    <div th:if="${#authentication.principal.memberNo == board.writer.memberNo}">
+                        <br>
+                        <a th:href="@{/community/updateBoard(no=${board.boardNo})}" class="btn btn-primary">수정</a>
+                        <a th:href="@{/community/deleteBoard(no=${board.boardNo})}" class="btn btn-danger">삭제</a>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+        <hr>
+        <div id="result">
+            <div th:each="re : ${list}">
+                <b>댓글 <span th:text="${re.reply_no}"></span></b>
+                <div class="text-right" th:if="${#authentication.principal.memberNo == re.member_no}">
+                    <button id="no" class="btn btn-sm" th:data-reply-no="${re.reply_no}" th:data-board-no="${board.boardNo}" th:data-reply-content="${re.content}" onclick="replyUpdate(this.getAttribute('data-reply-no'), this.getAttribute('data-board-no'), this.getAttribute('data-reply-content'))">수정</button>
+                    <a th:href="@{/community/deleteReply(no=${re.reply_no}, boardNo=${board.boardNo})}">
+                        <button id="b1" class="btn btn-sm">삭제</button>
+                    </a>
+                </div>
+                <br>
+                <span th:text="${re.content}"></span> <br>
+                <hr>
+            </div>
+            <td class="t1">댓글</td>
+            <td> <input id="reply" class="form-control" style="height:100px;" maxlength='500' placeholder="최대 500자까지 입력 가능합니다."/> <br> <button id="b2" class="btn btn-primary">입력</button></td>
+            <hr>
+        </div>
+    </div>
+
+</div>
+
+</body>
+
+
+</html>

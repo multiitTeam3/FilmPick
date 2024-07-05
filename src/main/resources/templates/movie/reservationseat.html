@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="~{layout.html}">
+<head>
+    <title>Home Page</title>
+
+    <link rel="stylesheet" th:href="@{/css/reservationseat.css}">
+
+
+    <script th:inline="javascript">
+
+        var movieScheduleDTO = [[${movieScheduleDTO}]];
+        var reservedSeatList = [[${reservedSeatList}]];
+        var seatNoList = [[${seatNoList}]];
+        var seatListByScreen = [[${seatListByScreen}]];
+
+        $(document).ready(
+            function(){
+
+                var seatNo = [];
+                var count= 0;
+
+
+
+                // 좌석 만들기
+                function makeSeats(){
+
+
+
+                    $.each(seatListByScreen, function(index, seat){
+
+                        $('#seats').append('<button value="' + seat.seatNo + '" class="seat">' +  seat.seatName  + '</button>');
+
+                    })
+
+                    $('#seats').append('<br><button class="seatBtn" id="reset">좌석리셋</button><br>');
+                    // $('#seats').append('<br><button class="seatBtn" id="notpay">예약하기</button><br>');
+                    $('#seats').append('<br><button class="seatBtn" id="pay">결제하기</button><br>');
+
+
+
+                }
+
+                makeSeats();
+
+
+
+                $(document).on('click','.seat',function(){
+
+                    count++;
+                    console.log("$('#total').val() : " + $('#total').val())
+                    console.log("count : " + count);
+                    console.log("$('.seat').click");
+                    console.log("$(this).val()" + $(this).val())
+
+                    $(this).addClass('selected');
+
+                    seatNo.push($(this).val());
+                    console.log(seatNo);
+
+                    console.log(count==$('#total').val());
+
+                    if(count==$('#total').val()){
+
+                        $('.seat').addClass('unclickable');
+
+                    }
+
+
+
+                })
+
+
+                $('.ticket').on('change',function(){
+
+                    var total= 0;
+
+                    var num1 = parseInt($('#adult').val(),10) || 0;
+                    var num2= parseInt($('#teen').val(),10) || 0;
+
+                    total = num1 + num2;
+
+                    $('#total').val(total);
+
+                    console.log("$('.ticket').on('change',function()");
+                    console.log("$('#total').val() : " + $('#total').val())
+                    console.log("count : " + count);
+
+                    if(count<$('#total').val()){
+
+                        $('.seat').removeClass('unclickable');
+
+                    }
+
+
+                })
+
+
+
+                function selectReservedSeat(){
+
+                     var seats = document.querySelectorAll('.seats .seat');
+
+                     console.log(seats);
+                     console.log("seatNoList : "+seatNoList);
+
+                     $.each(seats, function(index, seat){
+
+                        if(seatNoList.includes($(seat).val())){
+
+                            $(seat).addClass('neverClickable');
+
+                        }
+
+                     })
+                }
+
+                selectReservedSeat();
+
+
+                 $(document).on('click','#reset',function(){
+                    count = 0;
+                    $('.ticket').val(0);
+                    $('.total').val(0);
+                    $('.seat').removeClass('unclickable');
+                    $('.seat').removeClass('selected');
+
+
+
+                 })
+
+
+
+
+                // 사라진 기능
+                 $(document).on('click','#notpay',function(){
+
+                        var scheduleNo = movieScheduleDTO.scheduleNo;
+                        var selectedSeatNoList = [];
+                        var adult = parseInt($('#adult').val(),10) || 0;
+                        var teen = parseInt($('#teen').val(), 10) || 0;
+
+
+
+                        var selectedSeats = document.querySelectorAll('.selected');
+
+                        console.log("selectedSeats : " + selectedSeats)
+
+                        $.each(selectedSeats, function(index, seat){
+                            console.log(seat);
+                            selectedSeatNoList.push($(seat).val());
+
+                        })
+
+                        console.log("scheduleNo : " + scheduleNo)
+                        console.log("selectedSeatNoList : " + selectedSeatNoList)
+                        console.log("adult : " + adult)
+                        console.log("teen : " + teen)
+
+
+                        var reservationDataDTO = {
+
+                            scheduleNo: scheduleNo,
+                            selectedSeatNoList: selectedSeatNoList,
+                            adult: adult,
+                            teen: teen
+
+                        };
+
+                        console.log("reservationDataDTO : " + reservationDataDTO)
+
+
+                         $.ajax({
+
+                                url: '/movie/insertreservation',
+                                method: 'POST',
+                                data: JSON.stringify(reservationDataDTO),
+                                contentType: 'application/json',
+                                success: function(response){
+
+                                    console.log(response);
+
+                                    window.location.href='/movie/reservationlist'
+
+                                }
+
+                         })
+
+
+
+                 })
+
+
+
+
+
+                 $(document).on('click','#pay',function(){
+
+                        var scheduleNo = movieScheduleDTO.scheduleNo;
+                        var selectedSeatNoList = [];
+                        var adult = parseInt($('#adult').val(),10) || 0;
+                        var teen = parseInt($('#teen').val(), 10) || 0;
+
+
+
+                        var selectedSeats = document.querySelectorAll('.selected');
+
+                        console.log("selectedSeats : " + selectedSeats)
+
+                        $.each(selectedSeats, function(index, seat){
+                            console.log(seat);
+                            selectedSeatNoList.push($(seat).val());
+
+                        })
+
+                        console.log("scheduleNo : " + scheduleNo)
+                        console.log("selectedSeatNoList : " + selectedSeatNoList)
+                        console.log("adult : " + adult)
+                        console.log("teen : " + teen)
+
+
+                        var reservationDataDTO = {
+
+                            scheduleNo: scheduleNo,
+                            selectedSeatNoList: selectedSeatNoList,
+                            adult: adult,
+                            teen: teen
+
+                        };
+
+                        console.log("reservationDataDTO : " + reservationDataDTO)
+
+
+                         $.ajax({
+
+                                url: '/movie/insertreservationpay',
+                                method: 'POST',
+                                data: JSON.stringify(reservationDataDTO),
+                                contentType: 'application/json',
+                                success: function(list){
+
+                                    $.each(list, function(index, rsvNo){
+                                        console.log(rsvNo);
+                                        console.log(list);
+                                    })
+
+                                    var encodedList = encodeURIComponent(JSON.stringify(list));
+
+                                    window.location.href='/movie/reservationseat/payment?list=' + encodedList + '&adult=' + adult + '&teen=' + teen;
+                                }
+
+                         })
+
+
+
+                 })
+
+
+
+
+
+
+
+            }
+        )
+
+
+    </script>
+
+
+</head>
+<body>
+
+<div layout:fragment="content">
+
+
+    <div class="containerColumn">
+
+        <ul class="nav justify-content-center" style="height: 10%;">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/movie/reservationtime}">상영시간 재선택</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active disabled" th:href="@{/movie/reservationseat}">인원/좌석 선택</a>
+            </li>
+        </ul>
+
+
+        <div class="content" id="content1">
+
+
+            <div>
+
+                <h5>인원 좌석 선택</h5>
+                <br><br>
+            </div>
+
+
+            <div class="ticketNum">
+                <div id="ticketNum1">
+                    성인 : <input type="number" class="ticket" id="adult" min="0">
+                    청소년 : <input type="number" class="ticket" id="teen" min="0">
+                </div>
+                <div id="ticketNum2">
+                    총 티켓: <input type="number" class="total" id="total" min="0" disabled>
+                </div>
+
+            </div>
+
+            <br><br>
+            <div id="screenText"><p>스크린</p></div>
+            <div class="seats" id="seats">
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+</script>
+
+
+</body>
+</html>
+
+
