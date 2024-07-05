@@ -22,7 +22,6 @@ public class KakaoController {
     private static final Logger log = LoggerFactory.getLogger(KakaoController.class);
     @Autowired
     private KakaoPayService kakaoPayService;
-
     @Autowired
     private PaymentService paymentService;
 

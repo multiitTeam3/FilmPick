@@ -72,16 +72,16 @@ public class KakaoPayService {
 
 
         ReadyRequest readyRequest = ReadyRequest.builder()
-                .cid("TC0ONETIME")
-                .partnerOrderId(partnerOrderId)
-                .partnerUserId(partnerUserId)
-                .itemName(itemName)
-                .quantity(quantity)
-                .totalAmount(totalAmount)
-                .taxFreeAmount(0)
-                .approvalUrl("http://localhost:8099/payment/kakaoPaySuccess?partnerOrderId=" + partnerOrderId)
-                .cancelUrl("http://localhost:8099/payment/kakaoPayCancel")
-                .failUrl("http://localhost:8099/payment/kakaoPayFail")
+                .cid("TC0ONETIME") // 가맹점 코드, 테스트용 코드
+                .partnerOrderId(partnerOrderId) //가맹점 주문 ID
+                .partnerUserId(partnerUserId) // 가맹점 사용자 ID
+                .itemName(itemName) // 상품 이름
+                .quantity(quantity) // 상품 수량
+                .totalAmount(totalAmount) // 총 결제 금액
+                .taxFreeAmount(0) // 비과세 금액
+                .approvalUrl("http://localhost:8099/payment/kakaoPaySuccess?partnerOrderId=" + partnerOrderId) //결제 성공시 리디렉션
+                .cancelUrl("http://localhost:8099/payment/kakaoPayCancel") //결제 취소시 리디렉션
+                .failUrl("http://localhost:8099/payment/kakaoPayFail") //결제 실패 시 리디렉션
                 .build();
         // 헤더와 바디 붙이기
         HttpEntity<ReadyRequest> body = new HttpEntity<>(readyRequest, headers);
@@ -93,9 +93,9 @@ public class KakaoPayService {
 
         ReadyResponse readyResponse = response.getBody();
 
-        // 주문번호와 TID를 매핑해서 저장해놓는다.
+
         this.tid = readyResponse.getTid();
-        //결제 경로 얼어줌
+
         return readyResponse.getNext_redirect_pc_url();
     }
 
@@ -155,11 +155,6 @@ public class KakaoPayService {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "SECRET_KEY " + kakaopaySecretKey);
         headers.setContentType(MediaType.APPLICATION_JSON);
-
-        System.out.println("approve: "+ kakaoReadyDTO.getPartnerOrderId());
-        System.out.println("approve: "+ kakaoReadyDTO.getUsername());
-        System.out.println("approve: "+ tid);
-
         // Request param
         ApproveRequest approveRequest = ApproveRequest.builder()
                 .cid(cid)
