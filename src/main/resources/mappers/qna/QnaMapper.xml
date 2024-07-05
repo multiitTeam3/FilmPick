@@ -73,7 +73,8 @@
 
 	<select id="findQnaListAll" resultMap="QnaResultMap">
 		SELECT
-			  q.*
+		      ROW_NUMBER() OVER (ORDER BY qna_no  DESC) AS row_num
+		 	, q.*
 			, m.member_no
 			, m.user_name
 			, m.email

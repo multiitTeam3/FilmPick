@@ -89,7 +89,7 @@
                     <td colspan="5" class="text-center">조회 정보가 없습니다</td>
                 </tr>
                 <tr th:each="screen : ${screens}">
-                    <th scope="row" th:text="${screen.rowNum}"></th>
+                    <th scope="row" th:text="${screen.screenName}"></th>
                     <td th:text="${screen.isAvail}"></a></td>
                     <td th:text="${screen.totalSeat}"></td>
                     <td>

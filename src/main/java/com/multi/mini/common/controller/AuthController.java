@@ -54,7 +54,7 @@ public class AuthController {
 
     @Transactional
     @PostMapping("/password")
-    public String sendEmail(@RequestParam("memberEmail") String memberEmail){
+    public String sendTempPasswordEmail(@RequestParam("memberEmail") String memberEmail){
         try {
             EmailDTO emailDTO = new EmailDTO();
             emailDTO.setReceiveAddress(memberEmail);
